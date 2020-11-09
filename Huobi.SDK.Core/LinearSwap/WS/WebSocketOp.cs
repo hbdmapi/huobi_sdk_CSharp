@@ -26,6 +26,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         private bool _canWork = false;
 
         protected bool? _autoConnect = null;
+        private List<string> _all_sub_strs = new List<string>();
 
         public class MethonInfo
         {
@@ -137,6 +138,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
 
                 string auth_str = JsonConvert.SerializeObject(auth);
                 _WebSocket.Send(auth_str);
+                _all_sub_strs.Add(auth_str);
                 _canWork = false;
             }
         }
@@ -160,6 +162,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                 DisposeWebSocket();
                 InitializeWebSocket(_path, _host);
                 Connect(_autoConnect);
+                foreach(string item in _all_sub_strs)
+                {
+                    _WebSocket.Send(item);
+                }
             }
         }
 
@@ -302,6 +308,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             {
                 mi = _onSubCallbackFuns["trigger_order.*"];
             }
+            else if (ch.EndsWith(".liquidation_orders") && _onSubCallbackFuns.ContainsKey("public.*.liquidation_orders"))
+            {
+                mi = _onSubCallbackFuns["public.*.liquidation_orders"];
+            }
             else if (ch == "accounts" || ch == "positions")
             {
                 string contract_code = jdata["data"][0]["contract_code"].ToObject<string>();
@@ -382,6 +392,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                 return true;
             }
             _WebSocket.Send(subStr);
+            _all_sub_strs.Add(subStr);
             _logger.Log(Log.LogLevel.Info, $"websocket has send data: {subStr}");
             _onSubCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType }; ;
 
@@ -411,6 +422,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                 return true;
             }
             _WebSocket.Send(unsubStr);
+            if (_all_sub_strs.Find(item => item == unsubStr) != null)
+            {
+                _all_sub_strs.Remove(unsubStr);
+            }
             _logger.Log(Log.LogLevel.Info, $"websocket has send data: {unsubStr}.");
 
             return true;

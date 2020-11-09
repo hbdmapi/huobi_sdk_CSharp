@@ -954,8 +954,8 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
-        [InlineData("EOS-USDT")]
-        [InlineData("*")]
+        [InlineData("ETH-USDT")]
+        //[InlineData("*")]
         public void WSLiquidationOrdersTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient();
@@ -963,7 +963,7 @@ namespace Huobi.SDK.Core.Test
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 120);
+            System.Threading.Thread.Sleep(1000 * 1200);
             client.UnsubOrders(contractCode);
             System.Threading.Thread.Sleep(1000 * 5);
         }
