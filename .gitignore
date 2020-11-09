@@ -1,0 +1,6 @@
+.DS_Store
+Huobi.SDK.Core/bin/*
+Huobi.SDK.Core/obj/*
+Huobi.SDK.Core.Test/bin/*
+Huobi.SDK.Core.Test/obj/*
+
