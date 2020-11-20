@@ -14,10 +14,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
         public string status { get; set; }
 
-        [JsonProperty("err-code", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("err_code", NullValueHandling = NullValueHandling.Ignore)]
         public string errorCode { get; set; }
 
-        [JsonProperty("err-msg", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("err_msg", NullValueHandling = NullValueHandling.Ignore)]
         public string errorMessage { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
