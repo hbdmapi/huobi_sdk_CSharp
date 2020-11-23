@@ -242,7 +242,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                     case "unsub":
                         _logger.Log(Log.LogLevel.Info, $"unsub: \"{jdata["topic"]}\"");
                         string ch = jdata["topic"].ToObject<string>();
-                        if (_onSubCallbackFuns.ContainsKey("ch"))
+                        if (_onSubCallbackFuns.ContainsKey(ch))
                         {
                             _onSubCallbackFuns.Remove(ch);
                         }
@@ -260,7 +260,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             {
                 _logger.Log(Log.LogLevel.Info, $"\"unsubbed\": \"{jdata["unsubbed"]}\"");
                 string ch = jdata["unsubbed"].ToObject<string>();
-                if (_onSubCallbackFuns.ContainsKey("ch"))
+                if (_onSubCallbackFuns.ContainsKey(ch))
                 {
                     _onSubCallbackFuns.Remove(ch);
                 }
