@@ -1,4 +1,4 @@
-# Huobi C# SDK
+# Huobi Futures C# SDK (but now only linearswap)
 
 This is Huobi C# SDK, This is a lightweight .NET library, you can import it to your project.
 
@@ -87,7 +87,7 @@ This is the folder and namespace structure of SDK source code and the descriptio
   - **RequestBuilder**: The unit test for RequestBuilder
   - **xxxTest.cs**: The c# unit test file
 
-You can find all demo in LinearSwapTest.cs to get/sub linear swap private/public data/
+You can find all demo in LinearSwapTest.cs to get/sub linear swap private/public data
 
 ### Client
 
