@@ -26,6 +26,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
             [JsonProperty("contract_code")]
             public string contractCode { get; set; }
 
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
+
             public List<AdjustFactor> list { get; set; }
             public class AdjustFactor
             {
