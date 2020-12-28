@@ -193,8 +193,29 @@ namespace Huobi.SDK.Core.Test
         [InlineData("BTC-USDT")]
         public void RESTfulMarketApiStatusTest(string contractCode)
         {
-            var result = client.GetApiStatusAsync(contractCode).Result;
+            var result = client.IsolatedGetApiStatusAsync(contractCode).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("USDT")]
+        public void RESTfulMarketTransferStatusTest(string marginAccount)
+        {
+            var result = client.CrossGetTransferStateAsync(marginAccount).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("BTC-USDT")]
+        public void RESTfulMarketTradeStatusTest(string contractCode)
+        {
+            var result = client.CrossGetTradeStateAsync(contractCode).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);

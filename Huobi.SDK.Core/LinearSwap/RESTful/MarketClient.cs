@@ -265,14 +265,39 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
-        /// get adjust factor
+        /// isolated margin get adjust factor
         /// </summary>
         /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetAdjustFactorFundResponse> GetAdjustFactorFundAsync(string contractCode = null)
+        public async Task<GetAdjustFactorFundResponse> IsolatedGetAdjustFactorFundAsync(string contractCode = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_adjustfactor";
+
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"contract_code={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"?{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetAdjustFactorFundResponse>(url);
+        }
+
+        /// <summary>
+        /// cross margin get adjust factor
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetAdjustFactorFundResponse> CrossGetAdjustFactorFundAsync(string contractCode = null)
+        {
+            // location
+            string location = "/linear-swap-api/v1/swap_cross_adjustfactor";
 
             // option
             string option = null;
@@ -348,11 +373,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
-        /// get api status
+        /// isolated margin get api status
         /// </summary>
         /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetApiStatusResponse> GetApiStatusAsync(string contractCode = null)
+        public async Task<GetApiStatusResponse> IsolatedGetApiStatusAsync(string contractCode = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_api_state";
@@ -370,6 +395,56 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetApiStatusResponse>(url);
+        }
+
+        /// <summary>
+        /// cross margin get transfer state
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetTransferStateResponse> CrossGetTransferStateAsync(string marginAccount = null)
+        {
+            // location
+            string location = "/linear-swap-api/v1/swap_cross_transfer_state";
+
+            // option
+            string option = null;
+            if (marginAccount != null)
+            {
+                option += $"margin_account={marginAccount}";
+            }
+            if (option != null)
+            {
+                location += $"?{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetTransferStateResponse>(url);
+        }
+
+        /// <summary>
+        /// cross margin get trade state
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetTradeStatusResponse> CrossGetTradeStateAsync(string contractCode = null)
+        {
+            // location
+            string location = "/linear-swap-api/v1/swap_cross_trade_state";
+
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"contract_code={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"?{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetTradeStatusResponse>(url);
         }
 
         /// <summary>
