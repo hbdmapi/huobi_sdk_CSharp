@@ -142,12 +142,14 @@ namespace Huobi.SDK.Core.Test
             Assert.Equal("ok", result.status);
         }
 
+
+
         [Theory]
         [InlineData("BTC-USDT", false, null, null, null)]
         [InlineData("BTC-USDT", false, 10, 1, 30)]
         [InlineData("BTC-USDT", true, null, null, null)]
         [InlineData("BTC-USDT", true, 10, 1, 30)]
-        public void RESTfulAccountTransHisTest(string marginAccount, bool beMasterSub = false, int? createDate = null,
+        public void AccountTransHisTest(string marginAccount, bool beMasterSub = false, int? createDate = null,
                                                int? pageIndex = null, int? pageSize = null)
         {
             var result = client.GetAccountTransHisAsync(marginAccount, beMasterSub, "3,4,5,6", createDate,
@@ -166,7 +168,7 @@ namespace Huobi.SDK.Core.Test
         //[InlineData("USDT", "BTC-USDT", "ETH-USDT", 1, false, null)]
         //[InlineData("USDT", "ETH-USDT", "ETH-USDT", 1, true, "master_to_sub")]
         [InlineData("USDT", "ETH-USDT", "ETH-USDT", 1, true, "sub_to_master")]
-        public void RESTfulAccountTransTest(string asset, string fromMarginAccount, string toMarginAccount, double amount,
+        public void AccountTransTest(string asset, string fromMarginAccount, string toMarginAccount, double amount,
                                             bool beMasterSub, string type = null)
         {
             var result = client.AccountTransferAsync(asset, fromMarginAccount, toMarginAccount, amount).Result;
@@ -182,9 +184,20 @@ namespace Huobi.SDK.Core.Test
         [Theory]
         [InlineData(null)]
         [InlineData("ETH-USDT")]
-        public void RESTfulValidLeverRateTest(string contractCode)
+        public void IsolatedGetValidLeverRateTest(string contractCode)
         {
-            var result = client.GetValidLeverRateAsync(contractCode).Result;
+            var result = client.IsolatedGetValidLeverRateAsync(contractCode).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("ETH-USDT")]
+        public void CrossGetValidLeverRateTest(string contractCode)
+        {
+            var result = client.CrossGetValidLeverRateAsync(contractCode).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
@@ -193,7 +206,7 @@ namespace Huobi.SDK.Core.Test
         [Theory]
         [InlineData("limit", null)]
         [InlineData("limit", "ETH-USDT")]
-        public void RESTfulGetOrderLimitTest(string orderPriceType, string contractCode)
+        public void GetOrderLimitTest(string orderPriceType, string contractCode)
         {
             var result = client.GetOrderLimitAsync(orderPriceType, contractCode).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
@@ -204,7 +217,7 @@ namespace Huobi.SDK.Core.Test
         [Theory]
         [InlineData(null)]
         [InlineData("ETH-USDT")]
-        public void RESTfulGetFeeTest(string contractCode)
+        public void GetFeeTest(string contractCode)
         {
             var result = client.GetFeeAsync(contractCode).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
@@ -215,9 +228,20 @@ namespace Huobi.SDK.Core.Test
         [Theory]
         [InlineData(null)]
         [InlineData("ETH-USDT")]
-        public void RESTfulGetTransferLimitTest(string contractCode)
+        public void IsolatedGetTransferLimitTest(string contractCode)
         {
-            var result = client.GetTransferLimitAsync(contractCode).Result;
+            var result = client.IsolatedGetTransferLimitAsync(contractCode).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("USDT")]
+        public void CrossGetTransferLimitTest(string marginAccount)
+        {
+            var result = client.CrossGetTransferLimitAsync(marginAccount).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
@@ -226,16 +250,27 @@ namespace Huobi.SDK.Core.Test
         [Theory]
         [InlineData(null)]
         [InlineData("ETH-USDT")]
-        public void RESTfulGetPositionLimitTest(string contractCode)
+        public void IsolatedGetPositionLimitTest(string contractCode)
         {
-            var result = client.GetPositionLimitAsync(contractCode).Result;
+            var result = client.IsolatedGetPositionLimitAsync(contractCode).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("ETH-USDT")]
+        public void CrossGetPositionLimitTest(string contractCode)
+        {
+            var result = client.CrossGetPositionLimitAsync(contractCode).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Fact]
-        public void RESTfulGetApiTradingStatusTest()
+        public void GetApiTradingStatusTest()
         {
             var result = client.GetApiTradingStatusAsync().Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);

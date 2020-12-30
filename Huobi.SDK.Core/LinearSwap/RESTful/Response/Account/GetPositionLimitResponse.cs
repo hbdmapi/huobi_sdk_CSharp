@@ -30,6 +30,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
             [JsonProperty("sell_limit")]
             public double sellLimit { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
         }
     }
 }

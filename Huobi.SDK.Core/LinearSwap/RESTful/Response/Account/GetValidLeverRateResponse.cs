@@ -25,6 +25,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
             [JsonProperty("available_level_rate")]
             public string availableLeverRate { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
         }
     }
 }

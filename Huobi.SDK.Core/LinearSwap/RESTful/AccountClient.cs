@@ -338,14 +338,29 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
-        /// get valid lever rate
+        /// isolated margin get valid lever rate
         /// </summary>
         /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetValidLeverRateResponse> GetValidLeverRateAsync(string contractCode)
+        public async Task<GetValidLeverRateResponse> IsolatedGetValidLeverRateAsync(string contractCode)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_available_level_rate");
+
+            // content
+            string content = $"{{ \"contract_code\": \"{contractCode}\" }}";
+            return await HttpRequest.PostAsync<GetValidLeverRateResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin get valid lever rate
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetValidLeverRateResponse> CrossGetValidLeverRateAsync(string contractCode)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_available_level_rate");
 
             // content
             string content = $"{{ \"contract_code\": \"{contractCode}\" }}";
@@ -392,14 +407,37 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
-        /// get transfer limit
+        /// isolated margin get transfer limit
         /// </summary>
-        /// <param name="contractCode"></param>
+        /// <param name="marginAccount"></param>
         /// <returns></returns>
-        public async Task<GetTransferLimitResponse> GetTransferLimitAsync(string contractCode = null)
+        public async Task<GetTransferLimitResponse> IsolatedGetTransferLimitAsync(string marginAccount = null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_transfer_limit");
+
+            // content
+            string content = null;
+            if (marginAccount != null)
+            {
+                content += $",\"margin_account\": \"{marginAccount}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+            return await HttpRequest.PostAsync<GetTransferLimitResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin get transfer limit
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetTransferLimitResponse> CrossGetTransferLimitAsync(string contractCode = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_transfer_limit");
 
             // content
             string content = null;
@@ -419,10 +457,33 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetPositionLimitResponse> GetPositionLimitAsync(string contractCode = null)
+        public async Task<GetPositionLimitResponse> IsolatedGetPositionLimitAsync(string contractCode = null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_position_limit");
+
+            // content
+            string content = null;
+            if (contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+            return await HttpRequest.PostAsync<GetPositionLimitResponse>(url, content);
+        }
+
+        /// <summary>
+        /// get position limit
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetPositionLimitResponse> CrossGetPositionLimitAsync(string contractCode = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_position_limit");
 
             // content
             string content = null;

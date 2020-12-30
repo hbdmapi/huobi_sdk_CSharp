@@ -20,12 +20,13 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
         public class Data
         {
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string symbol { get; set; }
 
-            [JsonProperty("contract_code")]
+            [JsonProperty("contract_code", NullValueHandling = NullValueHandling.Ignore)]
             public string contractCode { get; set; }
 
-            [JsonProperty("open_limit")]
+            [JsonProperty("open_limit", NullValueHandling = NullValueHandling.Ignore)]
             public string openLimit { get; set; }
 
             [JsonProperty("transfer_in_max_each")]
@@ -51,6 +52,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
             [JsonProperty("net_transfer_out_max_daily")]
             public double netTransferOutMaxDaily { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
+
+            [JsonProperty("margin_account")]
+            public string marginAccount { get; set; }
         }
     }
 }
