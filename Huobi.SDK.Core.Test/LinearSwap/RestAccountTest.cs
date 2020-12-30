@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Huobi.SDK.Core.LinearSwap.RESTful;
 using System;
 using Newtonsoft.Json;
+using Huobi.SDK.Core.LinearSwap.RESTful.Response.Account;
 
 namespace Huobi.SDK.Core.Test
 {
@@ -13,15 +14,19 @@ namespace Huobi.SDK.Core.Test
 
         [Theory]
         [InlineData(null, false)]
-        [InlineData("BTC-USDT", false)]
+        [InlineData("XRP-USDT", false)]
         [InlineData(null, true)]
-        [InlineData("BTC-USDT", true)]
-        public void RESTfulAccountAssetsTest(string contractCode, bool beSubUid)
+        [InlineData("XRP-USDT", true)]
+        public void IsolatedGetAccountInfoTest(string contractCode, bool beSubUid)
         {
-            var result = client.GetAccountAssetsAsync(contractCode).Result;
+            GetAccountInfoResponse result;
             if (beSubUid)
             {
-                result = client.GetAccountAssetsAsync(contractCode, long.Parse(config["SubUid"])).Result;
+                result = client.IsolatedGetAccountInfoAsync(contractCode, long.Parse(config["SubUid"])).Result;
+            }
+            else
+            {
+                result = client.IsolatedGetAccountInfoAsync(contractCode).Result;
             }
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
@@ -30,16 +35,108 @@ namespace Huobi.SDK.Core.Test
 
         [Theory]
         [InlineData(null, false)]
-        [InlineData("BTC-USDT", false)]
+        [InlineData("USDT", false)]
         [InlineData(null, true)]
-        [InlineData("BTC-USDT", true)]
-        public void RESTfulAccountPositionTest(string contractCode, bool beSubUid)
+        [InlineData("USDT", true)]
+        public void CrossGetAccountInfoTest(string marginAccount, bool beSubUid)
         {
-            var result = client.GetAccountPositionAsync(contractCode).Result;
+            GetAccountInfoResponse result;
             if (beSubUid)
             {
-                result = client.GetAccountPositionAsync(contractCode, long.Parse(config["SubUid"])).Result;
+                result = client.CrossGetAccountInfoAsync(marginAccount, long.Parse(config["SubUid"])).Result;
             }
+            else
+            {
+                result = client.CrossGetAccountInfoAsync(marginAccount).Result;
+            }
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null, false)]
+        [InlineData("ETH-USDT", false)]
+        [InlineData(null, true)]
+        [InlineData("ETH-USDT", true)]
+        public void IsolatedGetPositionInfoTest(string contractCode, bool beSubUid)
+        {
+            GetPositionInfoResponse result;
+            if (beSubUid)
+            {
+                result = client.IsolatedGetPositionInfoAsync(contractCode, long.Parse(config["SubUid"])).Result;
+            }
+            else
+            {
+                result = client.IsolatedGetPositionInfoAsync(contractCode).Result;
+            }
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null, false)]
+        [InlineData("ETH-USDT", false)]
+        [InlineData(null, true)]
+        [InlineData("ETH-USDT", true)]
+        public void CrossGetPositionInfoTest(string contractCode, bool beSubUid)
+        {
+            GetPositionInfoResponse result;
+            if (beSubUid)
+            {
+                result = client.CrossGetPositionInfoAsync(contractCode, long.Parse(config["SubUid"])).Result;
+            }
+            else
+            {
+                result = client.CrossGetPositionInfoAsync(contractCode).Result;
+            }
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("ETH-USDT")]
+        public void IsolatedGetAllSubAssetsTest(string contractCode)
+        {
+            var result = client.IsolatedGetAllSubAssetsAsync(contractCode).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("USDT")]
+        public void CrossGetAllSubAssetsTest(string marginAccount)
+        {
+            var result = client.CrossGetAllSubAssetsAsync(marginAccount).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("ETH-USDT")]
+        public void IsolatedGetAccountPositionTest(string contractCode)
+        {
+            var result = client.IsolatedGetAccountPositionAsync(contractCode).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("USDT")]
+        public void CrossGetAccountPositionTest(string marginAccount)
+        {
+            var result = client.CrossGetAccountPositionAsync(marginAccount).Result;
+
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
@@ -60,17 +157,6 @@ namespace Huobi.SDK.Core.Test
                 result = client.GetAccountTransHisAsync(marginAccount, beMasterSub, "34,35", createDate,
                                                             pageIndex, pageSize).Result;
             }
-            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
-            Console.WriteLine(strret);
-            Assert.Equal("ok", result.status);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("BTC-USDT")]
-        public void RESTfulAllSubAssetsTest(string contractCode)
-        {
-            var result = client.GetAllSubAssetsAsync(contractCode).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);

@@ -34,7 +34,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="contractCode">such as BTC-USDT</param>
         /// <param name="subUid"></param>
         /// <returns></returns>
-        public async Task<GetAccountAssetsResponse> GetAccountAssetsAsync(string contractCode = null, long? subUid = null)
+        public async Task<GetAccountInfoResponse> IsolatedGetAccountInfoAsync(string contractCode = null, long? subUid = null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_account_info");
@@ -57,7 +57,40 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 content = $"{{ {content.Substring(1)} }}";
             }
-            return await HttpRequest.PostAsync<GetAccountAssetsResponse>(url, content);
+            return await HttpRequest.PostAsync<GetAccountInfoResponse>(url, content);
+        }
+
+        /// <summary>
+        /// if request account assets, param subUid is not need in any time, contractCode is option param<br/>
+        /// if request sub account assets, param subUid is must need, contractCode is option param
+        /// </summary>
+        /// <param name="marginAccount">such as USDT</param>
+        /// <param name="subUid"></param>
+        /// <returns></returns>
+        public async Task<GetAccountInfoResponse> CrossGetAccountInfoAsync(string marginAccount = null, long? subUid = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_account_info");
+            if (subUid != null)
+            {
+                url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_sub_account_info");
+            }
+
+            // content
+            string content = null;
+            if (marginAccount != null)
+            {
+                content = $",\"margin_account\": \"{marginAccount}\"";
+            }
+            if (subUid != null)
+            {
+                content += $",\"sub_uid\": {subUid}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+            return await HttpRequest.PostAsync<GetAccountInfoResponse>(url, content);
         }
 
         /// <summary>
@@ -67,7 +100,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="contractCode">such as BTC-USDT</param>
         /// <param name="subUid"></param>
         /// <returns></returns>
-        public async Task<GetAccountPositionResponse> GetAccountPositionAsync(string contractCode = null, long? subUid = null)
+        public async Task<GetPositionInfoResponse> IsolatedGetPositionInfoAsync(string contractCode = null, long? subUid = null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_position_info");
@@ -91,7 +124,41 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
                 content = $"{{ {content.Substring(1)} }}";
             }
 
-            return await HttpRequest.PostAsync<GetAccountPositionResponse>(url, content);
+            return await HttpRequest.PostAsync<GetPositionInfoResponse>(url, content);
+        }
+
+        /// <summary>
+        /// if request account assets, param subUid is not need in any time, contractCode is option param<br/>
+        /// if request sub account assets, param subUid is must need, contractCode is option param
+        /// </summary>
+        /// <param name="contractCode">such as BTC-USDT</param>
+        /// <param name="subUid"></param>
+        /// <returns></returns>
+        public async Task<GetPositionInfoResponse> CrossGetPositionInfoAsync(string contractCode = null, long? subUid = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_position_info");
+            if (subUid != null)
+            {
+                url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_sub_position_info");
+            }
+
+            // content
+            string content = null;
+            if (contractCode != null)
+            {
+                content = $",\"contract_code\": \"{contractCode}\"";
+            }
+            if (subUid != null)
+            {
+                content += $",\"sub_uid\": {subUid}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetPositionInfoResponse>(url, content);
         }
 
         /// <summary>
@@ -99,7 +166,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode">such as BTC-USDT</param>
         /// <returns></returns>
-        public async Task<GetAllSubAssetsResponse> GetAllSubAssetsAsync(string contractCode = null)
+        public async Task<GetAllSubAssetsResponse> IsolatedGetAllSubAssetsAsync(string contractCode = null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_sub_account_list");
@@ -116,6 +183,62 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             }
 
             return await HttpRequest.PostAsync<GetAllSubAssetsResponse>(url, content);
+        }
+
+        /// <summary>
+        /// get all sub account assets
+        /// </summary>
+        /// <param name="marginAccount">such as USDT</param>
+        /// <returns></returns>
+        public async Task<GetAllSubAssetsResponse> CrossGetAllSubAssetsAsync(string marginAccount = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_sub_account_list");
+
+            // content
+            string content = null;
+            if (marginAccount != null)
+            {
+                content = $",\"margin_account\": \"{marginAccount}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetAllSubAssetsResponse>(url, content);
+        }
+
+        /// <summary>
+        /// get account_position_info
+        /// </summary>
+        /// <param name="contractCode">such as BTC-USDT</param>
+        /// <returns></returns>
+        public async Task<GetAccountPositionResponse> IsolatedGetAccountPositionAsync(string contractCode)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_account_position_info");
+
+            // content
+            string content = $"{{ \"contract_code\": \"{contractCode}\" }}";
+
+            return await HttpRequest.PostAsync<GetAccountPositionResponse>(url, content);
+        }
+
+        /// <summary>
+        /// get account_position_info
+        /// </summary>
+        /// <param name="marginAccount">such as USDT</param>
+        /// <returns></returns>
+        public async Task<GetAccountPositionResponseSingle> CrossGetAccountPositionAsync(string marginAccount = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_account_position_info");
+
+            // content
+            string content = $"{{ \"margin_account\": \"{marginAccount}\" }}";
+
+            return await HttpRequest.PostAsync<GetAccountPositionResponseSingle>(url, content);
         }
 
         /// <summary>

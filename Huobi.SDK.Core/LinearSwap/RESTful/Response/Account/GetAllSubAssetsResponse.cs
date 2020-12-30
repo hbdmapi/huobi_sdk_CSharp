@@ -49,6 +49,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
                 [JsonProperty("risk_rate", NullValueHandling = NullValueHandling.Ignore)]
                 public double riskRate { get; set; }
+
+                [JsonProperty("margin_mode")]
+                public string marginMode { get; set; }
+
+                [JsonProperty("margin_account")]
+                public string marginAccount { get; set; }
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
     /// POST linear-swap-api/v1/swap_account_info
     /// POST linear-swap-api/v1/swap_sub_account_info
     /// </summary>
-    public class GetAccountAssetsResponse
+    public class GetAccountInfoResponse
     {
         public string status { get; set; }
 
@@ -70,6 +70,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
             [JsonProperty("adjust_factor")]
             public double adjustFactor { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
+
+            [JsonProperty("margin_account")]
+            public string marginAccount { get; set; }
         }
     }
 }

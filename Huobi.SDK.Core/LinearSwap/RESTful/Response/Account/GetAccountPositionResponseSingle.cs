@@ -7,7 +7,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
     /// <summary>
     /// get account_position_info
     /// </summary>
-    public class GetAccountPositionResponse
+    public class GetAccountPositionResponseSingle
     {
         public string status { get; set; }
 
@@ -18,7 +18,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
         public string errorMessage { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<Data> data { get; set; }
+        public Data data { get; set; }
 
         public long ts { get; set; }
 
