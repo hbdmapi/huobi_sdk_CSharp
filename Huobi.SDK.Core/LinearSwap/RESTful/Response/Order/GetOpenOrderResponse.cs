@@ -93,6 +93,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
                 [JsonProperty("canceled_at", NullValueHandling = NullValueHandling.Ignore)]
                 public long canceledAt { get; set; }
+
+                [JsonProperty("margin_mode")]
+                public string marginMode { get; set; }
+
+                [JsonProperty("margin_account")]
+                public string marginAccount { get; set; }
             }
 
             [JsonProperty("total_page")]

@@ -23,10 +23,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
         public class Data
         {
-            public long symbol { get; set; }
+            public string symbol { get; set; }
 
             [JsonProperty("contract_code")]
-            public long contractCode { get; set; }
+            public string contractCode { get; set; }
 
             public double volume { get; set; }
 
@@ -62,7 +62,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
             public double fee { get; set; }
 
-            [JsonProperty("trade_avg_price")]
+            [JsonProperty("trade_avg_price", NullValueHandling = NullValueHandling.Ignore)]
             public double tradeAvgPrice { get; set; }
 
             [JsonProperty("margin_asset")]
@@ -89,6 +89,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
             [JsonProperty("canceled_at")]
             public long canceledAt { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
+
+            [JsonProperty("margin_account")]
+            public string marginAccount { get; set; }
         }
     }
 }

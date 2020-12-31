@@ -135,6 +135,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
                 [JsonProperty("created_at")]
                 public long createdAt { get; set; }
             }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
+
+            [JsonProperty("margin_account")]
+            public string marginAccount { get; set; }
         }
     }
 }

@@ -28,6 +28,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
             [JsonProperty("lever_rate")]
             public int leverRate { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
         }
     }
 }

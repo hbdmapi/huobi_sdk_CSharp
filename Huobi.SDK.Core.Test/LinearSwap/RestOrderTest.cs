@@ -13,9 +13,8 @@ namespace Huobi.SDK.Core.Test
         static OrderClient client = new OrderClient(config["AccessKey"], config["SecretKey"], config["Host"]);
 
         [Theory]
-        [InlineData("BTC-USDT", null, 13000, 1, "buy", "open", 5, "limit")]
-        [InlineData("BTC-USDT", null, 14000, 1, "sell", "open", 5, "limit")]
-        public void RESTfulPlaceOrderTest(string contractCode, long? clientOrderId, double price, long volume,
+        [InlineData("XRP-USDT", null, 0.15, 1, "buy", "open", 5, "limit")]
+        public void PlaceOrderTest(string contractCode, long? clientOrderId, double price, long volume,
                                           string direction, string offset, int leverRate, string orderPriceType)
         {
             Order.PlaceOrderRequest request = new Order.PlaceOrderRequest
@@ -29,21 +28,26 @@ namespace Huobi.SDK.Core.Test
                 leverRate = leverRate,
                 orderPriceType = orderPriceType
             };
-            var result = client.PlaceOrderAsync(request).Result;
+            var result = client.IsolatedPlaceOrderAsync(request).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossPlaceOrderAsync(request).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Fact]
-        public void RESTfulPlaceBatchOrderTest()
+        public void PlaceBatchOrderTest()
         {
             Order.PlaceOrderRequest[] request = {
                 new Order.PlaceOrderRequest
                 {
-                    contractCode = "BTC-USDT",
+                    contractCode = "XRP-USDT",
                     clientOrderId = null,
-                    price = 13000,
+                    price = 0.15,
                     volume = 1,
                     direction = "buy",
                     offset = "open",
@@ -52,111 +56,154 @@ namespace Huobi.SDK.Core.Test
                 },
                 new Order.PlaceOrderRequest
                 {
-                    contractCode = "BTC-USDT",
-                    clientOrderId = 14000,
-                    price = 14000,
+                    contractCode = "XRP-USDT",
+                    clientOrderId = null,
+                    price = 0.18,
                     volume = 1,
-                    direction = "sell",
+                    direction = "buy",
                     offset = "open",
                     leverRate = 5,
                     orderPriceType = "limit"
                 }
             };
-            var result = client.PlaceBatchOrderAsync(request).Result;
+            var result = client.IsolatedPlaceBatchOrderAsync(request).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossPlaceBatchOrderAsync(request).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
         //[InlineData("BTC-USDT", null, null)]
-        [InlineData("BTC-USDT", "771317012235644928", "14000")]
-        [InlineData("BTC-USDT", null, "14000")]
-        public void RESTfulCancelOrderTest(string contractCode, string orderId, string clientOrderId)
+        [InlineData("XRP-USDT", "794156585717932034,794156588096479233", null)]
+        [InlineData("XRP-USDT", null, null)]
+        public void CancelOrderTest(string contractCode, string orderId, string clientOrderId)
         {
-            var result = client.CancelOrderAsync( contractCode,  orderId,  clientOrderId).Result;
+            var result = client.IsolatedCancelOrderAsync( contractCode,  orderId,  clientOrderId).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossCancelOrderAsync( contractCode,  orderId,  clientOrderId).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("BTC-USDT", 10)]
-        [InlineData("ETH-USDT", 20)]
-        public void RESTfulSwitchLeverRateTest(string contractCode, int leverRate)
+        [InlineData("XRP-USDT", 5)]
+        public void SwitchLeverRateTest(string contractCode, int leverRate)
         {
-            var result = client.SwitchLeverRateAsync( contractCode,  leverRate).Result;
+            var result = client.IsolatedSwitchLeverRateAsync( contractCode,  leverRate).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            System.Threading.Thread.Sleep(3000);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossSwitchLeverRateAsync( contractCode,  leverRate).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             System.Threading.Thread.Sleep(3000);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("BTC-USDT", "771317012235644928", null)]
-        [InlineData("BTC-USDT", null, "14000")]
-        public void RESTfulGetOrderInfoTest(string contractCode, string orderId, string clientOrderId)
+        [InlineData("XRP-USDT", "794156585717932034,794156588096479233,", null)]
+        public void GetOrderInfoTest(string contractCode, string orderId, string clientOrderId)
         {
-            var result = client.GetOrderInfoAsync( contractCode,  orderId,  clientOrderId).Result;
+            var result = client.IsolatedGetOrderInfoAsync( contractCode,  orderId,  clientOrderId).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetOrderInfoAsync( contractCode,  orderId,  clientOrderId).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("BTC-USDT", 771317012235644928, null, null, null, null)]
-        [InlineData("BTC-USDT", 771317012235644928, 1603937970378, 1, 1, 10)]
-        public void RESTfulGetOrderDetailTest(string contractCode, long orderId, long? createdAt, 
+        [InlineData("XRP-USDT", 794156585717932034, 1609383284749, 1, 1, 10)]
+        [InlineData("XRP-USDT", 794156588096479233, 1609383285316, 1, 1, 10)]
+        public void GetOrderDetailTest(string contractCode, long orderId, long? createdAt, 
                                               int? orderType, int? pageIndex, int? pageSize)
         {
-            var result = client.GetOrderDetailAsync( contractCode,  orderId,  createdAt, orderType, pageIndex, pageSize).Result;
+            var result = client.IsolatedGetOrderDetailAsync( contractCode,  orderId,  createdAt, orderType, pageIndex, pageSize).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetOrderDetailAsync( contractCode,  orderId,  createdAt, orderType, pageIndex, pageSize).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("BTC-USDT", null, null)]
-        [InlineData("BTC-USDT", 1, 10)]
-        public void RESTfulGetOpenOrderTest(string contractCode, int? pageIndex, int? pageSize)
+        [InlineData("XRP-USDT", 1, 10)]
+        public void GetOpenOrderTest(string contractCode, int? pageIndex, int? pageSize)
         {
-            var result = client.GetOpenOrderAsync( contractCode, pageIndex, pageSize).Result;
+            var result = client.IsolatedGetOpenOrderAsync( contractCode, pageIndex, pageSize).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetOpenOrderAsync( contractCode, pageIndex, pageSize).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("BTC-USDT", 0, 1, "0", 5, null, null)]
-        [InlineData("BTC-USDT", 0, 1, "0", 5, 1, 20)]
-        public void RESTfulGetHisOrderTest(string contractCode, int tradeType, int type, string status,
+        [InlineData("XRP-USDT", 0, 1, "0", 5, null, null)]
+        [InlineData("XRP-USDT", 0, 1, "0", 5, 1, 20)]
+        public void GetHisOrderTest(string contractCode, int tradeType, int type, string status,
                                            int createdDate, int? pageIndex, int? pageSize)
         {
-            var result = client.GetHisOrderAsync(contractCode, tradeType, type, status, createdDate, pageIndex, pageSize).Result;
+            var result = client.IsolatedGetHisOrderAsync(contractCode, tradeType, type, status, createdDate, pageIndex, pageSize).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetHisOrderAsync(contractCode, tradeType, type, status, createdDate, pageIndex, pageSize).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("BTC-USDT", 0, 1, null, null)]
-        [InlineData("BTC-USDT", 0, 1, 1, 20)]
-        public void RESTfulGetHisMatchTest(string contractCode, int tradeType, int createdDate, int? pageIndex, int? pageSize)
+        [InlineData("XRP-USDT", 0, 1, null, null)]
+        [InlineData("XRP-USDT", 0, 1, 1, 20)]
+        public void GetHisMatchTest(string contractCode, int tradeType, int createdDate, int? pageIndex, int? pageSize)
         {
-            var result = client.GetHisMatchAsync(contractCode, tradeType, createdDate, pageIndex, pageSize).Result;
+            var result = client.IsolatedGetHisMatchAsync(contractCode, tradeType, createdDate, pageIndex, pageSize).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetHisMatchAsync(contractCode, tradeType, createdDate, pageIndex, pageSize).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("ETH-USDT", 1, "sell", null, null)]
-        [InlineData("ETH-USDT", 1, "sell", null, "lightning")]
-        public void RESTfulLightningCloseTest(string contractCode, double volume, string direction, 
+        [InlineData("XRP-USDT", 1, "buy", null, null)]
+        [InlineData("XRP-USDT", 1, "buy", null, "lightning")]
+        public void LightningCloseTest(string contractCode, double volume, string direction, 
                                               long? clientOrderId = null, string orderPriceType = null)
         {
-            var result = client.LightningCloseAsync(contractCode, volume, direction, clientOrderId, orderPriceType).Result;
+            var result = client.IsolatedLightningCloseAsync(contractCode, volume, direction, clientOrderId, orderPriceType).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+            
+            result = client.CrossLightningCloseAsync(contractCode, volume, direction, clientOrderId, orderPriceType).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
