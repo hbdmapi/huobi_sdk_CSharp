@@ -69,6 +69,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
                 public string orderPriceType { get; set; }
 
                 public int status { get; set; }
+
+                [JsonProperty("margin_mode")]
+                public string marginMode { get; set; }
+
+                [JsonProperty("margin_account")]
+                public string marginAccount { get; set; }
             }
 
             [JsonProperty("total_page")]
