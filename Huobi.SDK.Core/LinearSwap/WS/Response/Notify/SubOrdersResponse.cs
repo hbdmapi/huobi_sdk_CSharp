@@ -83,6 +83,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         [JsonProperty("fee_asset")]
         public string feeAsset { get; set; }
 
+        [JsonProperty("margin_account")]
+        public string marginAccount { get; set; }
+
+        [JsonProperty("margin_mode")]
+        public string marginMode { get; set; }
+
         public List<Trade> trade;
 
         public class Trade

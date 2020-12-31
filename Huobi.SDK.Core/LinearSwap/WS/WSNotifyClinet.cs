@@ -22,12 +22,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         public delegate void _OnSubOrdersResponse(SubOrdersResponse data);
 
         /// <summary>
-        /// sub orders
+        /// isolated margin sub orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = _DEFAULT_CID)
         {
             string ch = $"orders.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -36,13 +36,40 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub orders
+        /// isolated margin unsub orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubOrders(string contractCode, string cid = _DEFAULT_CID)
         {
             string ch = $"orders.{contractCode}";
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+
+            Unsub(JsonConvert.SerializeObject(opData), ch);
+        }
+
+        /// <summary>
+        /// cross margin sub orders
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="cid"></param>
+        public void CrossSubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        {
+            string ch = $"orders_cross.{contractCode}";
+            WSOpData opData = new WSOpData { op = "sub", topic = ch };
+
+            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubOrdersResponse));
+        }
+
+        /// <summary>
+        /// cross margin unsub orders
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="cid"></param>
+        public void CrossUnsubOrders(string contractCode, string cid = _DEFAULT_CID)
+        {
+            string ch = $"orders_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
 
             Unsub(JsonConvert.SerializeObject(opData), ch);
@@ -53,12 +80,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         public delegate void _OnSubAccountsResponse(SubAccountsResponse data);
 
         /// <summary>
-        /// sub accounts
+        /// isolated margin sub accounts
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubAcounts(string contractCode, _OnSubAccountsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubAcounts(string contractCode, _OnSubAccountsResponse callbackFun, string cid = _DEFAULT_CID)
         {
             string ch = $"accounts.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -67,13 +94,40 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub accounts
+        /// isolated margin unsub accounts
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubAccounts(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubAccounts(string contractCode, string cid = _DEFAULT_CID)
         {
             string ch = $"accounts.{contractCode}";
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+
+            Unsub(JsonConvert.SerializeObject(opData), ch);
+        }
+
+        /// <summary>
+        /// cross margin sub accounts
+        /// </summary>
+        /// <param name="marginAccount"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="cid"></param>
+        public void CrossSubAcounts(string marginAccount, _OnSubAccountsResponse callbackFun, string cid = _DEFAULT_CID)
+        {
+            string ch = $"accounts_cross.{marginAccount}";
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+
+            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubAccountsResponse));
+        }
+
+        /// <summary>
+        /// cross margin unsub accounts
+        /// </summary>
+        /// <param name="marginAccount"></param>
+        /// <param name="cid"></param>
+        public void CrossUnsubAccounts(string marginAccount, string cid = _DEFAULT_CID)
+        {
+            string ch = $"accounts_cross.{marginAccount}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
 
             Unsub(JsonConvert.SerializeObject(opData), ch);
@@ -84,12 +138,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         public delegate void _OnSubPositionsResponse(SubPositionsResponse data);
 
         /// <summary>
-        /// sub positions
+        /// isolated margin sub positions
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = _DEFAULT_CID)
         {
             string ch = $"positions.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -98,13 +152,40 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub positions
+        /// isolated margin unsub positions
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubPositions(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubPositions(string contractCode, string cid = _DEFAULT_CID)
         {
             string ch = $"positions.{contractCode}";
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+
+            Unsub(JsonConvert.SerializeObject(opData), ch);
+        }
+
+        /// <summary>
+        /// cross margin sub positions
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="cid"></param>
+        public void CrossSubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = _DEFAULT_CID)
+        {
+            string ch = $"positions_cross.{contractCode}";
+            WSOpData opData = new WSOpData { op = "sub", topic = ch };
+
+            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubPositionsResponse));
+        }
+
+        /// <summary>
+        /// cross margin unsub positions
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="cid"></param>
+        public void CrossUnsubPositions(string contractCode, string cid = _DEFAULT_CID)
+        {
+            string ch = $"positions_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
 
             Unsub(JsonConvert.SerializeObject(opData), ch);
@@ -115,12 +196,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         public delegate void _OnSubMatchOrdersResponse(SubOrdersResponse data);
 
         /// <summary>
-        /// sub match orders
+        /// isolated margin sub match orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = _DEFAULT_CID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
@@ -130,14 +211,43 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub match orders
+        /// isolated margin unsub match orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubMathOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubMathOrders(string contractCode, string cid = _DEFAULT_CID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+
+            Unsub(JsonConvert.SerializeObject(opData), ch);
+        }
+
+        /// <summary>
+        /// cross margin sub match orders
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="cid"></param>
+        public void CrossSubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        {
+            contractCode = contractCode.ToLower();
+            string ch = $"matchOrders_cross.{contractCode}";
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+
+            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubOrdersResponse));
+        }
+
+        /// <summary>
+        /// cross margin unsub match orders
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="cid"></param>
+        public void CrossUnsubMathOrders(string contractCode, string cid = _DEFAULT_CID)
+        {
+            contractCode = contractCode.ToLower();
+            string ch = $"matchOrders_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
 
             Unsub(JsonConvert.SerializeObject(opData), ch);
@@ -241,12 +351,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         public delegate void _OnSubTriggerOrderResponse(SubTriggerOrderResponse data);
 
         /// <summary>
-        /// sub trigger order
+        /// isolated margin sub trigger order
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = _DEFAULT_CID)
         {
             string ch = $"trigger_order.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -255,13 +365,40 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub trigger order
+        /// isolated margin unsub trigger order
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubTriggerOrder(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubTriggerOrder(string contractCode, string cid = _DEFAULT_CID)
         {
             string ch = $"trigger_order.{contractCode}";
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+
+            Unsub(JsonConvert.SerializeObject(opData), ch);
+        }
+
+        /// <summary>
+        /// cross margin sub trigger order
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="cid"></param>
+        public void CrossSubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = _DEFAULT_CID)
+        {
+            string ch = $"trigger_order_cross.{contractCode}";
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+
+            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubTriggerOrderResponse));
+        }
+
+        /// <summary>
+        /// cross margin unsub trigger order
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="cid"></param>
+        public void CrossUnsubTriggerOrder(string contractCode, string cid = _DEFAULT_CID)
+        {
+            string ch = $"trigger_order_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
 
             Unsub(JsonConvert.SerializeObject(opData), ch);

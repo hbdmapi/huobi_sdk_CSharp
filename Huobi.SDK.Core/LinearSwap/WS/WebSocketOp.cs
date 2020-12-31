@@ -291,6 +291,8 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="jdata"></param>
         private void _HandleSubCallbackFun(string ch, string data, JObject jdata)
         {
+            ch = ch.ToLower();
+
             MethonInfo mi = null;
             if (_onSubCallbackFuns.ContainsKey(ch))
             {
@@ -312,10 +314,27 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             {
                 mi = _onSubCallbackFuns["public.*.liquidation_orders"];
             }
-            else if (ch == "accounts" || ch == "positions")
+            else if (ch == "accounts" || ch == "positions" || ch == "positions_cross")
             {
                 string contract_code = jdata["data"][0]["contract_code"].ToObject<string>();
                 string full_ch = $"{ch}.{contract_code}";
+                full_ch = full_ch.ToLower();
+
+                if (_onSubCallbackFuns.ContainsKey(full_ch))
+                {
+                    mi = _onSubCallbackFuns[full_ch];
+                }
+                else if(_onSubCallbackFuns.ContainsKey($"{ch}.*"))
+                {
+                    mi = _onSubCallbackFuns[$"{ch}.*"];
+                }
+            }
+            else if (ch == "accounts_cross")
+            {
+                string margin_account = jdata["data"][0]["margin_account"].ToObject<string>();
+                string full_ch = $"{ch}.{margin_account}";
+                full_ch = full_ch.ToLower();
+
                 if (_onSubCallbackFuns.ContainsKey(full_ch))
                 {
                     mi = _onSubCallbackFuns[full_ch];
@@ -342,6 +361,8 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="jdata"></param>
         private void _HandleReqCallbackFun(string ch, string data, JObject jdata)
         {
+            ch = ch.ToLower();
+
             if (!_onReqCallbackFuns.ContainsKey(ch))
             {
                 _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {jdata}");
@@ -386,6 +407,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                 System.Threading.Thread.Sleep(10);
             }
 
+            ch = ch.ToLower();
             if (_onSubCallbackFuns.ContainsKey(ch))
             {
                 _onSubCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType };
@@ -417,6 +439,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                 System.Threading.Thread.Sleep(10);
             }
 
+            ch = ch.ToLower();
             if (!_onSubCallbackFuns.ContainsKey(ch))
             {
                 return true;
@@ -451,6 +474,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                 System.Threading.Thread.Sleep(10);
             }
 
+            ch = ch.ToLower();
             if (_onReqCallbackFuns.ContainsKey(ch))
             {
                 _onReqCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType };
@@ -482,6 +506,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
                 System.Threading.Thread.Sleep(10);
             }
 
+            ch = ch.ToLower();
             if (!_onReqCallbackFuns.ContainsKey(ch))
             {
                 return true;

@@ -83,6 +83,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             [JsonProperty("fail_reason", NullValueHandling = NullValueHandling.Ignore)]
             public string failReason { get; set; }
+
+            [JsonProperty("margin_account")]
+            public string marginAccount { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
         }
     }
 }

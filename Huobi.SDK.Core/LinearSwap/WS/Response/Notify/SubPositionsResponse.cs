@@ -8,14 +8,14 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         public string op { get; set; }
 
         public string topic { get; set; }
-        
+
         public long ts { get; set; }
-        
+
         public string uid { get; set; }
-        
+
         [JsonProperty("event")]
         public string eventSender { get; set; }
-        
+
         public List<Data> data { get; set; }
 
         public class Data
@@ -58,6 +58,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             [JsonProperty("margin_asset")]
             public string marginAsset { get; set; }
+
+            [JsonProperty("margin_account")]
+            public string marginAccount { get; set; }
+
+            [JsonProperty("margin_mode")]
+            public string marginMode { get; set; }
         }
     }
 }
