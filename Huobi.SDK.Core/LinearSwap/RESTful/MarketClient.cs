@@ -579,5 +579,25 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             return await HttpRequest.GetAsync<GetBasisResponse>(url);
         }
 
+        public async Task<GetEstimatedSettlementPriceResponse> GetEstimatedSettlementPriceAsync(string contractCode = null)
+        {
+            // location
+            string location = $"/linear-swap-api/v1/swap_estimated_settlement_price";
+
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"?contract_code={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetEstimatedSettlementPriceResponse>(url);
+        }
+
     }
 }

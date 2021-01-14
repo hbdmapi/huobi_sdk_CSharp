@@ -236,6 +236,76 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
 
             return await HttpRequest.PostAsync<GetHisOrderResponse>(url, content);
         }
+
+        /// <summary>
+        /// isolated margin tpsl order
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<TpslOrderResponse> IsolatedTpslOrderAsync(TpslOrderRequest request)
+        {
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_tpsl_order");
+
+            return await HttpRequest.PostAsync<TpslOrderResponse>(url, JsonConvert.SerializeObject(request));
+        }
+
+        /// <summary>
+        /// cross margin tpsl order
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<TpslOrderResponse> CrossTpslOrderAsync(TpslOrderRequest request)
+        {
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_order");
+
+            return await HttpRequest.PostAsync<TpslOrderResponse>(url, JsonConvert.SerializeObject(request));
+        }
+
+        public async Task<CancelOrderResponse> IsolatedTpslCancelAsync(string contractCode, string orderId = null)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_tpsl_cancel");
+            if (orderId == null)
+            {
+                url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_tpsl_cancelall");
+            }
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\"";
+            if (orderId != null)
+            {
+                content += $",\"order_id\": \"{orderId}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<CancelOrderResponse>(url, content);
+        }
+
+        public async Task<CancelOrderResponse> CrossTpslCancelAsync(string contractCode, string orderId = null)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_cancel");
+            if (orderId == null)
+            {
+                url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_cancelall");
+            }
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\"";
+            if (orderId != null)
+            {
+                content += $",\"order_id\": \"{orderId}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<CancelOrderResponse>(url, content);
+        }
         
     }
 }

@@ -46,12 +46,12 @@ namespace Huobi.SDK.Core.Test
         [InlineData("XRP-USDT", null)]
         public void CancelOrderTest(string contractCode, string orderId)
         {
-            var result = client.IsolatedCancelOrderAsync( contractCode,  orderId).Result;
+            var result = client.IsolatedCancelOrderAsync(contractCode, orderId).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossCancelOrderAsync( contractCode,  orderId).Result;
+            result = client.CrossCancelOrderAsync(contractCode, orderId).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
@@ -62,12 +62,12 @@ namespace Huobi.SDK.Core.Test
         [InlineData("XRP-USDT", 1, 10)]
         public void GetOpenOrderTest(string contractCode, int? pageIndex, int? pageSize)
         {
-            var result = client.IsolatedGetOpenOrderAsync( contractCode, pageIndex, pageSize).Result;
+            var result = client.IsolatedGetOpenOrderAsync(contractCode, pageIndex, pageSize).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossGetOpenOrderAsync( contractCode, pageIndex, pageSize).Result;
+            result = client.CrossGetOpenOrderAsync(contractCode, pageIndex, pageSize).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
@@ -85,6 +85,50 @@ namespace Huobi.SDK.Core.Test
             Assert.Equal("ok", result.status);
 
             result = client.CrossGetHisOrderAsync(contractCode, tradeType, status, createdDate, pageIndex, pageSize).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("EOS-USDT", "buy", 1, 2.0, 2.0, "limit", 3.0, 3.0, "limit")]
+        public void TpslOrderTest(string contractCode, string direction, long volume, double tpTriggerPrice, double tpOrderPrice, string tpOrderPriceType,
+                                  double slTriggerPrice, double slOrderPrice, string slOrderPriceType)
+        {
+            TriggerOrder.TpslOrderRequest request = new TriggerOrder.TpslOrderRequest
+            {
+                contractCode = contractCode,
+                direction = direction,
+                volume = volume,
+                tpTriggerPrice = tpTriggerPrice,
+                tpOrderPrice = tpOrderPrice,
+                tpOrderPriceType = tpOrderPriceType,
+                slTriggerPrice = slTriggerPrice,
+                slOrderPrice = slOrderPrice,
+                slOrderPriceType = slOrderPriceType,
+            };
+            var result = client.IsolatedTpslOrderAsync(request).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossTpslOrderAsync(request).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("EOS-USDT", "799327909361061888")]
+        [InlineData("EOS-USDT", null)]
+        public void TpslCancelTest(string contractCode, string orderId)
+        {
+            var result = client.IsolatedTpslCancelAsync(contractCode, orderId).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            //Assert.Equal("ok", result.status);
+
+            result = client.CrossTpslCancelAsync(contractCode, orderId).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);

@@ -291,5 +291,17 @@ namespace Huobi.SDK.Core.Test
             Assert.Equal("ok", result.status);
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("BTC-USDT")]
+        public void RESTfulMarketEstimatedSettlementPriceTest(string contractCode)
+        {
+            var result = client.GetEstimatedSettlementPriceAsync(contractCode).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
     }
 }
