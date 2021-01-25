@@ -134,5 +134,50 @@ namespace Huobi.SDK.Core.Test
             Assert.Equal("ok", result.status);
         }
 
+        [Theory]
+        [InlineData("BTC-USDT")]
+        public void TpslOpenOrderTest(string contractCode, int page_index=1, int page_size=50)
+        {
+            var result = client.IsolatedGetTpslOpenOrderAsync(contractCode, page_index, page_size).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            //Assert.Equal("ok", result.status);
+
+            result = client.CrossGetTpslOpenOrderAsync(contractCode, page_index, page_size).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT")]
+        public void TpslHisOrderTest(string contractCode, string status="0", int create_date=10)
+        {
+            var result = client.IsolatedGetTpslHisOrderAsync(contractCode, status, create_date).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            //Assert.Equal("ok", result.status);
+
+            result = client.CrossGetTpslHisOrderAsync(contractCode, status, create_date).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT", 801045594587615232)]
+        public void RelationTpslOrderTest(string contractCode, long orderId)
+        {
+            var result = client.IsolatedGetRelationTpslOrderAsync(contractCode, orderId).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            //Assert.Equal("ok", result.status);
+
+            result = client.CrossGetRelationTpslOrderAsync(contractCode, orderId).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
     }
 }

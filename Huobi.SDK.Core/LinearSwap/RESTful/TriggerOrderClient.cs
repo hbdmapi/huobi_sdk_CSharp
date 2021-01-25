@@ -261,6 +261,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             return await HttpRequest.PostAsync<TpslOrderResponse>(url, JsonConvert.SerializeObject(request));
         }
 
+        /// <summary>
+        /// isolated margin tpsl cancel
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         public async Task<CancelOrderResponse> IsolatedTpslCancelAsync(string contractCode, string orderId = null)
         {
             // url
@@ -284,6 +290,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             return await HttpRequest.PostAsync<CancelOrderResponse>(url, content);
         }
 
+        /// <summary>
+        /// cross margin tpsl cancel 
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         public async Task<CancelOrderResponse> CrossTpslCancelAsync(string contractCode, string orderId = null)
         {
             // url
@@ -306,6 +318,186 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
 
             return await HttpRequest.PostAsync<CancelOrderResponse>(url, content);
         }
-        
+
+        /// <summary>
+        /// isolated margin get tpsl open order
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<GetOpenOrderResponse> IsolatedGetTpslOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_tpsl_openorders");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\"";
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetOpenOrderResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin get rpsl open order
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<GetOpenOrderResponse> CrossGetTpslOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_openorders");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\"";
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetOpenOrderResponse>(url, content);
+        }
+
+        /// <summary>
+        /// isolated margin get tpsl his order
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="status"></param>
+        /// <param name="createDate"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <returns></returns>
+        public async Task<GetHisOrderResponse> IsolatedGetTpslHisOrderAsync(string contractCode, string status, int createDate,
+                                                                int? pageIndex = null, int? pageSize = null, string sortBy = "created_at")
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_tpsl_hisorders");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"status\": \"{status}\",\"create_date\": {createDate}";
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (sortBy != null)
+            {
+                content += $",\"sort_by\": \"{sortBy}\"";
+            }
+
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetHisOrderResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin get tpsl his order
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="status"></param>
+        /// <param name="createDate"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <returns></returns>
+        public async Task<GetHisOrderResponse> CrossGetTpslHisOrderAsync(string contractCode, string status, int createDate,
+                                                                int? pageIndex = null, int? pageSize = null, string sortBy = "created_at")
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_hisorders");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"status\": \"{status}\",\"create_date\": {createDate}";
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (sortBy != null)
+            {
+                content += $",\"sort_by\": \"{sortBy}\"";
+            }
+
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetHisOrderResponse>(url, content);
+        }
+
+        /// <summary>
+        /// isolated margin get relation tpsl order 
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<GetRelationTpslOrderResponse> IsolatedGetRelationTpslOrderAsync(string contractCode, long orderId)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_relation_tpsl_order");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"order_id\": {orderId}";
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetRelationTpslOrderResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin relation tpsl order 
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<GetRelationTpslOrderResponse> CrossGetRelationTpslOrderAsync(string contractCode, long orderId)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_relation_tpsl_order");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"order_id\": {orderId}";
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetRelationTpslOrderResponse>(url, content);
+        }
+
     }
 }
