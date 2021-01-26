@@ -180,7 +180,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public async Task<GetHisOrderResponse> IsolatedGetHisOrderAsync(string contractCode, int tradeType, string status, int createDate,
-                                                                int? pageIndex = null, int? pageSize = null)
+                                                                int? pageIndex = null, int? pageSize = null, string sortBy = "created_at")
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_trigger_hisorders");
@@ -194,6 +194,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if (sortBy != null)
+            {
+                content += $",\"sort_by\": \"{sortBy}\"";
             }
             if (content != null)
             {
@@ -214,7 +218,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public async Task<GetHisOrderResponse> CrossGetHisOrderAsync(string contractCode, int tradeType, string status, int createDate,
-                                                                int? pageIndex = null, int? pageSize = null)
+                                                                int? pageIndex = null, int? pageSize = null, string sortBy = "created_at")
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_trigger_hisorders");
@@ -228,6 +232,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if (sortBy != null)
+            {
+                content += $",\"sort_by\": \"{sortBy}\"";
             }
             if (content != null)
             {

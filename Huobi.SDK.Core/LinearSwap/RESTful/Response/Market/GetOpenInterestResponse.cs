@@ -31,6 +31,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
             public double volume { get; set; }
 
             public double value { get; set; }
+
+            [JsonProperty("trade_amount")]
+            public double tradeAmount { get; set; }
+
+            [JsonProperty("trade_volume")]
+            public double tradeVolume	 { get; set; }
+
+            [JsonProperty("trade_turnover")]
+            public double tradeTurnover { get; set; }
         }
     }
 }

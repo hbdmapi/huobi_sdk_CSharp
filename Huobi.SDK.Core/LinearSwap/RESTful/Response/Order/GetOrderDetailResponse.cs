@@ -108,6 +108,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
             [JsonProperty("total_size")]
             public int totalSize { get; set; }
 
+            [JsonProperty("is_tpsl")]
+            public int isTpsl { get; set; }
+
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public List<Trade> trades { get; set; }
 

@@ -89,6 +89,9 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         [JsonProperty("margin_mode")]
         public string marginMode { get; set; }
 
+        [JsonProperty("is_tpsl")]
+        public int isTpsl { get; set; }
+
         public List<Trade> trade;
 
         public class Trade

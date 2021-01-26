@@ -36,6 +36,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Market
 
             [JsonProperty("trade_turnover")]
             public double tradeTurnover { get; set; }
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public double[][] ask { get; set; }
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public double[][] bid { get; set; }
         }
     }
 }

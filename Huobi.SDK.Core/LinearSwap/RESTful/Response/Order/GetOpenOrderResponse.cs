@@ -99,6 +99,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
                 [JsonProperty("margin_account")]
                 public string marginAccount { get; set; }
+
+                [JsonProperty("is_tpsl")]
+                public int isTpsl { get; set; }
             }
 
             [JsonProperty("total_page")]

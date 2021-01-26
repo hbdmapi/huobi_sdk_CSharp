@@ -35,6 +35,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
             [JsonProperty("settlement_date")]
             public string settlementDate { get; set; }
 
+            [JsonProperty("delivery_time", NullValueHandling = NullValueHandling.Ignore)]
+            public string deliveryTime { get; set; }
+
             [JsonProperty("create_date")]
             public string createDate { get; set; }
 

@@ -76,6 +76,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
                 [JsonProperty("created_at")]
                 public long createdAt { get; set; }
 
+                [JsonProperty("update_time")]
+                public long updateTime { get; set; }
+
                 [JsonProperty("triggered_at", NullValueHandling = NullValueHandling.Ignore)]
                 public long triggeredAt { get; set; }
 
