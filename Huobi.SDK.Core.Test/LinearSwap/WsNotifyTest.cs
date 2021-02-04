@@ -20,15 +20,13 @@ namespace Huobi.SDK.Core.Test
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 60 * 1);
-            client.IsolatedUnsubOrders(contractCode);
-            System.Threading.Thread.Sleep(1000 * 5);
 
             client.CrossSubOrders(contractCode, delegate (SubOrdersResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 60 * 1);
+            client.IsolatedUnsubOrders(contractCode);
             client.CrossUnsubOrders(contractCode);
             System.Threading.Thread.Sleep(1000 * 5);
         }

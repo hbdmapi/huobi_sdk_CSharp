@@ -92,6 +92,9 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         [JsonProperty("is_tpsl")]
         public int isTpsl { get; set; }
 
+        [JsonProperty("real_profit")]
+        public double realProfit { get; set; }
+
         public List<Trade> trade;
 
         public class Trade
@@ -120,6 +123,11 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             [JsonProperty("fee_asset")]
             public string feeAsset { get; set; }
+
+            public double profit { get; set; }
+
+            [JsonProperty("real_profit")]
+            public double realProfit { get; set; }
         }
     }
 }
