@@ -111,6 +111,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
             [JsonProperty("is_tpsl")]
             public int isTpsl { get; set; }
 
+            [JsonProperty("real_profit")]
+            public double realProfit { get; set; }
+
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public List<Trade> trades { get; set; }
 
@@ -137,6 +140,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
                 [JsonProperty("created_at")]
                 public long createdAt { get; set; }
+
+                public double profit { get; set; }
+
+                [JsonProperty("real_profit")]
+                public double realProfit { get; set; }
             }
 
             [JsonProperty("margin_mode")]

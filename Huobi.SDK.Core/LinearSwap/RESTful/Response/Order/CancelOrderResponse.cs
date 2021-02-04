@@ -39,7 +39,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
             public List<Error> errors { get; set; }
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public string success { get; set; }
+            public string successes { get; set; }
         }
     }
 }

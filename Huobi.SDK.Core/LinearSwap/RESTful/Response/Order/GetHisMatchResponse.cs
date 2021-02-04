@@ -78,6 +78,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
                 [JsonProperty("margin_account")]
                 public string marginAccount { get; set; }
+
+                [JsonProperty("real_profit")]
+                public double realProfit { get; set; }
             }
 
             [JsonProperty("total_page")]

@@ -79,16 +79,16 @@ namespace Huobi.SDK.Core.Test
 
         [Theory]
         //[InlineData("BTC-USDT", null, null)]
-        [InlineData("XRP-USDT", "794156585717932034,794156588096479233", null)]
-        [InlineData("XRP-USDT", null, null)]
-        public void CancelOrderTest(string contractCode, string orderId, string clientOrderId)
+        //[InlineData("XRP-USDT", "794156585717932034,794156588096479233", null, null, null)]
+        [InlineData("XRP-USDT", null, null, "open", "sell")]
+        public void CancelOrderTest(string contractCode, string orderId, string clientOrderId, string offset, string direction)
         {
-            var result = client.IsolatedCancelOrderAsync( contractCode,  orderId,  clientOrderId).Result;
+            var result = client.IsolatedCancelOrderAsync( contractCode,  orderId,  clientOrderId, offset, direction).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossCancelOrderAsync( contractCode,  orderId,  clientOrderId).Result;
+            result = client.CrossCancelOrderAsync( contractCode,  orderId,  clientOrderId, offset, direction).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
@@ -112,7 +112,7 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
-        [InlineData("XRP-USDT", "794156585717932034,794156588096479233,", null)]
+        [InlineData("XRP-USDT", "806899392753246208,806899440509616128", null)]
         public void GetOrderInfoTest(string contractCode, string orderId, string clientOrderId)
         {
             var result = client.IsolatedGetOrderInfoAsync( contractCode,  orderId,  clientOrderId).Result;
@@ -127,8 +127,8 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
-        [InlineData("XRP-USDT", 794156585717932034, 1609383284749, 1, 1, 10)]
-        [InlineData("XRP-USDT", 794156588096479233, 1609383285316, 1, 1, 10)]
+        [InlineData("XRP-USDT", 806899392753246208, null, 1, 1, 10)]
+        [InlineData("XRP-USDT", 806899440509616128, null, 1, 1, 10)]
         public void GetOrderDetailTest(string contractCode, long orderId, long? createdAt, 
                                               int? orderType, int? pageIndex, int? pageSize)
         {
@@ -144,23 +144,23 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
-        [InlineData("XRP-USDT", 1, 10)]
-        public void GetOpenOrderTest(string contractCode, int? pageIndex, int? pageSize)
+        [InlineData("XRP-USDT", 1, 10, "created_at", 0)]
+        public void GetOpenOrderTest(string contractCode, int pageIndex, int pageSize, string sortBy, int tradeType)
         {
-            var result = client.IsolatedGetOpenOrderAsync( contractCode, pageIndex, pageSize).Result;
+            var result = client.IsolatedGetOpenOrderAsync( contractCode, pageIndex, pageSize, sortBy, tradeType).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossGetOpenOrderAsync( contractCode, pageIndex, pageSize).Result;
+            result = client.CrossGetOpenOrderAsync( contractCode, pageIndex, pageSize, sortBy, tradeType).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("XRP-USDT", 0, 1, "0", 5, null, null)]
-        [InlineData("XRP-USDT", 0, 1, "0", 5, 1, 20)]
+        [InlineData("XRP-USDT", 0, 1, "0", 10, null, null)]
+        [InlineData("XRP-USDT", 0, 1, "0", 10, 1, 20)]
         public void GetHisOrderTest(string contractCode, int tradeType, int type, string status,
                                            int createdDate, int? pageIndex, int? pageSize)
         {
@@ -176,8 +176,8 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
-        [InlineData("XRP-USDT", 0, 1, null, null)]
-        [InlineData("XRP-USDT", 0, 1, 1, 20)]
+        [InlineData("XTZ-USDT", 0, 1, null, null)]
+        [InlineData("XTZ-USDT", 0, 1, 1, 20)]
         public void GetHisMatchTest(string contractCode, int tradeType, int createdDate, int? pageIndex, int? pageSize)
         {
             var result = client.IsolatedGetHisMatchAsync(contractCode, tradeType, createdDate, pageIndex, pageSize).Result;

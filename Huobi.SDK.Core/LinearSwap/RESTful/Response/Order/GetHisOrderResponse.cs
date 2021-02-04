@@ -99,6 +99,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
                 [JsonProperty("is_tpsl")]
                 public int isTpsl { get; set; }
+
+                [JsonProperty("real_profit")]
+                public double realProfit { get; set; }
             }
 
             [JsonProperty("total_page")]
