@@ -22,8 +22,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 10);
-            client.UnsubKLine(contractCode, period);
-            System.Threading.Thread.Sleep(1000 * 5);
         }
 
         [Theory]
@@ -35,8 +33,6 @@ namespace Huobi.SDK.Core.Test
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             }, from, to);
-            System.Threading.Thread.Sleep(1000 * 80);
-            client.UnreqKLine(contractCode, period, from, to);
             System.Threading.Thread.Sleep(1000 * 80);
         }
 
@@ -50,8 +46,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 10);
-            client.UnSubDepth(contractCode, type);
-            System.Threading.Thread.Sleep(1000 * 10);
         }
 
         [Theory]
@@ -63,8 +57,6 @@ namespace Huobi.SDK.Core.Test
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 10);
-            client.UnSubIncrementaDepth(contractCode, size);
             System.Threading.Thread.Sleep(1000 * 10);
         }
 
@@ -78,8 +70,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 80);
-            client.UnsubDetail(contractCode);
-            System.Threading.Thread.Sleep(1000 * 10);
         }
 
         [Theory]
@@ -91,8 +81,6 @@ namespace Huobi.SDK.Core.Test
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 10);
-            client.UnsubBBO(contractCode);
             System.Threading.Thread.Sleep(1000 * 10);
         }
 
@@ -106,8 +94,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 50);
-            client.UnsubTradeDetail(contractCode);
-            System.Threading.Thread.Sleep(1000 * 10);
         }
 
         [Theory]
@@ -120,8 +106,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 50);
-            client.UnreqTradeDetail(contractCode);
-            System.Threading.Thread.Sleep(1000 * 10);
         }
     }
 }

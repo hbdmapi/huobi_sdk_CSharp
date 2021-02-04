@@ -37,19 +37,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub kline
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        public void UnsubKLine(string contractCode, string period, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.kline.{period}";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
-        }
-
-        /// <summary>
         /// req kline
         /// </summary>
         /// <param name="contractCode"></param>
@@ -66,21 +53,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqKLineResponse));
         }
 
-        /// <summary>
-        /// unreq kline
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <param name="id"></param>
-        public void UnreqKLine(string contractCode, string period, long from, long to, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.kline.{period}";
-            WSUnreqData reqData = new WSUnreqData() { unreq = ch, id = id, from = from, to = to };
-
-            Unreq(JsonConvert.SerializeObject(reqData), ch);
-        }
+        
         #endregion
 
         #region depth
@@ -102,20 +75,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub depth
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        /// <param name="id"></param>
-        public void UnSubDepth(string contractCode, string period, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.depth.{period}";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
-        }
-
-        /// <summary>
         /// sub incrementa depth
         /// </summary>
         /// <param name="contractCode"></param>
@@ -128,20 +87,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             WSSubData subData = new WSSubData() { sub = ch, id = id };
 
             Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubDepthResponse));
-        }
-
-        /// <summary>
-        /// unsub incrementa depth
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="size"></param>
-        /// <param name="id"></param>
-        public void UnSubIncrementaDepth(string contractCode, string size, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.depth.size_{size}.high_freq";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
         }
         #endregion
 
@@ -161,19 +106,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
 
             Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubKLineResponse));
         }
-        
-        /// <summary>
-        /// unsub detail
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="id"></param>
-        public void UnsubDetail(string contractCode, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.detail";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
-        }
         #endregion
 
         #region bbo
@@ -191,19 +123,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             WSSubData subData = new WSSubData() { sub = ch, id = id };
 
             Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubBBOResponse));
-        }
-        
-        /// <summary>
-        /// unsub detail
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="id"></param>
-        public void UnsubBBO(string contractCode, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.bbo";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
         }
         #endregion
 
@@ -226,19 +145,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub trade detail
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="id"></param>
-        public void UnsubTradeDetail(string contractCode, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.trade.detail";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
-        }
-
-        /// <summary>
         /// req trade detail
         /// </summary>
         /// <param name="contractCode"></param>
@@ -250,19 +156,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             WSReqData reqData = new WSReqData() { req = ch, id = id};
 
             Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqTradeDetailResponse));
-        }
-
-        /// <summary>
-        /// unreq trade detail
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="id"></param>
-        public void UnreqTradeDetail(string contractCode, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.trade.detail";
-            WSUnreqData reqData = new WSUnreqData() { unreq = ch, id = id};
-
-            Unreq(JsonConvert.SerializeObject(reqData), ch);
         }
         #endregion
 
