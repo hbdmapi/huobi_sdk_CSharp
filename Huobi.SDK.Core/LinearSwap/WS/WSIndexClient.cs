@@ -37,19 +37,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub premium index kline
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        public void UnsubPremiumIndexKLine(string contractCode, string period, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.premium_index.{period}";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
-        }
-
-        /// <summary>
         /// req premium index kline
         /// </summary>
         /// <param name="contractCode"></param>
@@ -64,22 +51,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
 
             Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
-        }
-
-        /// <summary>
-        /// unreq premium index kline
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <param name="id"></param>
-        public void UnreqPremiumIndexKLine(string contractCode, string period, long from, long to, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.premium_index.{period}";
-            WSUnreqData reqData = new WSUnreqData() { unreq = ch, id = id, from = from, to = to };
-
-            Unreq(JsonConvert.SerializeObject(reqData), ch);
         }
         #endregion
 
@@ -103,19 +74,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub premium index kline
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        public void UnsubEstimatedRateKLine(string contractCode, string period, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.estimated_rate.{period}";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
-        }
-
-        /// <summary>
         /// req premium index kline
         /// </summary>
         /// <param name="contractCode"></param>
@@ -130,22 +88,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
 
             Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
-        }
-
-        /// <summary>
-        /// unreq premium index kline
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <param name="id"></param>
-        public void UnreqEstimatedRateKLine(string contractCode, string period, long from, long to, string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.estimated_rate.{period}";
-            WSUnreqData reqData = new WSUnreqData() { unreq = ch, id = id, from = from, to = to };
-
-            Unreq(JsonConvert.SerializeObject(reqData), ch);
         }
         #endregion
 
@@ -170,21 +112,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
 
         /// <summary>
-        /// unsub basis
-        /// </summary>
-        /// <param name="contractCode"></param>
-        /// <param name="period"></param>
-        /// <param name="basisPriceType"></param>
-        /// <param name="id"></param>
-        public void UnsubBasis(string contractCode, string period, string basisPriceType = "open", string id = _DEFAULT_ID)
-        {
-            string ch = $"market.{contractCode}.basis.{period}.{basisPriceType}";
-            WSUnsubData unsubData = new WSUnsubData { unsub = ch, id = id };
-
-            Unsub(JsonConvert.SerializeObject(unsubData), ch);
-        }
-
-        /// <summary>
         /// req basis
         /// </summary>
         /// <param name="contractCode"></param>
@@ -202,22 +129,42 @@ namespace Huobi.SDK.Core.LinearSwap.WS
 
             Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqBasisResponse));
         }
+        #endregion
+
+        #region mark price kline
+        public delegate void _OnSubMarkPriceKLineResponse(SubIndexKLineResponse data);
+        public delegate void _OnReqMarkPriceKLineResponse(ReqIndexKLineResponse data);
 
         /// <summary>
-        /// unreq basis
+        /// Sub Mark Price KLine
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="period"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="id"></param>
+        public void SubMarkPriceKLine(string contractCode, string period, _OnSubMarkPriceKLineResponse callbackFun, string id = _DEFAULT_ID)
+        {
+            string ch = $"market.{contractCode}.mark_price.{period}";
+            WSSubData subData = new WSSubData() { sub = ch, id = id };
+
+            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubIndexKLineResponse));
+        }
+
+        /// <summary>
+        /// Requst Mark Price KLine
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="period"></param>
+        /// <param name="callbackFun"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
-        /// <param name="basisPriceType"></param>
         /// <param name="id"></param>
-        public void UnreqBasis(string contractCode, string period, long from, long to, string basisPriceType = "open", string id = _DEFAULT_ID)
+        public void ReqMarkPriceKLine(string contractCode, string period, _OnReqMarkPriceKLineResponse callbackFun, long from, long to, string id = _DEFAULT_ID)
         {
-            string ch = $"market.{contractCode}.basis.{period}.{basisPriceType}";
-            WSUnreqData reqData = new WSUnreqData() { unreq = ch, id = id, from = from, to = to };
+            string ch = $"market.{contractCode}.mark_price.{period}";
+            WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
 
-            Unreq(JsonConvert.SerializeObject(reqData), ch);
+            Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
         }
         #endregion
 

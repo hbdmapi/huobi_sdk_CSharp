@@ -22,8 +22,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 50);
-            client.UnsubPremiumIndexKLine(contractCode, period);
-            System.Threading.Thread.Sleep(1000 * 50);
         }
 
         [Theory]
@@ -35,8 +33,6 @@ namespace Huobi.SDK.Core.Test
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             }, from, to);
-            System.Threading.Thread.Sleep(1000 * 80);
-            client.UnreqPremiumIndexKLine(contractCode, period, from, to);
             System.Threading.Thread.Sleep(1000 * 80);
         }
 
@@ -50,8 +46,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 50);
-            client.UnsubEstimatedRateKLine(contractCode, period);
-            System.Threading.Thread.Sleep(1000 * 50);
         }
 
         [Theory]
@@ -63,8 +57,6 @@ namespace Huobi.SDK.Core.Test
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             }, from, to);
-            System.Threading.Thread.Sleep(1000 * 80);
-            client.UnreqEstimatedRateKLine(contractCode, period, from, to);
             System.Threading.Thread.Sleep(1000 * 80);
         }
 
@@ -78,8 +70,6 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 50);
-            client.UnsubBasis(contractCode, period);
-            System.Threading.Thread.Sleep(1000 * 50);
         }
 
         [Theory]
@@ -92,7 +82,27 @@ namespace Huobi.SDK.Core.Test
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             }, from, to);
             System.Threading.Thread.Sleep(1000 * 80);
-            client.UnreqBasis(contractCode, period, from, to);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT", "1min", null)]
+        public void WSSubMarkPriceKLineTest(string contractCode, string period, string id)
+        {
+            client.SubMarkPriceKLine(contractCode, period, delegate (SubIndexKLineResponse data)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(data));
+            }, id);
+            System.Threading.Thread.Sleep(1000 * 50);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT", "1min", 1612409065, 1612409165, null)]
+        public void WSReqMarkPriceKLineTest(string contractCode, string period, long from, long to, string id)
+        {
+            client.ReqMarkPriceKLine(contractCode, period, delegate (ReqIndexKLineResponse data)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(data));
+            }, from, to, id);
             System.Threading.Thread.Sleep(1000 * 80);
         }
     }
