@@ -338,6 +338,88 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
+        /// isolated margin, user settlement records
+        /// </summary>
+        /// <param name="marginAccount"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<IsolatedGetUserSettlementRecordsResponse> IsolatedGetUserSettlementRecordsAsync(string contractCode, long? startTime, long? endTime,
+                                                                                          int? pageIndex = null, int? pageSize = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_user_settlement_records");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\"";
+            if (startTime != null)
+            {
+                content += $",\"start_time\": \"{startTime}\"";
+            }
+            if (endTime != null)
+            {
+                content += $",\"end_time\": {endTime}";
+            }
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<IsolatedGetUserSettlementRecordsResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin, user settlement records
+        /// </summary>
+        /// <param name="marginAccount"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<CrossGetUserSettlementRecordsResponse> CrossGetUserSettlementRecordsAsync(string marginAccount, long? startTime, long? endTime,
+                                                                                          int? pageIndex = null, int? pageSize = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_user_settlement_records");
+
+            // content
+            string content = $",\"margin_account\": \"{marginAccount}\"";
+            if (startTime != null)
+            {
+                content += $",\"start_time\": \"{startTime}\"";
+            }
+            if (endTime != null)
+            {
+                content += $",\"end_time\": {endTime}";
+            }
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<CrossGetUserSettlementRecordsResponse>(url, content);
+        }
+
+        /// <summary>
         /// isolated margin get valid lever rate
         /// </summary>
         /// <param name="contractCode"></param>

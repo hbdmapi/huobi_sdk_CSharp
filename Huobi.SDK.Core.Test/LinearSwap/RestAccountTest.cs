@@ -165,6 +165,28 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
+        [InlineData("BTC-USDT", null, null, 1, 10)]
+        public void AccountIsolatedGetUserSettlementRecordsTest(string contractCode, long? startTime, long? endTime,
+                                                             int? pageIndex = null, int? pageSize = null)
+        {
+            var result = client.IsolatedGetUserSettlementRecordsAsync(contractCode, startTime, endTime, pageIndex, pageSize).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("USDT", null, null, 1, 10)]
+        public void AccountCrossGetUserSettlementRecordsTest(string marginAccount, long? startTime, long? endTime,
+                                                             int? pageIndex = null, int? pageSize = null)
+        {
+            var result = client.CrossGetUserSettlementRecordsAsync(marginAccount, startTime, endTime, pageIndex, pageSize).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         //[InlineData("USDT", "BTC-USDT", "ETH-USDT", 1, false, null)]
         //[InlineData("USDT", "ETH-USDT", "ETH-USDT", 1, true, "master_to_sub")]
         [InlineData("USDT", "ETH-USDT", "ETH-USDT", 1, true, "sub_to_master")]
