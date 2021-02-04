@@ -82,10 +82,33 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
+        [InlineData("BTC-USDT", "15min", 1)]
+        public void RESTfulMarketMarkKLineTest(string contractCode, string period, int size)
+        {
+            var result = client.GetMarkPriceKLineAsync(contractCode, period, size).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         [InlineData("BTC-USDT")]
         public void RESTfulMarketMergedTest(string contractCode)
         {
-            var result = client.GetGetMergedAsync(contractCode).Result;
+            var result = client.GetMergedAsync(contractCode).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT")]
+        [InlineData(null)]
+        public void RESTfulMarketBatchMergedTest(string contractCode)
+        {
+            var result = client.GetBatchMergedAsync(contractCode).Result;
 
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);

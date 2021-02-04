@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 {
-    public class GetMergedResponse
+    public class GetBatchMergedResponse
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string ch { get; set; }
@@ -18,7 +18,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
         public string errorMessage { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public Tick tick { get; set; }
+        public List<Tick> ticks { get; set; }
 
         public long ts { get; set; }
 

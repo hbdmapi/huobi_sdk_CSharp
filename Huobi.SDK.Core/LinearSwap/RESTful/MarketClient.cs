@@ -120,7 +120,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetDepthResponse> GetDepthAsync(string contractCode, string type)
         {
             // location
-            string location = $"/linear-swap-ex/market/depth?contract_code={contractCode}&&type={type}";
+            string location = $"/linear-swap-ex/market/depth?contract_code={contractCode}&type={type}";
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetDepthResponse>(url);
@@ -140,21 +140,21 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
                                                           int? size = null, int? from = null, int? to = null)
         {
             // location
-            string location = $"/linear-swap-ex/market/history/kline?contract_code={contractCode}&&period={period}";
+            string location = $"/linear-swap-ex/market/history/kline?contract_code={contractCode}&period={period}";
 
             // option
             string option = null;
             if (size != null)
             {
-                option += $"&&size={size}";
+                option += $"&size={size}";
             }
             if (from != null)
             {
-                option += $"&&from={from}";
+                option += $"&from={from}";
             }
             if (to != null)
             {
-                option += $"&&to={to}";
+                option += $"&to={to}";
             }
             if (option != null)
             {
@@ -166,17 +166,53 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
+        /// get mark price kline
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="period"></param>
+        /// <param name="size"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public async Task<GetStrKLineResponse> GetMarkPriceKLineAsync(string contractCode, string period, int size)
+        {
+            // location
+            string location = $"/index/market/history/linear_swap_mark_price_kline?contract_code={contractCode}&period={period}&size={size}";
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetStrKLineResponse>(url);
+        }
+
+        /// <summary>
         /// get margin detail
         /// </summary>
         /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetMergedResponse> GetGetMergedAsync(string contractCode)
+        public async Task<GetMergedResponse> GetMergedAsync(string contractCode)
         {
             // location
             string location = $"/linear-swap-ex/market/detail/merged?contract_code={contractCode}";
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetMergedResponse>(url);
+        }
+
+        /// <summary>
+        /// Get Batch Merged
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetBatchMergedResponse> GetBatchMergedAsync(string contractCode = null)
+        {
+            // location
+            string location = $"/linear-swap-ex/market/detail/batch_merged";
+            if (contractCode != null)
+            {
+                location += "?contract_code={contractCode}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetBatchMergedResponse>(url);
         }
 
         /// <summary>
@@ -202,7 +238,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetHisTradeResponse> GetHisTradeAsync(string contractCode, int size)
         {
             // location
-            string location = $"/linear-swap-ex/market/history/trade?contract_code={contractCode}&&size={size}";
+            string location = $"/linear-swap-ex/market/history/trade?contract_code={contractCode}&size={size}";
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetHisTradeResponse>(url);
@@ -249,11 +285,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (pageIndex != null)
             {
-                option += $"&&size={pageIndex}";
+                option += $"&size={pageIndex}";
             }
             if (pageSize != null)
             {
-                option += $"&&from={pageSize}";
+                option += $"&from={pageSize}";
             }
             if (option != null)
             {
@@ -325,13 +361,13 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetHisOpenInterestResponse> GetHisOpenInterestAsync(string contractCode, string period, int amountType, int? size = null)
         {
             // location
-            string location = $"/linear-swap-api/v1/swap_his_open_interest?contract_code={contractCode}&&period={period}&&amount_type={amountType}";
+            string location = $"/linear-swap-api/v1/swap_his_open_interest?contract_code={contractCode}&period={period}&amount_type={amountType}";
 
             // option
             string option = null;
             if (size != null)
             {
-                option += $"&&size={size}";
+                option += $"&size={size}";
             }
             if (option != null)
             {
@@ -351,7 +387,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetElitePositionRatioResponse> GetEliteAccountRatioAsync(string contractCode, string period)
         {
             // location
-            string location = $"/linear-swap-api/v1/swap_elite_account_ratio?contract_code={contractCode}&&period={period}";
+            string location = $"/linear-swap-api/v1/swap_elite_account_ratio?contract_code={contractCode}&period={period}";
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetElitePositionRatioResponse>(url);
@@ -366,7 +402,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetElitePositionRatioResponse> GetElitePositionRatioAsync(string contractCode, string period)
         {
             // location
-            string location = $"/linear-swap-api/v1/swap_elite_position_ratio?contract_code={contractCode}&&period={period}";
+            string location = $"/linear-swap-api/v1/swap_elite_position_ratio?contract_code={contractCode}&period={period}";
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetElitePositionRatioResponse>(url);
@@ -477,11 +513,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (pageIndex != null)
             {
-                option += $"&&page_index={pageIndex}";
+                option += $"&page_index={pageIndex}";
             }
             if (pageSize != null)
             {
-                option += $"&&page_size={pageSize}";
+                option += $"&page_size={pageSize}";
             }
             if (option != null)
             {
@@ -505,17 +541,17 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
                                                                                     int? pageIndex = null, int? pageSize = null)
         {
             // location
-            string location = $"/linear-swap-api/v1/swap_liquidation_orders?contract_code={contractCode}&&trade_type={tradeType}&&create_date={createDate}";
+            string location = $"/linear-swap-api/v1/swap_liquidation_orders?contract_code={contractCode}&trade_type={tradeType}&create_date={createDate}";
 
             // option
             string option = null;
             if (pageIndex != null)
             {
-                option += $"&&page_index={pageIndex}";
+                option += $"&page_index={pageIndex}";
             }
             if (pageSize != null)
             {
-                option += $"&&page_size={pageSize}";
+                option += $"&page_size={pageSize}";
             }
             if (option != null)
             {
@@ -537,7 +573,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetStrKLineResponse> GetPremiumIndexKLineAsync(string contractCode, string period, int size)
         {
             // location
-            string location = $"/index/market/history/linear_swap_premium_index_kline?contract_code={contractCode}&&period={period}&&size={size}";
+            string location = $"/index/market/history/linear_swap_premium_index_kline?contract_code={contractCode}&period={period}&size={size}";
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetStrKLineResponse>(url);
@@ -553,7 +589,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetStrKLineResponse> GetEstimatedRateKLineAsync(string contractCode, string period, int size)
         {
             // location
-            string location = $"/index/market/history/linear_swap_estimated_rate_kline?contract_code={contractCode}&&period={period}&&size={size}";
+            string location = $"/index/market/history/linear_swap_estimated_rate_kline?contract_code={contractCode}&period={period}&size={size}";
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetStrKLineResponse>(url);
@@ -562,13 +598,13 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         public async Task<GetBasisResponse> GetBasisAsync(string contractCode, string period, int size = 150, string basisPriceType = null)
         {
             // location
-            string location = $"/index/market/history/linear_swap_basis?contract_code={contractCode}&&period={period}&&size={size}";
+            string location = $"/index/market/history/linear_swap_basis?contract_code={contractCode}&period={period}&size={size}";
 
             // option
             string option = null;
             if (basisPriceType != null)
             {
-                option += $"&&basis_price_type={basisPriceType}";
+                option += $"&basis_price_type={basisPriceType}";
             }
             if (option != null)
             {
