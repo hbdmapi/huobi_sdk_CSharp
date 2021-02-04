@@ -57,7 +57,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> IsolatedCancelOrderAsync(string contractCode, string orderId = null)
+        public async Task<CancelOrderResponse> IsolatedCancelOrderAsync(string contractCode, string orderId = null,
+                                                                        string offset = null, string direction = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_trigger_cancel");
@@ -71,6 +72,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (orderId != null)
             {
                 content += $",\"order_id\": \"{orderId}\"";
+            }
+            if (offset != null)
+            {
+                content += $",\"offset\": \"{offset}\"";
+            }
+            if (direction != null)
+            {
+                content += $",\"direction\": \"{direction}\"";
             }
             if (content != null)
             {
@@ -86,7 +95,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> CrossCancelOrderAsync(string contractCode, string orderId = null)
+        public async Task<CancelOrderResponse> CrossCancelOrderAsync(string contractCode, string orderId = null,
+                                                                     string offset = null, string direction = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_trigger_cancel");
@@ -100,6 +110,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (orderId != null)
             {
                 content += $",\"order_id\": \"{orderId}\"";
+            }
+            if (offset != null)
+            {
+                content += $",\"offset\": \"{offset}\"";
+            }
+            if (direction != null)
+            {
+                content += $",\"direction\": \"{direction}\"";
             }
             if (content != null)
             {
@@ -116,7 +134,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<GetOpenOrderResponse> IsolatedGetOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null)
+        public async Task<GetOpenOrderResponse> IsolatedGetOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null,
+                                                                          int? tradeType = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_trigger_openorders");
@@ -130,6 +149,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if (tradeType != null)
+            {
+                content += $",\"trade_type\": {tradeType}";
             }
             if (content != null)
             {
@@ -146,7 +169,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<GetOpenOrderResponse> CrossGetOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null)
+        public async Task<GetOpenOrderResponse> CrossGetOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null,
+                                                                       int? tradeType = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_trigger_openorders");
@@ -160,6 +184,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if (tradeType != null)
+            {
+                content += $",\"trade_type\": {tradeType}";
             }
             if (content != null)
             {
@@ -275,7 +303,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> IsolatedTpslCancelAsync(string contractCode, string orderId = null)
+        public async Task<CancelOrderResponse> IsolatedTpslCancelAsync(string contractCode, string orderId = null, string direction = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_tpsl_cancel");
@@ -289,6 +317,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (orderId != null)
             {
                 content += $",\"order_id\": \"{orderId}\"";
+            }
+            if (direction != null)
+            {
+                content += $",\"direction\": \"{direction}\"";
             }
             if (content != null)
             {
@@ -304,7 +336,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> CrossTpslCancelAsync(string contractCode, string orderId = null)
+        public async Task<CancelOrderResponse> CrossTpslCancelAsync(string contractCode, string orderId = null, string direction = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_cancel");
@@ -318,6 +350,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (orderId != null)
             {
                 content += $",\"order_id\": \"{orderId}\"";
+            }
+            if (direction != null)
+            {
+                content += $",\"direction\": \"{direction}\"";
             }
             if (content != null)
             {
@@ -334,7 +370,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<GetOpenOrderResponse> IsolatedGetTpslOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null)
+        public async Task<GetOpenOrderResponse> IsolatedGetTpslOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null,
+                                                                              int? tradeType = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_tpsl_openorders");
@@ -348,6 +385,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if (tradeType != null)
+            {
+                content += $",\"trade_type\": {tradeType}";
             }
             if (content != null)
             {
@@ -364,7 +405,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<GetOpenOrderResponse> CrossGetTpslOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null)
+        public async Task<GetOpenOrderResponse> CrossGetTpslOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null,
+                                                                           int? tradeType = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_openorders");
@@ -378,6 +420,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if (tradeType != null)
+            {
+                content += $",\"trade_type\": {tradeType}";
             }
             if (content != null)
             {
