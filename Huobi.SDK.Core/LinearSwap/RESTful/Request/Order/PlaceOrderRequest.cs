@@ -24,22 +24,22 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Request.Order
         [JsonProperty("order_price_type")]
         public string orderPriceType { get; set; }
 
-        [JsonProperty("tp_trigger_price")]
-        public double tpTriggerPrice { get; set; }
+        [JsonProperty("tp_trigger_price", NullValueHandling = NullValueHandling.Ignore)]
+        public double? tpTriggerPrice { get; set; }
 
-        [JsonProperty("tp_order_price")]
-        public double tpOrderPrice { get; set; }
+        [JsonProperty("tp_order_price", NullValueHandling = NullValueHandling.Ignore)]
+        public double? tpOrderPrice { get; set; }
 
-        [JsonProperty("tp_order_price_type")]
+        [JsonProperty("tp_order_price_type", NullValueHandling = NullValueHandling.Ignore)]
         public string tpOrderPriceType { get; set; }
 
-        [JsonProperty("sl_trigger_price")]
-        public double slTriggerPrice { get; set; }
+        [JsonProperty("sl_trigger_price", NullValueHandling = NullValueHandling.Ignore)]
+        public double? slTriggerPrice { get; set; }
 
-        [JsonProperty("sl_order_price")]
-        public double slOrderPrice { get; set; }
+        [JsonProperty("sl_order_price", NullValueHandling = NullValueHandling.Ignore)]
+        public double? slOrderPrice { get; set; }
 
-        [JsonProperty("sl_order_price_type")]
+        [JsonProperty("sl_order_price_type", NullValueHandling = NullValueHandling.Ignore)]
         public string slOrderPriceType { get; set; }
     }
 }
