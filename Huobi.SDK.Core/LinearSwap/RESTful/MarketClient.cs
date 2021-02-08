@@ -379,6 +379,56 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
+        /// isolated margin, ladder margin
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetLadderMarginResponse> IsolatedGetLadderMarginAsync(string contractCode = null)
+        {
+            // location
+            string location = "/linear-swap-api/v1/swap_ladder_margin";
+
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"?contractCode={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetLadderMarginResponse>(url);
+        }
+
+        /// <summary>
+        /// cross margin, ladder margin
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetLadderMarginResponse> CrossGetLadderMarginAsync(string contractCode = null)
+        {
+            // location
+            string location = "/linear-swap-api/v1/swap_ladder_margin";
+
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"?contractCode={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetLadderMarginResponse>(url);
+        }
+
+        /// <summary>
         /// get elite account ratio
         /// </summary>
         /// <param name="contractCode"></param>
