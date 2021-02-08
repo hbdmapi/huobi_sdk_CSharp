@@ -176,6 +176,23 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
+        [InlineData("XRP-USDT", 0, 1, "0", "limit", null, null, null)]
+        public void GetHisOrderExactTest(string contractCode, int tradeType, int type, string status,
+                                        string order_price_type, long? start_time, long? end_time,
+                                        long? from_id)
+        {
+            var result = client.IsolatedGetHisOrderExactAsync(contractCode, tradeType, type, status, order_price_type, start_time, end_time, from_id).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetHisOrderExactAsync(contractCode, tradeType, type, status, order_price_type, start_time, end_time, from_id).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         [InlineData("XTZ-USDT", 0, 1, null, null)]
         [InlineData("XTZ-USDT", 0, 1, 1, 20)]
         public void GetHisMatchTest(string contractCode, int tradeType, int createdDate, int? pageIndex, int? pageSize)
@@ -186,6 +203,22 @@ namespace Huobi.SDK.Core.Test
             Assert.Equal("ok", result.status);
 
             result = client.CrossGetHisMatchAsync(contractCode, tradeType, createdDate, pageIndex, pageSize).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("XRP-USDT", 0, null, null, null)]
+        public void GetHisMatchExactTest(string contractCode, int tradeType, long? start_time, long? end_time,
+                                        long? from_id)
+        {
+            var result = client.IsolatedGetHisMatchExactAsync(contractCode, tradeType, start_time, end_time, from_id).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetHisMatchExactAsync(contractCode, tradeType, start_time, end_time, from_id).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);

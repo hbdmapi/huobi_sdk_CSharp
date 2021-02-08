@@ -512,6 +512,100 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
+        /// isoated margin hisorders exact
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="tradeType"></param>
+        /// <param name="type"></param>
+        /// <param name="status"></param>
+        /// <param name="order_price_type"></param>
+        /// <param name="start_time"></param>
+        /// <param name="end_time"></param>
+        /// <param name="from_id"></param>
+        /// <param name="size"></param>
+        /// <param name="direct"></param>
+        /// <returns></returns>
+        public async Task<GetHisOrderExactResponse> IsolatedGetHisOrderExactAsync(string contractCode, int tradeType, int type, string status,
+                                                                string order_price_type = null, long? start_time = null, long? end_time = null,
+                                                                long? from_id = null, int size = 200, string direct = "prev")
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_hisorders_exact");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": \"{tradeType}\",\"type\": \"{type}\",\"status\": \"{status}\",\"size\": {size},\"direct\": \"{direct}\"";
+            if (order_price_type != null)
+            {
+                content += $",\"order_price_type\": \"{order_price_type}\"";
+            }
+            if (start_time != null)
+            {
+                content += $",\"start_time\": {start_time}";
+            }
+            if (end_time != null)
+            {
+                content += $",\"end_time\": {end_time}";
+            }
+            if (from_id != null)
+            {
+                content += $",\"from_id\": {from_id}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetHisOrderExactResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin hisorders exact
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="tradeType"></param>
+        /// <param name="type"></param>
+        /// <param name="status"></param>
+        /// <param name="order_price_type"></param>
+        /// <param name="start_time"></param>
+        /// <param name="end_time"></param>
+        /// <param name="from_id"></param>
+        /// <param name="size"></param>
+        /// <param name="direct"></param>
+        /// <returns></returns>
+        public async Task<GetHisOrderExactResponse> CrossGetHisOrderExactAsync(string contractCode, int tradeType, int type, string status,
+                                                                string order_price_type = null, long? start_time = null, long? end_time = null,
+                                                                long? from_id = null, int size = 200, string direct = "prev")
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_hisorders_exact");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": \"{tradeType}\",\"type\": \"{type}\",\"status\": \"{status}\",\"size\": {size},\"direct\": \"{direct}\"";
+            if (order_price_type != null)
+            {
+                content += $",\"order_price_type\": \"{order_price_type}\"";
+            }
+            if (start_time != null)
+            {
+                content += $",\"start_time\": {start_time}";
+            }
+            if (end_time != null)
+            {
+                content += $",\"end_time\": {end_time}";
+            }
+            if (from_id != null)
+            {
+                content += $",\"from_id\": {from_id}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetHisOrderExactResponse>(url, content);
+        }
+
+        /// <summary>
         /// isolated margin get his match record
         /// </summary>
         /// <param name="contractCode"></param>
@@ -527,7 +621,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_matchresults");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": \"{tradeType}\",\"create_date\": \"{createDate}\"";
+            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": {tradeType},\"create_date\": \"{createDate}\"";
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -560,7 +654,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_matchresults");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": \"{tradeType}\",\"create_date\": \"{createDate}\"";
+            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": {tradeType},\"create_date\": \"{createDate}\"";
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -608,6 +702,89 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             }
 
             return await HttpRequest.PostAsync<LightningCloseResponse>(url, content);
+        }
+
+        /// <summary>
+        /// isolate margin, matchresults exact
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="tradeType"></param>
+        /// <param name="start_time"></param>
+        /// <param name="end_time"></param>
+        /// <param name="from_id"></param>
+        /// <param name="size"></param>
+        /// <param name="direct"></param>
+        /// <returns></returns>
+        public async Task<GetHisMatchExactResponse> IsolatedGetHisMatchExactAsync(string contractCode, int tradeType,
+                                                                        long? start_time = null, long? end_time = null,
+                                                                        long? from_id = null, int size = 200, string direct = "prev")
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_matchresults_exact");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": {tradeType},\"size\": {size},\"direct\": \"{direct}\"";
+            if (start_time != null)
+            {
+                content += $",\"start_time\": {start_time}";
+            }
+            if (end_time != null)
+            {
+                content += $",\"end_time\": {end_time}";
+            }
+            if (from_id != null)
+            {
+                content += $",\"from_id\": {from_id}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetHisMatchExactResponse>(url, content);
+        }
+
+        /// <summary>
+        /// isolate margin, matchresults exact
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="tradeType"></param>
+        /// <param name="type"></param>
+        /// <param name="status"></param>
+        /// <param name="order_price_type"></param>
+        /// <param name="start_time"></param>
+        /// <param name="end_time"></param>
+        /// <param name="from_id"></param>
+        /// <param name="size"></param>
+        /// <param name="direct"></param>
+        /// <returns></returns>
+        public async Task<GetHisMatchExactResponse> CrossGetHisMatchExactAsync(string contractCode, int tradeType, 
+                                                                long? start_time = null, long? end_time = null,
+                                                                long? from_id = null, int size = 200, string direct = "prev")
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_matchresults_exact");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": {tradeType},\"size\": {size},\"direct\": \"{direct}\"";
+            if (start_time != null)
+            {
+                content += $",\"start_time\": {start_time}";
+            }
+            if (end_time != null)
+            {
+                content += $",\"end_time\": {end_time}";
+            }
+            if (from_id != null)
+            {
+                content += $",\"from_id\": {from_id}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetHisMatchExactResponse>(url, content);
         }
 
         /// <summary>
