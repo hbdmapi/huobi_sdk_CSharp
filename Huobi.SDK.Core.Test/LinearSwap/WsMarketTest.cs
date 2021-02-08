@@ -86,7 +86,6 @@ namespace Huobi.SDK.Core.Test
 
         [Theory]
         [InlineData("BTC-USDT")]
-        [InlineData("*")]
         public void WSSubTradeDetailTest(string contractCode)
         {
             client.SubTradeDetail(contractCode, delegate (SubTradeDetailResponse data)
@@ -98,7 +97,6 @@ namespace Huobi.SDK.Core.Test
 
         [Theory]
         [InlineData("BTC-USDT")]
-        [InlineData("*")]
         public void WSReqTradeDetailTest(string contractCode)
         {
             client.ReqTradeDetail(contractCode, delegate (ReqTradeDetailResponse data)
