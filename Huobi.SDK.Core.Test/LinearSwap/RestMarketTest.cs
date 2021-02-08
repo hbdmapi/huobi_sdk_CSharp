@@ -190,6 +190,21 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
+        [InlineData("BTC-USDT")]
+        public void RESTfulMarketGetLadderMarginTest(string contractCode)
+        {
+            var result = client.IsolatedGetLadderMarginAsync(contractCode).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetLadderMarginAsync(contractCode).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         [InlineData("BTC-USDT", "60min")]
         public void RESTfulMarketEliteAccountRatioTest(string contractCode, string period)
         {
