@@ -210,6 +210,76 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
+        /// isolated margin, sub account info list
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<GetSubAccountInfoListResponse> IsolatedGetSubAccountInfoListAsync(string contractCode = null,
+                                                                                    int? pageIndex = null, int? pageSize= null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_sub_account_info_list");
+
+            // content
+            string content = null;
+            if (contractCode != null)
+            {
+                content = $",\"contract_code\": \"{contractCode}\"";
+            }
+            if (pageIndex != null)
+            {
+                content = $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content = $",\"page_size\": {pageSize}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetSubAccountInfoListResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross margin, sub account info list
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<GetSubAccountInfoListResponse> CrossGetSubAccountInfoListAsync(string marginAccount = null,
+                                                                                int? pageIndex = null, int? pageSize= null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_sub_account_info_list");
+
+            // content
+            string content = null;
+            if (marginAccount != null)
+            {
+                content = $",\"margin_account\": \"{marginAccount}\"";
+            }
+            if (pageIndex != null)
+            {
+                content = $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content = $",\"page_size\": {pageSize}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetSubAccountInfoListResponse>(url, content);
+        }
+
+        /// <summary>
         /// get account_position_info
         /// </summary>
         /// <param name="contractCode">such as BTC-USDT</param>
@@ -240,6 +310,24 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
 
             return await HttpRequest.PostAsync<GetAccountPositionResponseSingle>(url, content);
         }
+
+        /// <summary>
+        /// set sub auth
+        /// </summary>
+        /// <param name="subUid"></param>
+        /// <param name="subAuth"></param>
+        /// <returns></returns>
+        public async Task<SetSubAuthResponse> SetSubAuthAsync(string subUid, int subAuth)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_sub_auth");
+
+            // content
+            string content = $"{{ \"sub_uid\": \"{subUid}\", \"sub_auth\": \"{subAuth}\" }}";
+
+            return await HttpRequest.PostAsync<SetSubAuthResponse>(url, content);
+        }
+
 
         /// <summary>
         /// param asset/fromMarginAccount/toMarginAccount/amount is must nedd <br/>
@@ -335,6 +423,44 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             }
 
             return await HttpRequest.PostAsync<GetAccountTransHisResponse>(url, content);
+        }
+
+        public async Task<GetFinancialRecordExactResponse> GetFinancialRecordExactAsync(string marginAccount,
+                                                                string contractCode = null, string type = null,
+                                                                long? startTime = null, long? endTime = null,
+                                                                long? fromId = null, int? size = 20, string direct = "prev")
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_financial_record_exact");
+
+            // content
+            string content = $",\"margin_account\": \"{marginAccount}\", \"size\": {size}, \"direct\": \"{direct}\"";
+            if (contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if (type != null)
+            {
+                content += $",\"type\": \"{type}\"";
+            }
+            if (startTime != null)
+            {
+                content += $",\"start_time\": {startTime}";
+            }
+            if (endTime != null)
+            {
+                content += $",\"end_time\": {endTime}";
+            }
+            if (fromId != null)
+            {
+                content += $",\"from_id\": {fromId}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetFinancialRecordExactResponse>(url, content);
         }
 
         /// <summary>

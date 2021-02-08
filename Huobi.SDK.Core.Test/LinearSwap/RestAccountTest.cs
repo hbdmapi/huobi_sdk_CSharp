@@ -121,6 +121,22 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
+        //[InlineData("BTC-USDT", 1, 20)]
+        [InlineData("USDT", 1, 20)]
+        public void GetSubAccountInfoListTest(string contractCode, int pageIndex, int pageSize)
+        {
+            var result = client.IsolatedGetSubAccountInfoListAsync(contractCode, pageIndex, pageSize).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.IsolatedGetSubAccountInfoListAsync(contractCode, pageIndex, pageSize).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         [InlineData("ETH-USDT")]
         public void IsolatedGetAccountPositionTest(string contractCode)
         {
@@ -142,7 +158,16 @@ namespace Huobi.SDK.Core.Test
             Assert.Equal("ok", result.status);
         }
 
+        [Theory]
+        [InlineData("100000", 0)]
+        public void SetSubAuthTest(string subUid, int subAuth)
+        {
+            var result = client.SetSubAuthAsync(subUid, subAuth).Result;
 
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
 
         [Theory]
         [InlineData("BTC-USDT", false, null, null, null)]
@@ -159,6 +184,18 @@ namespace Huobi.SDK.Core.Test
                 result = client.GetAccountTransHisAsync(marginAccount, beMasterSub, "34,35", createDate,
                                                             pageIndex, pageSize).Result;
             }
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT", null, null, null, null, null)]
+        //[InlineData("USDT", null, null, null, null, null)]
+        public void AccountFinancialRecordExactTest(string marginAccount, string contractCode = null, string type = null,
+                                                    long? startTime = null, long? endTime = null, long? fromId = null)
+        {
+            var result = client.GetFinancialRecordExactAsync(marginAccount, contractCode, type, startTime, endTime, fromId).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
