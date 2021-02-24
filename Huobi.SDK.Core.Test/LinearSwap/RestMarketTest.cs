@@ -271,6 +271,18 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
+        [InlineData(null)]
+        [InlineData("BTC-USDT")]
+        public void RESTfulMarketBatchFundingRateTest(string contractCode)
+        {
+            var result = client.GetBatchFundingRateAsync(contractCode).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         //[InlineData("BTC-USDT", null, null)]
         [InlineData("BTC-USDT", 1, 2)]
         public void RESTfulMarketHisFundingRateTest(string contractCode, int? pageIndex, int? pageSize)
