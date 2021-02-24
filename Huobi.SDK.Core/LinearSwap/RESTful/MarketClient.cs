@@ -77,10 +77,21 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetPriceLimitResponse> GetPriceLimitAsync(string contractCode)
+        public async Task<GetPriceLimitResponse> GetPriceLimitAsync(string contractCode = null)
         {
             // location
-            string location = $"/linear-swap-api/v1/swap_price_limit?contract_code={contractCode}";
+            string location = $"/linear-swap-api/v1/swap_price_limit";
+
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"contract_code={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"?{option}";
+            }
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetPriceLimitResponse>(url);
@@ -220,10 +231,21 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetTradeResponse> GetTradeAsync(string contractCode)
+        public async Task<GetTradeResponse> GetTradeAsync(string contractCode = null)
         {
             // location
-            string location = $"/linear-swap-ex/market/trade?contract_code={contractCode}";
+            string location = $"/linear-swap-ex/market/trade";
+
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"contract_code={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"?{option}";
+            }
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetTradeResponse>(url);
@@ -545,6 +567,31 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetFundingRateResponse>(url);
+        }
+        
+        /// <summary>
+        /// get batch funding rate
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetBatchFundingRateResponse> GetBatchFundingRateAsync(string contractCode = null)
+        {
+            // location
+            string location = $"/linear-swap-api/v1/swap_batch_funding_rate";
+            
+            // option
+            string option = null;
+            if (contractCode != null)
+            {
+                option += $"contract_code={contractCode}";
+            }
+            if (option != null)
+            {
+                location += $"?{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetBatchFundingRateResponse>(url);
         }
 
         /// <summary>

@@ -43,6 +43,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
                 [JsonProperty("trade_turnover")]
                 public string tradeTurnover { get; set; }
+
+                [JsonProperty("contract_code")]
+                public string contractCode { get; set; }
             }
 
             public long ts { get; set; }
