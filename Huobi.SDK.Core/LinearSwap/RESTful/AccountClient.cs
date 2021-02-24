@@ -28,6 +28,29 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
+        /// get balance valuation
+        /// </summary>
+        /// <param name="valuationAsset"></param>
+        /// <returns></returns>
+        public async Task<GetBalanceValuationResponse> GetBalanceValuationAsync(string valuationAsset = null)
+        {
+            // ulr
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_balance_valuation");
+
+            // content
+            string content = null;
+            if (valuationAsset != null)
+            {
+                content = $",\"valuation_asset\": \"{valuationAsset}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+            return await HttpRequest.PostAsync<GetBalanceValuationResponse>(url, content);
+        }
+
+        /// <summary>
         /// if request account assets, param subUid is not need in any time, contractCode is option param<br/>
         /// if request sub account assets, param subUid is must need, contractCode is option param
         /// </summary>

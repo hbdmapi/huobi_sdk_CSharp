@@ -13,6 +13,18 @@ namespace Huobi.SDK.Core.Test
         static AccountClient client = new AccountClient(config["AccessKey"], config["SecretKey"], config["Host"]);
 
         [Theory]
+        [InlineData(null)]
+        [InlineData("btc")]
+        public void GetBalanceValuationTest(string valuationAsset)
+        {
+            GetBalanceValuationResponse result=client.GetBalanceValuationAsync(valuationAsset).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         [InlineData(null, false)]
         [InlineData("XRP-USDT", false)]
         [InlineData(null, true)]
