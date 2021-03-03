@@ -40,6 +40,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
                 public double price { get; set; }
                 
                 public double volume { get; set; }
+
+                public double amount { get; set; }
             }
 
             [JsonProperty("total_page")]
