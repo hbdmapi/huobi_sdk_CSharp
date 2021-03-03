@@ -219,7 +219,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string location = $"/linear-swap-ex/market/detail/batch_merged";
             if (contractCode != null)
             {
-                location += "?contract_code={contractCode}";
+                location += $"?contract_code={contractCode}";
             }
 
             string url = _urlBuilder.Build(location);
@@ -657,6 +657,48 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
 
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetLiquidationOrdersResponse>(url);
+        }
+
+        /// <summary>
+        /// get settlement records
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<GetSettlementRecordsResponse> GetSettlementRecordsAsync(string contractCode, long? startTime, long? endTime,
+                                                                                  int? pageIndex = null, int? pageSize = null)
+        {
+            // location
+            string location = $"/linear-swap-api/v1/swap_settlement_records?contract_code={contractCode}";
+
+            // option
+            string option = null;
+            if (startTime != null)
+            {
+                option += $"&start_time={startTime}";
+            }
+            if (endTime != null)
+            {
+                option += $"&end_time={endTime}";
+            }
+            if (pageIndex != null)
+            {
+                option += $"&page_index={pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                option += $"&page_size={pageSize}";
+            }
+            if (option != null)
+            {
+                location += $"{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetSettlementRecordsResponse>(url);
         }
 
         /// <summary>
