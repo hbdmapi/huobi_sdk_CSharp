@@ -5,7 +5,7 @@ using Order = Huobi.SDK.Core.LinearSwap.RESTful.Request.Order;
 using System;
 using Newtonsoft.Json;
 
-namespace Huobi.SDK.Core.Test
+namespace Huobi.SDK.Core.Test.LinearSwap
 {
     public class RestOrderTest
     {

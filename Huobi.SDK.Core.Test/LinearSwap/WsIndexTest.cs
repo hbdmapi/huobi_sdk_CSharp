@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Huobi.SDK.Core.LinearSwap.WS;
 using Huobi.SDK.Core.LinearSwap.WS.Response.Index;
 
-namespace Huobi.SDK.Core.Test
+namespace Huobi.SDK.Core.Test.LinearSwap
 {
     public class WsIndexTest
     {

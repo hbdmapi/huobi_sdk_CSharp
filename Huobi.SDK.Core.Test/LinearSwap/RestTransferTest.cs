@@ -4,7 +4,7 @@ using Huobi.SDK.Core.LinearSwap.RESTful;
 using System;
 using Newtonsoft.Json;
 
-namespace Huobi.SDK.Core.Test
+namespace Huobi.SDK.Core.Test.LinearSwap
 {
     public class RestTransferTest
     {

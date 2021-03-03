@@ -4,7 +4,7 @@ using Huobi.SDK.Core.LinearSwap.RESTful;
 using System;
 using Newtonsoft.Json;
 
-namespace Huobi.SDK.Core.Test
+namespace Huobi.SDK.Core.Test.LinearSwap
 {
     public class RestMarketTest
     {
@@ -36,7 +36,7 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
-        [InlineData("BTC-USDT")]
+        [InlineData(null)]
         public void RESTfulMarketPriceLimitTest(string contractCode)
         {
             var result = client.GetPriceLimitAsync(contractCode).Result;
@@ -116,7 +116,7 @@ namespace Huobi.SDK.Core.Test
         }
 
         [Theory]
-        [InlineData("BTC-USDT")]
+        [InlineData("")]
         public void RESTfulMarketTradeTest(string contractCode)
         {
             var result = client.GetTradeAsync(contractCode).Result;
@@ -301,6 +301,19 @@ namespace Huobi.SDK.Core.Test
                                                        int? pageIndex, int? pageSize)
         {
             var result = client.GetLiquidationOrdersAsync(contractCode, tradeType, createDate, pageIndex, pageSize).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT", 1613757720120, 1614757720120, null, null)]
+        [InlineData("BTC-USDT", 1613757720120, 1614757720120, 1, 2)]
+        public void RESTfulMarketSettlementRecordsTest(string contractCode, long? startTime, long? endTime, 
+                                                       int? pageIndex, int? pageSize)
+        {
+            var result = client.GetSettlementRecordsAsync(contractCode, startTime, endTime, pageIndex, pageSize).Result;
 
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);

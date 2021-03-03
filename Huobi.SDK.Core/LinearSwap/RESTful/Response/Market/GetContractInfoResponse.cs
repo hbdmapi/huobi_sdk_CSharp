@@ -43,6 +43,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
             [JsonProperty("contract_status")]
             public int contractStatus { get; set; }
+
+            [JsonProperty("support_margin_mode")]
+            public string supportMarginMode { get; set; }
         }
     }
 }

@@ -5,7 +5,7 @@ using TriggerOrder = Huobi.SDK.Core.LinearSwap.RESTful.Request.TriggerOrder;
 using System;
 using Newtonsoft.Json;
 
-namespace Huobi.SDK.Core.Test
+namespace Huobi.SDK.Core.Test.LinearSwap
 {
     public class RestTriggerOrderTest
     {
