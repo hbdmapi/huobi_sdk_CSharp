@@ -36,7 +36,6 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
                 [JsonProperty("fee_asset")]
                 public string feeAsset { get; set; }
 
-                public List<InnerDate> data { get; set; }
                 [JsonProperty("funding_time")]
                 public string fundingTime { get; set; }
 
