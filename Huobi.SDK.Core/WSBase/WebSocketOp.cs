@@ -190,12 +190,12 @@ namespace Huobi.SDK.Core.WSBase
             {
                 long ts = jdata["ping"].ToObject<long>();
 
-                //_logger.Log(Log.LogLevel.Debug, $"WebSocket received data: \"ping\":{ts}");
+                //_logger.Log(Log.LogLevel.Debug, $"websocket has received data: {data}");
 
                 string pongData = $"{{\"pong\":{ts} }}";
                 _WebSocket.Send(pongData);
 
-                //_logger.Log(Log.LogLevel.Debug, $"WebSocket replied data: {pongData}");
+                //_logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
             }
             else if (jdata.ContainsKey("op"))
             {
@@ -204,42 +204,38 @@ namespace Huobi.SDK.Core.WSBase
                 {
                     case "ping": // order heartbeat
                         string ts = jdata["ts"].ToObject<string>();
-                        //_logger.Log(Log.LogLevel.Debug, $"WebSocket received data, {{ \"op\":\"{op}\", \"ts\": \"{ts}\" }}");
+                        //_logger.Log(Log.LogLevel.Debug, $"websocket has received data: {data}");
 
                         string pongData = $"{{ \"op\":\"pong\", \"ts\":{ts} }}";
                         _WebSocket.Send(pongData);
 
-                        //_logger.Log(Log.LogLevel.Debug, $"WebSocket replied data, {pongData}");
+                        //_logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
                         break;
 
                     case "close":
-                        _logger.Log(Log.LogLevel.Error, $"Some error occurres when authentication in server side.");
+                        _logger.Log(Log.LogLevel.Error, $"websocket has received data: {data}");
                         break;
 
                     case "error":
-                        _logger.Log(Log.LogLevel.Trace, $"Illegal op or internal error, but websoket is still connected.");
+                        _logger.Log(Log.LogLevel.Trace, $"websocket has received data: {data}");
                         break;
 
                     case "auth":
+                        _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                         int code = jdata["err-code"].ToObject<int>();
                         if (code == 0)
                         {
-                            _logger.Log(Log.LogLevel.Info, $"Authentication success.");
                             _canWork = true;
-                        }
-                        else
-                        {
-                            _logger.Log(Log.LogLevel.Info, $"Authentication failure: {jdata["err-code"]}/{jdata["err-msg"]}");
                         }
                         break;
                     case "notify":
                         _HandleSubCallbackFun(jdata["topic"].ToObject<string>(), data, jdata);
                         break;
                     case "sub":
-                        _logger.Log(Log.LogLevel.Info, $"sub: \"{jdata["topic"]}\"");
+                        _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                         break;
                     case "unsub":
-                        _logger.Log(Log.LogLevel.Info, $"unsub: \"{jdata["topic"]}\"");
+                        _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                         string ch = jdata["topic"].ToObject<string>();
                         if (_onSubCallbackFuns.ContainsKey(ch))
                         {
@@ -247,17 +243,17 @@ namespace Huobi.SDK.Core.WSBase
                         }
                         break;
                     default:
-                        _logger.Log(Log.LogLevel.Info, $"WebSocket received unknow data: {jdata}");
+                        _logger.Log(Log.LogLevel.Info, $"unknown data: {data}");
                         break;
                 }
             }
             else if (jdata.ContainsKey("subbed")) // sub success reply
             {
-                _logger.Log(Log.LogLevel.Info, $"\"subbed\": \"{jdata["subbed"]}\"");
+                _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
             }
             else if (jdata.ContainsKey("unsubbed")) // unsub success reply
             {
-                _logger.Log(Log.LogLevel.Info, $"\"unsubbed\": \"{jdata["unsubbed"]}\"");
+                _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                 string ch = jdata["unsubbed"].ToObject<string>();
                 if (_onSubCallbackFuns.ContainsKey(ch))
                 {
@@ -274,11 +270,11 @@ namespace Huobi.SDK.Core.WSBase
             }
             else if (jdata.ContainsKey("err-code")) // market request reply data
             {
-                _logger.Log(Log.LogLevel.Info, $"{jdata["err-code"]}:{jdata["err-msg"]}");
+                _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
             }
             else
             {
-                _logger.Log(Log.LogLevel.Info, $"WebSocket received unknow data: {jdata}");
+                _logger.Log(Log.LogLevel.Info, $"unknown data: {data}");
             }
         }
         
@@ -301,9 +297,9 @@ namespace Huobi.SDK.Core.WSBase
             {
                 mi = _onSubCallbackFuns["orders.*"];
             }
-            else if (ch.StartsWith("matchOrders.") && _onSubCallbackFuns.ContainsKey("matchOrders.*"))
+            else if (ch.StartsWith("matchorders.") && _onSubCallbackFuns.ContainsKey("matchorders.*"))
             {
-                mi = _onSubCallbackFuns["matchOrders.*"];
+                mi = _onSubCallbackFuns["matchorders.*"];
             }
             else if (ch.StartsWith("trigger_order.") && _onSubCallbackFuns.ContainsKey("trigger_order.*"))
             {
@@ -346,7 +342,7 @@ namespace Huobi.SDK.Core.WSBase
 
             if (mi == null)
             {
-                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {jdata}");
+                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {data}");
                 return;
             }
             mi.fun.DynamicInvoke(JsonConvert.DeserializeObject(data, mi.paramType));
@@ -364,13 +360,13 @@ namespace Huobi.SDK.Core.WSBase
 
             if (!_onReqCallbackFuns.ContainsKey(ch))
             {
-                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {jdata}");
+                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {data}");
                 return;
             }
             MethonInfo mi = _onReqCallbackFuns[ch];
             if (mi == null)
             {
-                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {jdata}");
+                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {data}");
                 return;
             }
             mi.fun.DynamicInvoke(JsonConvert.DeserializeObject(data, mi.paramType));

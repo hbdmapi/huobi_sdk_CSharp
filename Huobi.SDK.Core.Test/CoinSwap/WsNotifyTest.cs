@@ -12,93 +12,69 @@ namespace Huobi.SDK.Core.Test.CoinSwap
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         [Theory]
-        [InlineData("XRP-USDT")]
+        //[InlineData("trx-usd")]
+        [InlineData("*")]
         public void OrdersTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient(config["AccessKey"], config["SecretKey"]);
-            client.IsolatedSubOrders(contractCode, delegate (SubOrdersResponse data)
-            {
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-            });
-
-            client.CrossSubOrders(contractCode, delegate (SubOrdersResponse data)
+            client.SubOrders(contractCode, delegate (SubOrdersResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 60 * 1);
-            client.IsolatedUnsubOrders(contractCode);
-            client.CrossUnsubOrders(contractCode);
-            System.Threading.Thread.Sleep(1000 * 5);
+
+            client.UnsubOrders(contractCode);
+            System.Threading.Thread.Sleep(1000 * 60*1);
         }
 
         [Theory]
-        [InlineData("XRP-USDT", "USDT")]
-        public void AccountsTest(string contractCode, string marginAccount)
+        //[InlineData("trx-usd")]
+        [InlineData("*")]
+        public void AccountsTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient(config["AccessKey"], config["SecretKey"]);
-            client.IsolatedSubAcounts(contractCode, delegate (SubAccountsResponse data)
+            client.SubAcounts(contractCode, delegate (SubAccountsResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
             System.Threading.Thread.Sleep(1000 * 60 * 1);
-            client.IsolatedUnsubAccounts(contractCode);
-            System.Threading.Thread.Sleep(1000 * 5);
 
-            client.CrossSubAcounts(marginAccount, delegate (SubAccountsResponse data)
-            {
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-            });
-            System.Threading.Thread.Sleep(1000 * 60 * 1);
-            client.CrossUnsubAccounts(marginAccount);
+            client.UnsubAccounts(contractCode);
             System.Threading.Thread.Sleep(1000 * 5);
         }
 
         [Theory]
-        [InlineData("XRP-USDT")]
+        //[InlineData("trx-usd")]
+        [InlineData("*")]
         public void PositionsTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient(config["AccessKey"], config["SecretKey"]);
-            client.IsolatedSubPositions(contractCode, delegate (SubPositionsResponse data)
+            client.SubPositions(contractCode, delegate (SubPositionsResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 15);
-            client.IsolatedUnsubPositions(contractCode);
-            System.Threading.Thread.Sleep(1000 * 5);
-
-            client.CrossSubPositions(contractCode, delegate (SubPositionsResponse data)
-            {
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-            });
-            System.Threading.Thread.Sleep(1000 * 15);
-            client.CrossUnsubPositions(contractCode);
-            System.Threading.Thread.Sleep(1000 * 5);
+            System.Threading.Thread.Sleep(1000 * 60*2);
+            client.UnsubPositions(contractCode);
+            System.Threading.Thread.Sleep(1000 * 60*1);
         }
 
         [Theory]
-        [InlineData("XRP-USDT")]
+        //[InlineData("trx-usd")]
+        [InlineData("*")]
         public void MatchOrdersTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient(config["AccessKey"], config["SecretKey"]);
-            client.IsolatedSubMatchOrders(contractCode, delegate (SubOrdersResponse data)
+            client.SubMatchOrders(contractCode, delegate (SubOrdersResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 15);
-            client.IsolatedUnsubMathOrders(contractCode);
-            System.Threading.Thread.Sleep(1000 * 15);
-
-            client.CrossSubMatchOrders(contractCode, delegate (SubOrdersResponse data)
-            {
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-            });
-            System.Threading.Thread.Sleep(1000 * 15);
-            client.CrossUnsubMathOrders(contractCode);
-            System.Threading.Thread.Sleep(1000 * 15);
+            System.Threading.Thread.Sleep(1000 * 60*1);
+            client.UnsubMathOrders(contractCode);
+            System.Threading.Thread.Sleep(1000 * 60);
         }
 
         [Theory]
-        [InlineData("ETH-USDT")]
+        [InlineData("doge-usd")]
         //[InlineData("*")]
         public void WSLiquidationOrdersTest(string contractCode)
         {
@@ -113,8 +89,8 @@ namespace Huobi.SDK.Core.Test.CoinSwap
         }
 
         [Theory]
-        [InlineData("BTC-USDT")]
-        [InlineData("*")]
+        [InlineData("trx-usd")]
+        //[InlineData("*")]
         public void FundingRateTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient();
@@ -122,14 +98,14 @@ namespace Huobi.SDK.Core.Test.CoinSwap
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 15);
+            System.Threading.Thread.Sleep(1000 * 60);
             client.UnsubFundingRate(contractCode);
             System.Threading.Thread.Sleep(1000 * 5);
         }
 
         [Theory]
-        [InlineData("BTC-USDT")]
-        [InlineData("*")]
+        [InlineData("trx-usd")]
+        //[InlineData("*")]
         public void ContractInfoTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient();
@@ -137,31 +113,24 @@ namespace Huobi.SDK.Core.Test.CoinSwap
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 15);
+            System.Threading.Thread.Sleep(1000 * 60);
             client.UnsubContractInfo(contractCode);
             System.Threading.Thread.Sleep(1000 * 5);
         }
 
         [Theory]
-        [InlineData("XRP-USDT")]
+        //[InlineData("trx-usd")]
+        [InlineData("*")]
         public void TriggerOrderTest(string contractCode)
         {
             WSNotifyClient client = new WSNotifyClient(config["AccessKey"], config["SecretKey"]);
-            client.IsolatedSubTriggerOrder(contractCode, delegate (SubTriggerOrderResponse data)
+            client.SubTriggerOrder(contractCode, delegate (SubTriggerOrderResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
-            System.Threading.Thread.Sleep(1000 * 30);
-            client.IsolatedUnsubTriggerOrder(contractCode);
-            System.Threading.Thread.Sleep(1000 * 15);
-
-            client.CrossSubTriggerOrder(contractCode, delegate (SubTriggerOrderResponse data)
-            {
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-            });
-            System.Threading.Thread.Sleep(1000 * 30);
-            client.CrossUnsubTriggerOrder(contractCode);
-            System.Threading.Thread.Sleep(1000 * 15);
+            System.Threading.Thread.Sleep(1000 * 60*2);
+            client.UnsubTriggerOrder(contractCode);
+            System.Threading.Thread.Sleep(1000 * 60);
         }
     }
 }
