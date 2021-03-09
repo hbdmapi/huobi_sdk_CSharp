@@ -26,6 +26,11 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             public double volume { get; set; }
 
+            public double amount { get; set; }
+
+            [JsonProperty("trade_turnover")]
+            public string tradeTurnover { get; set; }
+
             public double price { get; set; }
 
             [JsonProperty("created_at")]

@@ -44,7 +44,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         public string orderIdStr { get; set; }
 
         [JsonProperty("client_order_id", NullValueHandling = NullValueHandling.Ignore)]
-        public long clientOrderId { get; set; }
+        public long? clientOrderId { get; set; }
 
         [JsonProperty("order_source")]
         public string orderSource { get; set; }
@@ -58,10 +58,11 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         [JsonProperty("trade_volume")]
         public double tradeVolume { get; set; }
 
-        [JsonProperty("trade_turnover")]
-        public double tradeTurnover { get; set; }
+        [JsonProperty("trade_turnover", NullValueHandling = NullValueHandling.Ignore)]
+        public double? tradeTurnover { get; set; }
 
-        public double fee { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public double? fee { get; set; }
 
         [JsonProperty("trade_avg_price")]
         public double tradeAvgPrice { get; set; }
@@ -69,18 +70,19 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         [JsonProperty("margin_asset")]
         public string marginAsset { get; set; }
 
-        [JsonProperty("margin_frozen")]
-        public double marginFrozen { get; set; }
+        [JsonProperty("margin_frozen", NullValueHandling = NullValueHandling.Ignore)]
+        public double? marginFrozen { get; set; }
 
-        public double profit { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public double? profit { get; set; }
 
-        [JsonProperty("liquidation_type")]
-        public double liquidationType { get; set; }
+        [JsonProperty("liquidation_type", NullValueHandling = NullValueHandling.Ignore)]
+        public double? liquidationType { get; set; }
 
-        [JsonProperty("canceled_at")]
-        public long canceledAt { get; set; }
+        [JsonProperty("canceled_at", NullValueHandling = NullValueHandling.Ignore)]
+        public long? canceledAt { get; set; }
 
-        [JsonProperty("fee_asset")]
+        [JsonProperty("fee_asset", NullValueHandling = NullValueHandling.Ignore)]
         public string feeAsset { get; set; }
 
         [JsonProperty("margin_account")]
@@ -92,8 +94,8 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
         [JsonProperty("is_tpsl")]
         public int isTpsl { get; set; }
 
-        [JsonProperty("real_profit")]
-        public double realProfit { get; set; }
+        [JsonProperty("real_profit", NullValueHandling = NullValueHandling.Ignore)]
+        public double? realProfit { get; set; }
 
         public List<Trade> trade;
 
@@ -121,13 +123,14 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             public string role { get; set; }
 
-            [JsonProperty("fee_asset")]
+            [JsonProperty("fee_asset", NullValueHandling = NullValueHandling.Ignore)]
             public string feeAsset { get; set; }
 
-            public double profit { get; set; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public double? profit { get; set; }
 
-            [JsonProperty("real_profit")]
-            public double realProfit { get; set; }
+            [JsonProperty("real_profit", NullValueHandling = NullValueHandling.Ignore)]
+            public double? realProfit { get; set; }
         }
     }
 }
