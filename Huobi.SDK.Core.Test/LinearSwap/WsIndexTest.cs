@@ -14,6 +14,28 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "1min")]
+        public void WSSubIndexKLineTest(string contractCode, string period)
+        {
+            client.SubIndexKLine(contractCode, period, delegate (SubIndexKLineResponse data)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(data));
+            });
+            System.Threading.Thread.Sleep(1000 * 50);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT", "1min", 1604395758, 1604396758)]
+        public void WSReqIndexKLineTest(string contractCode, string period, long from, long to)
+        {
+            client.ReqIndexKLine(contractCode, period, delegate (ReqIndexKLineResponse data)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(data));
+            }, from, to);
+            System.Threading.Thread.Sleep(1000 * 80);
+        }
+
+        [Theory]
+        [InlineData("BTC-USDT", "1min")]
         [InlineData("*", "1min")]
         public void WSSubPreiumIndexKLineTest(string contractCode, string period)
         {

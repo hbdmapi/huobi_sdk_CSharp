@@ -16,15 +16,15 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Index
             public long id { get; set; }
 
             [JsonProperty("contract_price")]
-            public double contractPrice { get; set; }
+            public string contractPrice { get; set; }
 
             [JsonProperty("index_price")]
-            public double indexPrice { get; set; }
+            public string indexPrice { get; set; }
 
-            public double basis { get; set; }
+            public string basis { get; set; }
 
             [JsonProperty("basis_rate")]
-            public double basisRate { get; set; }
+            public string basisRate { get; set; }
         }
     }
 }

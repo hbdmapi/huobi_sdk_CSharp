@@ -38,7 +38,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Index
 
             public string amount { get; set; }
 
-            [JsonProperty("trade_turnover")]
+            [JsonProperty("trade_turnover", NullValueHandling = NullValueHandling.Ignore)]
             public string tradeTurnover { get; set; }
         }
     }

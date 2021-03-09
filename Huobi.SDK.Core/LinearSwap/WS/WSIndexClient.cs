@@ -17,6 +17,43 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         }
         private const string _DEFAULT_ID = "api";
 
+        #region index kline
+        public delegate void _OnSubIndexKLineResponse(SubIndexKLineResponse data);
+        public delegate void _OnReqIndexKLineResponse(ReqIndexKLineResponse data);
+
+        /// <summary>
+        /// sub index kline
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="period"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="id"></param>
+        public void SubIndexKLine(string contractCode, string period, _OnSubIndexKLineResponse callbackFun, string id = _DEFAULT_ID)
+        {
+            string ch = $"market.{contractCode}.index.{period}";
+            WSSubData subData = new WSSubData() { sub = ch, id = id };
+
+            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubIndexKLineResponse));
+        }
+
+        /// <summary>
+        /// req index kline
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="period"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="id"></param>
+        public void ReqIndexKLine(string contractCode, string period, _OnReqIndexKLineResponse callbackFun, long from, long to, string id = _DEFAULT_ID)
+        {
+            string ch = $"market.{contractCode}.index.{period}";
+            WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
+
+            Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
+        }
+        #endregion
+
         #region premium index kline
         public delegate void _OnSubPremiumIndexKLineResponse(SubIndexKLineResponse data);
         public delegate void _OnReqPremiumIndexKLineResponse(ReqIndexKLineResponse data);
