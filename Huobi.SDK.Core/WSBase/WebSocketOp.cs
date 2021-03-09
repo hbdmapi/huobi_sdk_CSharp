@@ -1,5 +1,4 @@
 ﻿using System;
-using Huobi.SDK.Core.WSBase;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WebSocketSharp;
@@ -9,7 +8,7 @@ using System.Text;
 using Huobi.SDK.Core.RequestBuilder;
 using System.Web;
 
-namespace Huobi.SDK.Core.LinearSwap.WS
+namespace Huobi.SDK.Core.WSBase
 {
 
     public class WebSocketOp
@@ -475,45 +474,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
             }
 
             ch = ch.ToLower();
-            if (_onReqCallbackFuns.ContainsKey(ch))
-            {
-                _onReqCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType };
-                return true;
-            }
 
             _WebSocket.Send(reqStr);
             _logger.Log(Log.LogLevel.Info, $"websocket has send data: {reqStr}.");
             _onReqCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType };
-
-            return true;
-        }
-
-        /// <summary>
-        /// request channel data 
-        /// </summary>
-        /// <param name="unreqStr"></param>
-        /// <param name="ch"></param>
-        /// <returns></returns>
-        protected bool Unreq(string unreqStr, string ch)
-        {
-            if (_WebSocket == null)
-            {
-                _logger.Log(Log.LogLevel.Error, $"please connect first.");
-                return false;
-            }
-            while(!_canWork)
-            {
-                System.Threading.Thread.Sleep(10);
-            }
-
-            ch = ch.ToLower();
-            if (!_onReqCallbackFuns.ContainsKey(ch))
-            {
-                return true;
-            }
-            _WebSocket.Send(unreqStr);
-            _logger.Log(Log.LogLevel.Info, $"websocket has send data: {unreqStr}.");
-            _onReqCallbackFuns.Remove(ch);
 
             return true;
         }

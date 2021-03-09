@@ -19,19 +19,19 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Market
         {
             public long id { get; set; }
 
-            public string vol { get; set; }
+            public double vol { get; set; }
 
-            public string count { get; set; }
+            public double count { get; set; }
 
-            public string open { get; set; }
+            public double open { get; set; }
 
-            public string close { get; set; }
+            public double close { get; set; }
 
-            public string low { get; set; }
+            public double low { get; set; }
 
-            public string high { get; set; }
+            public double high { get; set; }
 
-            public string amount { get; set; }
+            public double amount { get; set; }
 
             [JsonProperty("trade_turnover")]
             public double tradeTurnover { get; set; }
