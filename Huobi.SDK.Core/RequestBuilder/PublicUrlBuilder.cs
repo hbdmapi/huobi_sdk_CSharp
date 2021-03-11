@@ -9,16 +9,9 @@
             _host = host;
         }
 
-        public string Build(string path, GetRequest request = null)
+        public string Build(string path)
         {
-            if (request != null)
-            {
-                return $"https://{_host}{path}?{request.BuildParams()}";
-            }
-            else
-            {
-                return $"https://{_host}{path}";
-            }
+            return $"https://{_host}{path}";
         }
     }
 }

@@ -26,24 +26,14 @@ namespace Huobi.SDK.Core.RequestBuilder
 
         public string Build(string method, string path)
         {
-            return Build(method, path, DateTime.UtcNow, null);
+            return Build(method, path, DateTime.UtcNow);
         }
 
         public string Build(string method, string path, DateTime utcDateTime)
         {
-            return Build(method, path, utcDateTime, null);
-        }
-        
-        public string Build(string method, string path, GetRequest request)
-        {
-            return Build(method, path, DateTime.UtcNow, request);
-        }
-
-        public string Build(string method, string path, DateTime utcDateTime, GetRequest request)
-        {
             string strDateTime = utcDateTime.ToString("s");
 
-            var req = new GetRequest(request)
+            var req = new GetRequest()
                 .AddParam(_aKKey, _aKValue)
                 .AddParam(_sMKey, _sMVaue)
                 .AddParam(_sVKey, _sVValue)
