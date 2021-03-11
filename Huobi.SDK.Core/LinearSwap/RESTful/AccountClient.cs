@@ -729,7 +729,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             return await HttpRequest.PostAsync<GetPositionLimitResponse>(url, content);
         }
 
-        public async Task<GetApiTradingStatusResponse> GetApiTradingStatusAsync(string contractCode = null)
+        /// <summary>
+        /// api trading status
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetApiTradingStatusResponse> GetApiTradingStatusAsync()
         {
             // ulr
             string url = _urlBuilder.Build(GET_METHOD, "/linear-swap-api/v1/swap_api_trading_status");

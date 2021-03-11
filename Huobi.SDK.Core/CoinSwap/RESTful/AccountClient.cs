@@ -478,11 +478,10 @@ namespace Huobi.SDK.Core.CoinSwap.RESTful
         }
 
         /// <summary>
-        /// get api trading status
+        /// api trading status
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <returns></returns>
-        public async Task<GetApiTradingStatusResponse> GetApiTradingStatusAsync(string contractCode = null)
+        public async Task<GetApiTradingStatusResponse> GetApiTradingStatusAsync()
         {
             // ulr
             string url = _urlBuilder.Build(GET_METHOD, "/swap-api/v1/swap_api_trading_status");
