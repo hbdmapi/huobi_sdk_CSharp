@@ -70,11 +70,12 @@ namespace Huobi.SDK.Core.Test.Futures
         [Theory]
         //[InlineData("bch", null, null, null, null, null, null)]
         [InlineData("bch", "819988842634530817,819988842647113728", null, null, null, null, null)]
-        public void CancelOrderTest(string symbol, string orderId, string clientOrderId ,
+        public void CancelOrderTest(string symbol, string orderId, string clientOrderId,
                                     string contractCode, string contractType,
                                     string offset, string direction)
         {
-            var result = client.CancelOrderAsync(symbol,  orderId,  clientOrderId, offset, direction).Result;
+            var result = client.CancelOrderAsync(symbol, orderId, clientOrderId,
+                                                 contractCode, contractType, offset, direction).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
