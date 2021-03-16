@@ -84,7 +84,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         public void SubIncrementalDepth(string contractCode, string size, _OnSubDepthResponse callbackFun, string id = _DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.depth.size_{size}.high_freq";
-            WSSubData subData = new WSSubData() { sub = ch, id = id };
+            WSSubData subData = new WSSubData() { sub = ch, id = id, dataType = "incremental"};
 
             Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubDepthResponse));
         }
