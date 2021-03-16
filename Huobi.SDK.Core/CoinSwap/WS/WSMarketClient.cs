@@ -149,11 +149,12 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
+        /// <param name="size"></param>
         /// <param name="id"></param>
-        public void ReqTradeDetail(string contractCode, _OnReqTradeDetailResponse callbackFun, string id = _DEFAULT_ID)
+        public void ReqTradeDetail(string contractCode, _OnReqTradeDetailResponse callbackFun, int size = 50, string id = _DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.trade.detail";
-            WSReqData reqData = new WSReqData() { req = ch, id = id};
+            WSReqData reqData = new WSReqData() { req = ch, size = size, id = id};
 
             Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqTradeDetailResponse));
         }
