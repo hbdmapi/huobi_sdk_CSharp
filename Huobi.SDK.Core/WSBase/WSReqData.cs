@@ -13,6 +13,9 @@ namespace Huobi.SDK.Core.WSBase
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public long? to { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public long? size { get; set; }
     }
 }
 

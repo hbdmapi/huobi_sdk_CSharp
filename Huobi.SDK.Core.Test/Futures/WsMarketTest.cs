@@ -14,9 +14,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("btc_cw", "1min")]
-        public void WSSubKLineTest(string contractCode, string period)
+        public void WSSubKLineTest(string symbol, string period)
         {
-            client.SubKLine(contractCode, period, delegate (SubKLineResponse data)
+            client.SubKLine(symbol, period, delegate (SubKLineResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
@@ -25,9 +25,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("btc_cw", "1min", 1604395758, 1604396758)]
-        public void WSReqKLineTest(string contractCode, string period, long from, long to)
+        public void WSReqKLineTest(string symbol, string period, long from, long to)
         {
-            client.ReqKLine(contractCode, period, delegate (ReqKLineResponse data)
+            client.ReqKLine(symbol, period, delegate (ReqKLineResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             }, from, to);
@@ -36,9 +36,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("bch_cw", "step0")]
-        public void WSSubDepthTest(string contractCode, string type)
+        public void WSSubDepthTest(string symbol, string type)
         {
-            client.SubDepth(contractCode, type, delegate (SubDepthResponse data)
+            client.SubDepth(symbol, type, delegate (SubDepthResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
@@ -47,9 +47,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("bch_cw", "20")]
-        public void WSIncrementalDepthTest(string contractCode, string size)
+        public void WSIncrementalDepthTest(string symbol, string size)
         {
-            client.SubIncrementalDepth(contractCode, size, delegate (SubDepthResponse data)
+            client.SubIncrementalDepth(symbol, size, delegate (SubDepthResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
@@ -58,9 +58,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("btc_cw")]
-        public void WSBBOTest(string contractCode)
+        public void WSBBOTest(string symbol)
         {
-            client.SubBBO(contractCode, delegate (SubBBOResponse data)
+            client.SubBBO(symbol, delegate (SubBBOResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
@@ -69,9 +69,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("btc_cw")]
-        public void WSDetailTest(string contractCode)
+        public void WSDetailTest(string symbol)
         {
-            client.SubDetail(contractCode, delegate (SubKLineResponse data)
+            client.SubDetail(symbol, delegate (SubKLineResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
@@ -80,9 +80,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("btc_cq")]
-        public void WSSubTradeDetailTest(string contractCode)
+        public void WSSubTradeDetailTest(string symbol)
         {
-            client.SubTradeDetail(contractCode, delegate (SubTradeDetailResponse data)
+            client.SubTradeDetail(symbol, delegate (SubTradeDetailResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             });
@@ -91,9 +91,9 @@ namespace Huobi.SDK.Core.Test.Futures
 
         [Theory]
         [InlineData("btc_cq", 1)]
-        public void WSReqTradeDetailTest(string contractCode, int size)
+        public void WSReqTradeDetailTest(string symbol, int size)
         {
-            client.ReqTradeDetail(contractCode, delegate (ReqTradeDetailResponse data)
+            client.ReqTradeDetail(symbol, delegate (ReqTradeDetailResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
             }, size);
