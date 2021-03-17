@@ -12,7 +12,7 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         [Fact]
-        public void OrdersTest()
+        public void HeartBeatTest()
         {
             WSSystemClient client = new WSSystemClient();
             client.SubHeartBeat(delegate (SubHeartBeatResponse data)
