@@ -66,7 +66,10 @@ namespace Huobi.SDK.Core.WSBase
         /// <param name="path"></param>
         private void InitializeWebSocket(string host, string path)
         {
-            _WebSocket = new WebSocket($"wss://{_host}{_path}");
+            string full_url = $"wss://{_host}{_path}";
+            _logger.Log(Log.LogLevel.Info, full_url);
+            
+            _WebSocket = new WebSocket(full_url);
             _WebSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.None;
 
             _WebSocket.OnOpen += _WebSocket_OnOpen;
@@ -311,8 +314,18 @@ namespace Huobi.SDK.Core.WSBase
             }
             else if (ch == "accounts" || ch == "positions" || ch == "positions_cross")
             {
-                string contract_code = jdata["data"][0]["contract_code"].ToObject<string>();
-                string full_ch = $"{ch}.{contract_code}";
+                string full_ch = "";
+                JToken jtemp = jdata["data"][0];
+                if (jtemp["symbol"] != null)
+                {
+                    string symbol = jdata["data"][0]["symbol"].ToObject<string>();
+                    full_ch = $"{ch}.{symbol}";
+                }
+                else if (jtemp["contract_code"] != null)
+                {
+                    string contract_code = jdata["data"][0]["contract_code"].ToObject<string>();
+                    full_ch = $"{ch}.{contract_code}";
+                }
                 full_ch = full_ch.ToLower();
 
                 if (_onSubCallbackFuns.ContainsKey(full_ch))
