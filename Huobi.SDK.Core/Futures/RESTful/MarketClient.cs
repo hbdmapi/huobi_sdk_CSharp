@@ -221,6 +221,24 @@ namespace Huobi.SDK.Core.Futures.RESTful
         }
 
         /// <summary>
+        /// get mark price kline
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <param name="period"></param>
+        /// <param name="size"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public async Task<GetStrKLineResponse> GetMarkPriceKLineAsync(string symbol, string period, int size)
+        {
+            // location
+            string location = $"/index/market/history/mark_price_kline?symbol={symbol}&period={period}&size={size}";
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetStrKLineResponse>(url);
+        }
+
+        /// <summary>
         /// get margin detail
         /// </summary>
         /// <param name="symbol"></param>

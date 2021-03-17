@@ -120,6 +120,17 @@ namespace Huobi.SDK.Core.Test.Futures
         }
 
         [Theory]
+        [InlineData("btc_cw", "1min", 1)]
+        public void RESTfulMarketMarkKLineTest(string symbol, string period, int size)
+        {
+            var result = client.GetMarkPriceKLineAsync(symbol, period, size).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         [InlineData("btc_cw")]
         public void RESTfulMarketMergedTest(string symbol)
         {
