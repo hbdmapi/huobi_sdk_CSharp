@@ -608,5 +608,25 @@ namespace Huobi.SDK.Core.Futures.RESTful
             return await HttpRequest.GetAsync<GetBasisResponse>(url);
         }
 
+        public async Task<GetBboResponse> GetBboAsync(string symbol = null)
+        {
+            // location
+            string location = "/market/bbo";
+
+            // option
+            string option = null;
+            if (symbol != null)
+            {
+                option += $"symbol={symbol}";
+            }
+            if (option != null)
+            {
+                location += $"?{option}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetBboResponse>(url);
+        }
+
     }
 }

@@ -57,7 +57,8 @@ namespace Huobi.SDK.Core.Test.Futures
         }
 
         [Theory]
-        [InlineData("BTC-USD", "1min", null)]
+        //[InlineData("BTC-USD", "1min", null)]
+        [InlineData("BTC210416", "1min", null)]
         public void WSSubMarkPriceKLineTest(string symbol, string period, string id)
         {
             client.SubMarkPriceKLine(symbol, period, delegate (SubIndexKLineResponse data)
@@ -68,7 +69,8 @@ namespace Huobi.SDK.Core.Test.Futures
         }
 
         [Theory]
-        [InlineData("BTC-USD", "1min", 1612409065, 1612409165, null)]
+        //[InlineData("BTC-USD", "1min", 1612409065, 1612409165, null)]
+        [InlineData("BTC210416", "1min", 1618550421, 1618553421, null)]
         public void WSReqMarkPriceKLineTest(string symbol, string period, long from, long to, string id)
         {
             client.ReqMarkPriceKLine(symbol, period, delegate (ReqIndexKLineResponse data)
