@@ -144,5 +144,62 @@ namespace Huobi.SDK.Core.Test.Futures
             //Assert.Equal("ok", result.status);
         }
 
+        [Theory]
+        [InlineData(null, null, "bch210625", "sell", "open", 10, 1, 0.01, 300, "limit")]
+        public void TrackOrderTest(string symbol, string contractType, string contractCode, string direction, 
+                                  string offset, int lever_rate, double volume, double callback_rate,
+                                  double active_price, string order_price_type)
+        {
+            TriggerOrder.TrackOrderRequest request = new TriggerOrder.TrackOrderRequest
+            {
+                symbol = symbol,
+                contractType = contractType,
+                contractCode = contractCode,
+                direction = direction,
+                offset = offset,
+                leverRate = lever_rate,
+                volume = volume,
+                callbackRate = callback_rate,
+                activePrice = active_price,
+                orderPriceType = order_price_type
+            };
+            var result = client.TrackOrderAsync(request).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("bch", "821049733317193728,821049733317193729", null, "quarter", null, null)]
+        public void TrackCancelTest(string symbol, string orderId, string contractCode, string contractType, string direction, string offset)
+        {
+            var result = client.TrackCancelAsync(symbol, orderId, contractCode, contractType, direction, offset).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            //Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        //[InlineData("bch", null, null, null, null)]
+        [InlineData("bch", "bch210625", null, null, null)]
+        public void TrackOpenOrderTest(string symbol, string contractCode, int? page_index, int? page_size, int? tradeType)
+        {
+            var result = client.GetTrackOpenOrderAsync(symbol, contractCode, page_index, page_size, tradeType).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            //Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
+        [InlineData("bch", null, "0", 0, 90, 1, 20, "update_time")]
+        public void TrackHisOrderTest(string symbol, string contractCode, string status, int tradeType, int createDate,
+                                      int? pageIndex, int? pageSize , string sortBy)
+        {
+            var result = client.GetTrackHisOrderAsync(symbol, contractCode, status, tradeType, createDate, pageIndex, pageSize, sortBy).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            //Assert.Equal("ok", result.status);
+        }
+
     }
 }
