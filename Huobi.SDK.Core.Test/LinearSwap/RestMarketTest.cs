@@ -70,6 +70,18 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
+        [InlineData("BTC-USDT")]
+        [InlineData(null)]
+        public void RESTfulMarketBboTest(string contractCode)
+        {
+            var result = client.GetBboAsync(contractCode).Result;
+
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+        }
+
+        [Theory]
         [InlineData("BTC-USDT", "1min", 1, null, null)]
         [InlineData("BTC-USDT", "1min", null, 1604048907, 1604049205)]
         public void RESTfulMarketHisKLineTest(string contractCode, string period, int? size, int? from, int? to)

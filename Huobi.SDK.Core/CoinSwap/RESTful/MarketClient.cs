@@ -138,6 +138,24 @@ namespace Huobi.SDK.Core.CoinSwap.RESTful
         }
 
         /// <summary>
+        /// get bbo
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <returns></returns>
+        public async Task<GetBboResponse> GetBboAsync(string contractCode = null)
+        {
+            // location
+            string location = "/swap-ex/market/bbo";
+            if(contractCode != null)
+            {
+                location += $"?contract_code={contractCode}";
+            }
+
+            string url = _urlBuilder.Build(location);
+            return await HttpRequest.GetAsync<GetBboResponse>(url);
+        }
+
+        /// <summary>
         /// get kline
         /// must and just one size or from/to has value
         /// </summary>
