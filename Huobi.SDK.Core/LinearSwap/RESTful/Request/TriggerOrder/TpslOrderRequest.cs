@@ -12,19 +12,19 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Request.TriggerOrder
         public long volume { get; set; }
 
         [JsonProperty("tp_trigger_price", NullValueHandling = NullValueHandling.Ignore)]
-        public double tpTriggerPrice { get; set; }
+        public double? tpTriggerPrice { get; set; }
 
         [JsonProperty("tp_order_price", NullValueHandling = NullValueHandling.Ignore)]
-        public double tpOrderPrice { get; set; }
+        public double? tpOrderPrice { get; set; }
 
         [JsonProperty("tp_order_price_type", NullValueHandling = NullValueHandling.Ignore)]
         public string tpOrderPriceType { get; set; }
 
         [JsonProperty("sl_trigger_price", NullValueHandling = NullValueHandling.Ignore)]
-        public double slTriggerPrice { get; set; }
+        public double? slTriggerPrice { get; set; }
 
         [JsonProperty("sl_order_price", NullValueHandling = NullValueHandling.Ignore)]
-        public double slOrderPrice { get; set; }
+        public double? slOrderPrice { get; set; }
 
         [JsonProperty("sl_order_price_type", NullValueHandling = NullValueHandling.Ignore)]
         public string slOrderPriceType { get; set; }
