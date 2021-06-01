@@ -364,9 +364,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="amount"></param>
         /// <param name="sub_uid"></param>
         /// <param name="type"></param>
+        /// <param name="clientOrderId"></param>
         /// <returns></returns>
         public async Task<AccountTransferResponse> AccountTransferAsync(string asset, string fromMarginAccount, string toMarginAccount, double amount,
-                                                                        long? subUid = null, string type = null)
+                                                                        long? subUid = null, string type = null, long? clientOrderId = null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_master_sub_transfer");
@@ -380,6 +381,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (subUid != null)
             {
                 content += $",\"sub_uid\": {subUid},\"type\": \"{type}\"";
+            }
+            if (clientOrderId != null)
+            {
+                content += $",\"client_order_id\": {clientOrderId}";
             }
             if (content != null)
             {

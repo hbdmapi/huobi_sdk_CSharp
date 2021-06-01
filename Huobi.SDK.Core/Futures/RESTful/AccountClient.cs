@@ -204,9 +204,10 @@ namespace Huobi.SDK.Core.Futures.RESTful
         /// <param name="createDate"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="clientOrderId"></param>
         /// <returns></returns>
         public async Task<GetAccountTransHisResponse> GetAccountTransHisAsync(string symbol, bool beMasterSub = false, string type = null, int? createDate = null,
-                                                                              int? pageIndex = null, int? pageSize = null)
+                                                                              int? pageIndex = null, int? pageSize = null, int? clientOrderId = null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/api/v1/contract_financial_record");
@@ -244,6 +245,10 @@ namespace Huobi.SDK.Core.Futures.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if(clientOrderId != null)
+            {
+                content += $",\"client_order_id\": {clientOrderId}";
             }
             if (content != null)
             {

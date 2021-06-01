@@ -289,5 +289,122 @@ namespace Huobi.SDK.Core.CoinSwap.RESTful
 
             return await HttpRequest.PostAsync<GetRelationTpslOrderResponse>(url, content);
         }
+
+        /// <summary>
+        /// track order
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<PlaceOrderResponse> TrackOrderAsync(TrackOrderRequest request)
+        {
+            string url = _urlBuilder.Build(POST_METHOD, "/swap-api/v1/swap_track_order");
+
+            return await HttpRequest.PostAsync<PlaceOrderResponse>(url, JsonConvert.SerializeObject(request));
+        }
+
+        /// <summary>
+        /// track cancel
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="orderId"></param>
+        /// <param name="offset"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public async Task<CancelOrderResponse> TrackCancelAsync(string contractCode = null, string orderId = null,
+                                                                string offset = null, string direction = null)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/swap-api/v1/swap_track_cancel");
+            if (orderId == null)
+            {
+                url = _urlBuilder.Build(POST_METHOD, "/swap-api/v1/swap_track_cancelall");
+            }
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\"";
+            if (orderId != null)
+            {
+                content += $",\"order_id\": \"{orderId}\"";
+            }
+            if (offset != null)
+            {
+                content += $",\"offset\": \"{offset}\"";
+            }
+            if (direction != null)
+            {
+                content += $",\"direction\": \"{direction}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<CancelOrderResponse>(url, content);
+        }
+
+        /// <summary>
+        /// get track open orders
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="tradeType"></param>
+        /// <returns></returns>
+        public async Task<GetTrackOpenOrderResponse> GetTrackOpenOrderAsync(string contractCode = null,
+                                                                  int? pageIndex = null, int? pageSize = null,
+                                                                  int? tradeType = null)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/swap-api/v1/swap_track_openorders");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\"";
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (tradeType != null)
+            {
+                content += $",\"trade_type\": {tradeType}";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetTrackOpenOrderResponse>(url, content);
+        }
+
+        public async Task<GetTrackHisOrderResponse> GetTrackHisOrderAsync(string contractCode, string status, int tradeType, int createDate,
+                                                                int? pageIndex = null, int? pageSize = null, string sortBy = null)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/swap-api/v1/swap_track_hisorders");
+
+            // content
+            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": \"{tradeType}\",\"status\": \"{status}\",\"create_date\": \"{createDate}\"";
+            if (pageIndex != null)
+            {
+                content += $",\"page_index\": {pageIndex}";
+            }
+            if (pageSize != null)
+            {
+                content += $",\"page_size\": {pageSize}";
+            }
+            if (sortBy != null)
+            {
+                content += $",\"sort_by\": \"{sortBy}\"";
+            }
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<GetTrackHisOrderResponse>(url, content);
+        }
     }
 }

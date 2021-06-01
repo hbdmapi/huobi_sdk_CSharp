@@ -221,9 +221,10 @@ namespace Huobi.SDK.Core.CoinSwap.RESTful
         /// <param name="createDate"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="clientOrderId"></param>
         /// <returns></returns>
         public async Task<GetAccountTransHisResponse> GetAccountTransHisAsync(string contractCode, bool beMasterSub = false, string type = null, int? createDate = null,
-                                                                              int? pageIndex = null, int? pageSize = null)
+                                                                              int? pageIndex = null, int? pageSize = null, long? clientOrderId=null)
         {
             // ulr
             string url = _urlBuilder.Build(POST_METHOD, "/swap-api/v1/swap_financial_record_exact");
@@ -261,6 +262,10 @@ namespace Huobi.SDK.Core.CoinSwap.RESTful
             if (pageSize != null)
             {
                 content += $",\"page_size\": {pageSize}";
+            }
+            if (clientOrderId != null)
+            {
+                content += $",\"client_order_id\": {clientOrderId}";
             }
             if (content != null)
             {
