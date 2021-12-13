@@ -51,6 +51,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
                     public double adjustFactor { get; set; }
                 }
             }
+            [JsonProperty("contract_type")]
+            public string contractType { get; set; }
+
+            [JsonProperty("pair")]
+            public string pair { get; set; }
+
+            [JsonProperty("business_type")]
+            public string businessType { get; set; }
         }
     }
 }

@@ -40,6 +40,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
             public int close{get;set;}
 
             public int cancel{get;set;}
+
+            [JsonProperty("contract_type")]
+            public string contractType { get; set; }
+
+            [JsonProperty("pair")]
+            public string pair { get; set; }
+
+            [JsonProperty("business_type")]
+            public string businessType { get; set; }
         }
     }
 }

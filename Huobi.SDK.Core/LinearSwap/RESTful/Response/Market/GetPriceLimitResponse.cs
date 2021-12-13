@@ -31,6 +31,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
             [JsonProperty("low_limit")]
             public double lowLimit { get; set; }
+
+            [JsonProperty("contract_type")]
+            public string contractType { get; set; }
+
+            [JsonProperty("pair")]
+            public string pair { get; set; }
+
+            [JsonProperty("business_type")]
+            public string businessType { get; set; }
         }
     }
 }
