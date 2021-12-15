@@ -129,6 +129,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
             [JsonProperty("contract_detail", NullValueHandling = NullValueHandling.Ignore)]
             public List<ContractDetail> contractDetail { get; set; }
 
+            [JsonProperty("futures_contract_detail", NullValueHandling = NullValueHandling.Ignore)]
+            public List<ContractDetail> futuresContractDetail { get; set; }
+
             public class ContractDetail
             {
                 public string symbol { get; set; }
@@ -156,6 +159,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
                 [JsonProperty("adjust_factor")]
                 public double adjustFactor { get; set; }
+
+                [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+                public string contractType { get; set; }
+
+                [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+                public string pair { get; set; }
+
+                [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+                public string businessType { get; set; }
             }
         }
     }

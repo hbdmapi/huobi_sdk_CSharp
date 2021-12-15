@@ -39,6 +39,18 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
             [JsonProperty("fee_asset")]
             public string feeAsset { get; set; }
+
+            [JsonProperty("contract_type")]
+            public string contractType { get; set; }
+
+            [JsonProperty("pair")]
+            public string pair { get; set; }
+
+            [JsonProperty("business_type")]
+            public string businessType { get; set; }
+
+            [JsonProperty("delivery_fee")]
+            public string deliveryFee { get; set; }
         }
     }
 }

@@ -80,6 +80,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
                 public string feeAsset;
 
                 public List<Positions> positions;
+
+                [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+                public string pair { get; set; }
             }
 
             public class Positions
@@ -110,6 +113,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
                 [JsonProperty("settlement_type")]
                 public string settlementType { get; set; }
+
+                [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+                public string pair { get; set; }
             }
 
             [JsonProperty("total_page")]

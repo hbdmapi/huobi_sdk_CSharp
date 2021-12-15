@@ -31,7 +31,7 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         [InlineData("XRP-USDT", true)]
         public void IsolatedGetAccountInfoTest(string contractCode, bool beSubUid)
         {
-            GetAccountInfoResponse result;
+            IsolatedGetAccountInfoResponse result;
             if (beSubUid)
             {
                 result = client.IsolatedGetAccountInfoAsync(contractCode, long.Parse(config["SubUid"])).Result;
@@ -46,16 +46,17 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData(null, false)]
-        [InlineData("USDT", false)]
-        [InlineData(null, true)]
-        [InlineData("USDT", true)]
-        public void CrossGetAccountInfoTest(string marginAccount, bool beSubUid)
+        [InlineData(null, false, "swap", "shib-usdt")]
+        [InlineData("USDT", false, null, null)]
+        [InlineData(null, true, null, null)]
+        [InlineData("USDT", true, "swap", "shib-usdt")]
+        public void CrossGetAccountInfoTest(string marginAccount, bool beSubUid,
+                                            string contractType, string pair)
         {
-            GetAccountInfoResponse result;
+            CrossGetAccountInfoResponse result;
             if (beSubUid)
             {
-                result = client.CrossGetAccountInfoAsync(marginAccount, long.Parse(config["SubUid"])).Result;
+                result = client.CrossGetAccountInfoAsync(marginAccount, long.Parse(config["SubUid"]), contractType, pair).Result;
             }
             else
             {
@@ -63,6 +64,7 @@ namespace Huobi.SDK.Core.Test.LinearSwap
             }
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
+            Console.WriteLine("------------");
             Assert.Equal("ok", result.status);
         }
 
@@ -88,11 +90,12 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData(null, false)]
-        [InlineData("ETH-USDT", false)]
-        [InlineData(null, true)]
-        [InlineData("ETH-USDT", true)]
-        public void CrossGetPositionInfoTest(string contractCode, bool beSubUid)
+        [InlineData(null, false, null, null)]
+        [InlineData("shib-usdt", false, null, null)]
+        [InlineData(null, true, null, null)]
+        [InlineData("shib-usdt", true, null, null)]
+        public void CrossGetPositionInfoTest(string contractCode, bool beSubUid,
+                                             string contractType, string pair)
         {
             GetPositionInfoResponse result;
             if (beSubUid)
@@ -264,35 +267,42 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("ETH-USDT")]
-        public void CrossGetValidLeverRateTest(string contractCode)
+        [InlineData("btc-usdt", null, null, null)]
+        [InlineData("ETH-USDT", "swap", "swap", "LTC-USDT")]
+        public void CrossGetValidLeverRateTest(string contractCode, string businessType, 
+                                               string contractType, string pair)
         {
-            var result = client.CrossGetValidLeverRateAsync(contractCode).Result;
+            var result = client.CrossGetValidLeverRateAsync(contractCode, businessType, contractType, pair).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
+            Console.WriteLine("------------");
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData("limit", null)]
-        [InlineData("limit", "ETH-USDT")]
-        public void GetOrderLimitTest(string orderPriceType, string contractCode)
+        [InlineData("limit", "btc-usdt", null, null, null)]
+        [InlineData("limit", null, "swap", "swap", "eth-usdt")]
+        [InlineData("limit", "ltc-usdt", "swap", "swap", "eth-usdt")]
+        public void GetOrderLimitTest(string orderPriceType, string contractCode,
+                                      string businessType, string contractType,
+                                      string pair)
         {
-            var result = client.GetOrderLimitAsync(orderPriceType, contractCode).Result;
+            var result = client.GetOrderLimitAsync(orderPriceType, contractCode, businessType, contractType, pair).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
+            Console.WriteLine("------------");
             Assert.Equal("ok", result.status);
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("ETH-USDT")]
-        public void GetFeeTest(string contractCode)
+        [InlineData("btc-usdt", null, null, null)]
+        [InlineData("ETH-USDT", "swap", "swap", "ltc-usdt")]
+        public void GetFeeTest(string contractCode, string businessType, string contractType, string pair)
         {
-            var result = client.GetFeeAsync(contractCode).Result;
+            var result = client.GetFeeAsync(contractCode, businessType, contractType, pair).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
+            Console.WriteLine("------------");
             Assert.Equal("ok", result.status);
         }
 
@@ -330,13 +340,15 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("ETH-USDT")]
-        public void CrossGetPositionLimitTest(string contractCode)
+        [InlineData("btc-usdt", null, null, null)]
+        [InlineData("ETH-USDT", "swap", "swap", "ltc-usdt")]
+        public void CrossGetPositionLimitTest(string contractCode, string businessType,
+                                              string contractType, string pair)
         {
-            var result = client.CrossGetPositionLimitAsync(contractCode).Result;
+            var result = client.CrossGetPositionLimitAsync(contractCode, businessType, contractType, pair).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
+            Console.WriteLine("------------");
             Assert.Equal("ok", result.status);
         }
 

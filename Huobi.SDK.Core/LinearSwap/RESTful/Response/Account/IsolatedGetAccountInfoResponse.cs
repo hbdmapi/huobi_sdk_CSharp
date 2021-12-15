@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
     /// POST linear-swap-api/v1/swap_account_info
     /// POST linear-swap-api/v1/swap_sub_account_info
     /// </summary>
-    public class GetAccountInfoResponse
+    public class IsolatedGetAccountInfoResponse
     {
         public string status { get; set; }
 
