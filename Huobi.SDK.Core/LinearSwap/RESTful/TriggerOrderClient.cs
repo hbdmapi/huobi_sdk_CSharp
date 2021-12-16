@@ -92,11 +92,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin cancel all order if orderId is null, else cancel some orders what orderId set
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
+        /// <param name="offset"></param>
+        /// <param name="direction"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="contractType"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> CrossCancelOrderAsync(string contractCode, string orderId = null,
-                                                                     string offset = null, string direction = null)
+        public async Task<CancelOrderResponse> CrossCancelOrderAsync(string orderId = null, string offset = null, string direction = null,
+                                                                     string contractCode = null, string contractType = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_trigger_cancel");
@@ -106,7 +110,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             }
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\"";
+            string content = null;
             if (orderId != null)
             {
                 content += $",\"order_id\": \"{orderId}\"";
@@ -118,6 +122,18 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (direction != null)
             {
                 content += $",\"direction\": \"{direction}\"";
+            }
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(contractType != null)
+            {
+                content += $",\"contract_type\": \"{contractType}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {
@@ -165,18 +181,19 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin get open order
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<GetOpenOrderResponse> CrossGetOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null,
-                                                                       int? tradeType = null)
+        public async Task<GetOpenOrderResponse> CrossGetOpenOrderAsync(int? pageIndex = null, int? pageSize = null, int? tradeType = null,
+                                                                       string contractCode = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_trigger_openorders");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\"";
+            string content = null;
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -188,6 +205,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (tradeType != null)
             {
                 content += $",\"trade_type\": {tradeType}";
+            }
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {
@@ -238,21 +263,23 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin get his order
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="tradeType"></param>
         /// <param name="status"></param>
         /// <param name="createDate"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<GetHisOrderResponse> CrossGetHisOrderAsync(string contractCode, int tradeType, string status, int createDate,
-                                                                int? pageIndex = null, int? pageSize = null, string sortBy = "created_at")
+        public async Task<GetHisOrderResponse> CrossGetHisOrderAsync(int tradeType, string status, int createDate,
+                                                                     int? pageIndex = null, int? pageSize = null, string sortBy = "created_at",
+                                                                     string contractCode = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_trigger_hisorders");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": \"{tradeType}\",\"status\": \"{status}\",\"create_date\": \"{createDate}\"";
+            string content = $",\"trade_type\": \"{tradeType}\",\"status\": \"{status}\",\"create_date\": \"{createDate}\"";
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -264,6 +291,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (sortBy != null)
             {
                 content += $",\"sort_by\": \"{sortBy}\"";
+            }
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {
@@ -333,10 +368,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin tpsl cancel 
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="contractType"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> CrossTpslCancelAsync(string contractCode, string orderId = null, string direction = null)
+        public async Task<CancelOrderResponse> CrossTpslCancelAsync(string orderId = null, string direction = null,
+                                                                    string contractCode = null, string contractType = null,
+                                                                    string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_cancel");
@@ -346,7 +385,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             }
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\"";
+            string content = null;
             if (orderId != null)
             {
                 content += $",\"order_id\": \"{orderId}\"";
@@ -354,6 +393,18 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (direction != null)
             {
                 content += $",\"direction\": \"{direction}\"";
+            }
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(contractType != null)
+            {
+                content += $",\"contract_type\": \"{contractType}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {
@@ -401,18 +452,20 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin get rpsl open order
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<GetOpenOrderResponse> CrossGetTpslOpenOrderAsync(string contractCode, int? pageIndex = null, int? pageSize = null,
-                                                                           int? tradeType = null)
+            // url
+        public async Task<GetOpenOrderResponse> CrossGetTpslOpenOrderAsync(int? pageIndex = null, int? pageSize = null, int? tradeType = null,
+                                                                           string contractCode = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_openorders");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\"";
+            string content = null;
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -424,6 +477,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (tradeType != null)
             {
                 content += $",\"trade_type\": {tradeType}";
+            }
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {
@@ -475,21 +536,23 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin get tpsl his order
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="status"></param>
         /// <param name="createDate"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="sortBy"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<GetHisOrderResponse> CrossGetTpslHisOrderAsync(string contractCode, string status, int createDate,
-                                                                int? pageIndex = null, int? pageSize = null, string sortBy = "created_at")
+        public async Task<GetHisOrderResponse> CrossGetTpslHisOrderAsync(string status, int createDate, int? pageIndex = null, 
+                                                                         int? pageSize = null, string sortBy = "created_at",
+                                                                         string contractCode = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_hisorders");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\",\"status\": \"{status}\",\"create_date\": {createDate}";
+            string content = $",\"status\": \"{status}\",\"create_date\": {createDate}";
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -502,7 +565,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 content += $",\"sort_by\": \"{sortBy}\"";
             }
-
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
+            }
             if (content != null)
             {
                 content = $"{{ {content.Substring(1)} }}";
@@ -535,16 +605,25 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin relation tpsl order 
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<GetRelationTpslOrderResponse> CrossGetRelationTpslOrderAsync(string contractCode, long orderId)
+        public async Task<GetRelationTpslOrderResponse> CrossGetRelationTpslOrderAsync(long orderId, string contractCode = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_relation_tpsl_order");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\",\"order_id\": {orderId}";
+            string content = $",\"order_id\": {orderId}";
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
+            }
             if (content != null)
             {
                 content = $"{{ {content.Substring(1)} }}";
@@ -582,11 +661,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
-        /// <param name="offset"></param>
-        /// <param name="direction"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> IsolatedTrackCancelAsync(string contractCode = null, string orderId = null,
-                                                                string offset = null, string direction = null)
+        public async Task<CancelOrderResponse> IsolatedTrackCancelAsync(string contractCode, string orderId)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_track_cancel");
@@ -601,14 +677,6 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 content += $",\"order_id\": \"{orderId}\"";
             }
-            if (offset != null)
-            {
-                content += $",\"offset\": \"{offset}\"";
-            }
-            if (direction != null)
-            {
-                content += $",\"direction\": \"{direction}\"";
-            }
             if (content != null)
             {
                 content = $"{{ {content.Substring(1)} }}";
@@ -620,13 +688,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// track cancel
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
-        /// <param name="offset"></param>
-        /// <param name="direction"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="contractType"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> CrossTrackCancelAsync(string contractCode = null, string orderId = null,
-                                                                string offset = null, string direction = null)
+        public async Task<CancelOrderResponse> CrossTrackCancelAsync(string orderId = null, string contractCode = null, string contractType = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_track_cancel");
@@ -636,18 +703,22 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             }
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\"";
+            string content = null;
             if (orderId != null)
             {
                 content += $",\"order_id\": \"{orderId}\"";
             }
-            if (offset != null)
+            if(contractCode != null)
             {
-                content += $",\"offset\": \"{offset}\"";
+                content += $",\"contract_code\": \"{contractCode}\"";
             }
-            if (direction != null)
+            if(contractType != null)
             {
-                content += $",\"direction\": \"{direction}\"";
+                content += $",\"contract_type\": \"{contractType}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {
@@ -697,20 +768,20 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// get track open orders
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="tradeType"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<GetTrackOpenOrderResponse> CrossGetTrackOpenOrderAsync(string contractCode = null,
-                                                                  int? pageIndex = null, int? pageSize = null,
-                                                                  int? tradeType = null)
+        public async Task<GetTrackOpenOrderResponse> CrossGetTrackOpenOrderAsync(int? pageIndex = null, int? pageSize = null, int? tradeType = null,
+                                                                                 string contractCode = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_track_openorders");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\"";
+            string content = null;
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -723,6 +794,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 content += $",\"trade_type\": {tradeType}";
             }
+            if(contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
+            }
             if (content != null)
             {
                 content = $"{{ {content.Substring(1)} }}";
@@ -731,8 +810,19 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             return await HttpRequest.PostAsync<GetTrackOpenOrderResponse>(url, content);
         }
 
+        /// <summary>
+        /// isolated get track his orders
+        /// </summary>
+        /// <param name="contractCode"></param>
+        /// <param name="status"></param>
+        /// <param name="tradeType"></param>
+        /// <param name="createDate"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <returns></returns>
         public async Task<GetTrackHisOrderResponse> IsolatedGetTrackHisOrderAsync(string contractCode, string status, int tradeType, int createDate,
-                                                                int? pageIndex = null, int? pageSize = null, string sortBy = null)
+                                                                                  int? pageIndex = null, int? pageSize = null, string sortBy = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_track_hisorders");
@@ -759,14 +849,27 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             return await HttpRequest.PostAsync<GetTrackHisOrderResponse>(url, content);
         }
 
-        public async Task<GetTrackHisOrderResponse> CrossGetTrackHisOrderAsync(string contractCode, string status, int tradeType, int createDate,
-                                                                int? pageIndex = null, int? pageSize = null, string sortBy = null)
+        /// <summary>
+        /// cross get track his orders
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="tradeType"></param>
+        /// <param name="createDate"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="pair"></param>
+        /// <returns></returns>
+        public async Task<GetTrackHisOrderResponse> CrossGetTrackHisOrderAsync(string status, int tradeType, int createDate,
+                                                                               int? pageIndex = null, int? pageSize = null, string sortBy = null,
+                                                                               string contractCode = null, string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_track_hisorders");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\",\"trade_type\": \"{tradeType}\",\"status\": \"{status}\",\"create_date\": \"{createDate}\"";
+            string content = $",\"trade_type\": \"{tradeType}\",\"status\": \"{status}\",\"create_date\": \"{createDate}\"";
             if (pageIndex != null)
             {
                 content += $",\"page_index\": {pageIndex}";
@@ -778,6 +881,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (sortBy != null)
             {
                 content += $",\"sort_by\": \"{sortBy}\"";
+            }
+            if(contractCode != null)
+            {
+                content+= $",\"contract_code\": \"{contractCode}\"";
+            }
+            if(pair != null)
+            {
+                content+= $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {

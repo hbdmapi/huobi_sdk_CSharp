@@ -4,9 +4,6 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Request.TriggerOrder
 {
     public class TpslOrderRequest
     {
-        [JsonProperty("contract_code")]
-        public string contractCode { get; set; }
-
         public string direction { get; set; }
 
         public long volume { get; set; }
@@ -28,5 +25,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Request.TriggerOrder
 
         [JsonProperty("sl_order_price_type", NullValueHandling = NullValueHandling.Ignore)]
         public string slOrderPriceType { get; set; }
+
+        [JsonProperty("contract_code", NullValueHandling = NullValueHandling.Ignore)]
+        public string contractCode { get; set; }
+
+        [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string contractType { get; set; }
+
+        [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+        public string pair { get; set; }
     }
 }

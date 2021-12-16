@@ -141,6 +141,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
                 public string relationOrderId { get; set; }
 
             }
+
+            [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+            public string contractType { get; set; }
+
+            [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+            public string pair { get; set; }
+
+            [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+            public string businessType { get; set; }
         }
     }
 }

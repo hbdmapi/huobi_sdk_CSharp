@@ -24,7 +24,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
         public class Data
         {
             [JsonProperty("order_id")]
-            public int orderId { get; set; }
+            public long orderId { get; set; }
 
             [JsonProperty("order_id_str")]
             public string orderIdStr { get; set; }

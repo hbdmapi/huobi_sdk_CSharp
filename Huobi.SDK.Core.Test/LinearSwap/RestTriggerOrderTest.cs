@@ -13,12 +13,12 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         static TriggerOrderClient client = new TriggerOrderClient(config["AccessKey"], config["SecretKey"], config["Host"]);
 
         [Theory]
-        [InlineData("XRP-USDT", "le", 0.15, "buy", "open", 1, 0.15, null, 5)]
-        [InlineData("XRP-USDT", "le", 0.15, "buy", "open", 1, 0.15, "limit", 5)]
-        public void PlaceOrderTest(string contractCode, string triggerType, double triggerPrice, string direction, string offset, long volume,
-                                          double orderPrice, string orderPriceType, int? leverRate)
+        [InlineData("le", 0.00003, "buy", "open", 1, 0.15, "limit", 5, "SHIB-USDT", "swap", "btc-usdt")]
+        public void PlaceOrderTest(string triggerType, double triggerPrice, string direction, string offset, long volume,
+                                   double orderPrice, string orderPriceType, int? leverRate,
+                                   string contractCode, string contractType, string pair)
         {
-            TriggerOrder.PlaceOrderRequest request = new TriggerOrder.PlaceOrderRequest
+            TriggerOrder.PlaceOrderRequest request1 = new TriggerOrder.PlaceOrderRequest
             {
                 contractCode = contractCode,
                 triggerType = triggerType,
@@ -30,71 +30,94 @@ namespace Huobi.SDK.Core.Test.LinearSwap
                 orderPriceType = orderPriceType,
                 leverRate = leverRate
             };
-            var result = client.IsolatedPlaceOrderAsync(request).Result;
+            var result = client.IsolatedPlaceOrderAsync(request1).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossPlaceOrderAsync(request).Result;
+            TriggerOrder.PlaceOrderRequest request2 = new TriggerOrder.PlaceOrderRequest
+            {
+                triggerType = triggerType,
+                triggerPrice = triggerPrice,
+                volume = volume,
+                direction = direction,
+                offset = offset,
+                orderPrice = orderPrice,
+                orderPriceType = orderPriceType,
+                leverRate = leverRate,
+                contractCode = contractCode,
+                contractType = contractType,
+                pair = pair
+            };
+            result = client.CrossPlaceOrderAsync(request2).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        [InlineData("XRP-USDT", null, "close", "sell")]
-        public void CancelOrderTest(string contractCode, string orderId, string offset, string direction)
+        [InlineData("921083905048895489,921083907016171520", "open", "buy", "SHIB-USDT", "swap", "btc-usdt")]
+        public void CancelOrderTest(string orderId, string offset, string direction,
+                                    string contractCode, string contractType, string pair)
         {
             var result = client.IsolatedCancelOrderAsync(contractCode, orderId, offset, direction).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
-            //Assert.Equal("ok", result.status);
+            Assert.Equal("ok", result.status);
 
-            result = client.CrossCancelOrderAsync(contractCode, orderId, offset, direction).Result;
+            result = client.CrossCancelOrderAsync(orderId, offset, direction, contractCode, contractType, pair).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
-            //Assert.Equal("ok", result.status);
+            Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        //[InlineData("XRP-USDT", null, null, null)]
-        [InlineData("XRP-USDT", 1, 10, 1)]
-        public void GetOpenOrderTest(string contractCode, int pageIndex, int pageSize, int tradeType)
+        [InlineData(1, 10, 1, "SHIB-USDT", "btc-usdt")]
+        public void GetOpenOrderTest(int pageIndex, int pageSize, int tradeType, string contractCode, string pair)
         {
             var result = client.IsolatedGetOpenOrderAsync(contractCode, pageIndex, pageSize, tradeType).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossGetOpenOrderAsync(contractCode, pageIndex, pageSize, tradeType).Result;
+            result = client.CrossGetOpenOrderAsync(pageIndex, pageSize, tradeType, contractCode, pair).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        [InlineData("XRP-USDT", 0, "0", 1, null, null)]
-        [InlineData("XRP-USDT", 0, "0", 1, 1, 20)]
-        public void GetHisOrderTest(string contractCode, int tradeType, string status, int createdDate,
-                                           int? pageIndex, int? pageSize)
+        [InlineData(0, "0", 1, 1, 20, "created_at", "SHIB-USDT", "btc-usdt")]
+        public void GetHisOrderTest(int tradeType, string status, int createdDate, 
+                                    int pageIndex, int pageSize, string sortBy,
+                                    string contractCode, string pair)
         {
-            var result = client.IsolatedGetHisOrderAsync(contractCode, tradeType, status, createdDate, pageIndex, pageSize).Result;
+            var result = client.IsolatedGetHisOrderAsync(contractCode, tradeType, status, createdDate, pageIndex, pageSize, sortBy).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossGetHisOrderAsync(contractCode, tradeType, status, createdDate, pageIndex, pageSize).Result;
+            result = client.CrossGetHisOrderAsync(tradeType, status, createdDate, pageIndex, pageSize, sortBy, contractCode, pair).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        [InlineData("EOS-USDT", "buy", 1, 2.0, 2.0, "limit", 3.0, 3.0, "limit")]
-        public void TpslOrderTest(string contractCode, string direction, long volume, double tpTriggerPrice, double tpOrderPrice, string tpOrderPriceType,
-                                  double slTriggerPrice, double slOrderPrice, string slOrderPriceType)
+        [InlineData("sell", 1, 0.00004, 0.00004, "limit", 0.00003, 0.00003, "limit", "SHIB-USDT", "swap", "btc-usdt")]
+        public void TpslOrderTest(string direction, long volume, double tpTriggerPrice, double tpOrderPrice, string tpOrderPriceType,
+                                  double slTriggerPrice, double slOrderPrice, string slOrderPriceType,
+                                  string contractCode, string contractType, string pair)
         {
-            TriggerOrder.TpslOrderRequest request = new TriggerOrder.TpslOrderRequest
+            TriggerOrder.TpslOrderRequest request1 = new TriggerOrder.TpslOrderRequest
             {
                 contractCode = contractCode,
                 direction = direction,
@@ -106,76 +129,198 @@ namespace Huobi.SDK.Core.Test.LinearSwap
                 slOrderPrice = slOrderPrice,
                 slOrderPriceType = slOrderPriceType,
             };
-            var result = client.IsolatedTpslOrderAsync(request).Result;
+            var result = client.IsolatedTpslOrderAsync(request1).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
 
-            result = client.CrossTpslOrderAsync(request).Result;
+            TriggerOrder.TpslOrderRequest request2 = new TriggerOrder.TpslOrderRequest
+            {
+                direction = direction,
+                volume = volume,
+                tpTriggerPrice = tpTriggerPrice,
+                tpOrderPrice = tpOrderPrice,
+                tpOrderPriceType = tpOrderPriceType,
+                slTriggerPrice = slTriggerPrice,
+                slOrderPrice = slOrderPrice,
+                slOrderPriceType = slOrderPriceType,
+                contractCode = contractCode,
+                contractType = contractType,
+                pair = pair
+            };
+            result = client.CrossTpslOrderAsync(request2).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        //[InlineData("EOS-USDT", "799327909361061888", "sell")]
-        [InlineData("XRP-USDT", null, "sell")]
-        public void TpslCancelTest(string contractCode, string orderId, string direction)
+        // [InlineData("921090433126600704,921090435207061504", "sell", "SHIB-USDT", "swap", "btc-usdt")]
+        [InlineData(null, "sell", "SHIB-USDT", "swap", "btc-usdt")]
+        public void TpslCancelTest(string orderId, string direction, string contractCode, string contractType, string pair)
         {
             var result = client.IsolatedTpslCancelAsync(contractCode, orderId, direction).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
-            //Assert.Equal("ok", result.status);
+            Assert.Equal("ok", result.status);
 
-            result = client.CrossTpslCancelAsync(contractCode, orderId, direction).Result;
+            result = client.CrossTpslCancelAsync(orderId, direction, contractCode, contractType, pair).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        [InlineData("XRP-USDT")]
-        public void TpslOpenOrderTest(string contractCode, int page_index=1, int page_size=50, int? tradeType = 4)
+        [InlineData(1, 50, 4, "SHIB-USDT", "btc-usdt")]
+        public void TpslOpenOrderTest(int page_index, int page_size, int? tradeType,
+                                      string contractCode, string pair)
         {
             var result = client.IsolatedGetTpslOpenOrderAsync(contractCode, page_index, page_size, tradeType).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
-            //Assert.Equal("ok", result.status);
+            Assert.Equal("ok", result.status);
 
-            result = client.CrossGetTpslOpenOrderAsync(contractCode, page_index, page_size, tradeType).Result;
+            result = client.CrossGetTpslOpenOrderAsync(page_index, page_size, tradeType, contractCode, pair).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        [InlineData("BTC-USDT")]
-        public void TpslHisOrderTest(string contractCode, string status="0", int create_date=10)
+        [InlineData("0", 10, 1, 1, "created_at", "SHIB-USDT", "btc-usdt")]
+        public void TpslHisOrderTest(string status, int createDate, int pageIndex, int pageSize, 
+                                     string sortBy, string contractCode, string pair)
         {
-            var result = client.IsolatedGetTpslHisOrderAsync(contractCode, status, create_date).Result;
+            var result = client.IsolatedGetTpslHisOrderAsync(contractCode, status, createDate, pageIndex, pageSize, sortBy).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
-            //Assert.Equal("ok", result.status);
+            Assert.Equal("ok", result.status);
 
-            result = client.CrossGetTpslHisOrderAsync(contractCode, status, create_date).Result;
+            result = client.CrossGetTpslHisOrderAsync(status, createDate, pageIndex, pageSize, sortBy, contractCode, pair).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
         [Theory]
-        [InlineData("BTC-USDT", 801045594587615232)]
-        public void RelationTpslOrderTest(string contractCode, long orderId)
+        [InlineData(801045594587615232, "SHIB-USDT", "btc-usdt")]
+        public void RelationTpslOrderTest(long orderId, string contractCode, string pair)
         {
             var result = client.IsolatedGetRelationTpslOrderAsync(contractCode, orderId).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
-            //Assert.Equal("ok", result.status);
+            // Assert.Equal("ok", result.status);
 
-            result = client.CrossGetRelationTpslOrderAsync(contractCode, orderId).Result;
+            result = client.CrossGetRelationTpslOrderAsync(orderId, contractCode, pair).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            // Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
+        }
+
+        [Theory]
+        [InlineData("open", "buy", 5, 1, 0.01, 0.00003, "optimal_5", "SHIB-USDT", "swap", "btc-usdt")]
+        public void TrackOrderTest(string offset, string direction, int leverRate, int volume, double callbackRate,
+                                  double activePrice, string orderPriceType, string contractCode, string contractType, string pair)
+        {
+            TriggerOrder.TrackOrderRequest request1 = new TriggerOrder.TrackOrderRequest
+            {
+                direction = direction,
+                offset = offset,
+                leverRate = leverRate,
+                volume = volume,
+                callbackRate = callbackRate,
+                activePrice = activePrice,
+                orderPriceType = orderPriceType,
+                contractCode = contractCode
+            };
+            var result = client.IsolatedTrackOrderAsync(request1).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            TriggerOrder.TrackOrderRequest request2 = new TriggerOrder.TrackOrderRequest
+            {
+                direction = direction,
+                offset = offset,
+                leverRate = leverRate,
+                volume = volume,
+                callbackRate = callbackRate,
+                activePrice = activePrice,
+                orderPriceType = orderPriceType,
+                contractCode = contractCode,
+                contractType = contractType,
+                pair = pair
+            };
+            result = client.CrossTrackOrderAsync(request2).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
+        }
+
+        [Theory]
+        // [InlineData("921106661303967744,921106663271002112", "SHIB-USDT", "swap", "btc-usdt")]
+        [InlineData(null, "SHIB-USDT", "swap", "btc-usdt")]
+        public void TrackCancelTest(string orderId, string contractCode, string contractType, string pair)
+        {
+            var result = client.IsolatedTrackCancelAsync(contractCode, orderId).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossTrackCancelAsync(orderId, contractCode, contractType, pair).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
+        }
+
+        [Theory]
+        [InlineData(1, 50, 0, "SHIB-USDT", "btc-usdt")]
+        public void TrackOpenOrderTest(int page_index, int page_size, int? tradeType,
+                                       string contractCode, string pair)
+        {
+            var result = client.IsolatedGetTrackOpenOrderAsync(contractCode, page_index, page_size, tradeType).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetTrackOpenOrderAsync(page_index, page_size, tradeType, contractCode, pair).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
+        }
+
+        [Theory]
+        [InlineData("0", 0, 10, 1, 1, "created_at", "SHIB-USDT", "btc-usdt")]
+        public void TrackHisOrderTest(string status, int tradeType, int createDate, int pageIndex, int pageSize,
+                                      string sortBy, string contractCode, string pair)
+        {
+            var result = client.IsolatedGetTrackHisOrderAsync(contractCode, status, tradeType, createDate, pageIndex, pageSize, sortBy).Result;
+            string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            result = client.CrossGetTrackHisOrderAsync(status, tradeType, createDate, pageIndex, pageSize, sortBy, contractCode, pair).Result;
+            strret = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(strret);
+            Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
     }

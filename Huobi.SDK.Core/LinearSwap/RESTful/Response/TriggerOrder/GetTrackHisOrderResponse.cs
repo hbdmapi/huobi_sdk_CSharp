@@ -32,6 +32,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
                 [JsonProperty("contract_code")]
                 public string contractCode { get; set; }
 
+                [JsonProperty("triggered_price", NullValueHandling = NullValueHandling.Ignore)]
+                public string triggeredPrice { get; set; }
+
                 public double volume { get; set; }
 
                 [JsonProperty("order_type")]
@@ -39,7 +42,6 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
 
                 public string direction { get; set; }
 
-                [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
                 public string offset { get; set; }
 
                 [JsonProperty("lever_rate")]
@@ -83,17 +85,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
                 [JsonProperty("is_active")]
                 public int isActive { get; set; }
 
-                [JsonProperty("market_limit_price")]
+                [JsonProperty("market_limit_price", NullValueHandling = NullValueHandling.Ignore)]
                 public double marketLimitPrice { get; set; }
 
-                [JsonProperty("formula_price")]
+                [JsonProperty("formula_price", NullValueHandling = NullValueHandling.Ignore)]
                 public double formulaPrice { get; set; }
 
                 [JsonProperty("real_volume")]
                 public double realVolume { get; set; }
-
-                [JsonProperty("triggered_price")]
-                public double triggeredPrice { get; set; }
 
                 [JsonProperty("relation_order_id", NullValueHandling = NullValueHandling.Ignore)]
                 public string relationOrderId { get; set; }
@@ -103,6 +102,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
 
                 [JsonProperty("margin_account")]
                 public string marginAccount { get; set; }
+
+                [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+                public string contractType { get; set; }
+
+                [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+                public string pair { get; set; }
+
+                [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+                public string businessType { get; set; }
             }
 
             [JsonProperty("total_page")]
