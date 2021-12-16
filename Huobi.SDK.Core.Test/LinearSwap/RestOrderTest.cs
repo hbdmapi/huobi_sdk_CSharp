@@ -292,20 +292,22 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData("XRP-USDT", 1, "buy", null, null)]
-        [InlineData("XRP-USDT", 1, "buy", null, "lightning")]
-        public void LightningCloseTest(string contractCode, double volume, string direction, 
-                                              long? clientOrderId = null, string orderPriceType = null)
+        [InlineData(1, "sell", null, "lightning", "SHIB-USDT", "swap", "btc-usdt")]
+        public void LightningCloseTest(double volume, string direction, 
+                                       long? clientOrderId, string orderPriceType,
+                                       string contractCode, string contractType, string pair)
         {
             var result = client.IsolatedLightningCloseAsync(contractCode, volume, direction, clientOrderId, orderPriceType).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
             
-            result = client.CrossLightningCloseAsync(contractCode, volume, direction, clientOrderId, orderPriceType).Result;
+            result = client.CrossLightningCloseAsync(volume, direction, clientOrderId, orderPriceType, contractCode, contractType, pair).Result;
             strret = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(strret);
             Assert.Equal("ok", result.status);
+
+            Console.WriteLine("------------");
         }
 
     }

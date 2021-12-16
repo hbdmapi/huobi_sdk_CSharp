@@ -898,20 +898,24 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <summary>
         /// cross margin lightning close
         /// </summary>
-        /// <param name="contractCode"></param>
         /// <param name="volume"></param>
         /// <param name="direction"></param>
         /// <param name="clientOrderId"></param>
         /// <param name="orderPriceType"></param>
+        /// <param name="contractCode"></param>
+        /// <param name="contractType"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
-        public async Task<LightningCloseResponse> CrossLightningCloseAsync(string contractCode, double volume, string direction,
-                                                                      long? clientOrderId = null, string orderPriceType = null)
+        public async Task<LightningCloseResponse> CrossLightningCloseAsync(double volume, string direction,
+                                                                           long? clientOrderId = null, string orderPriceType = null,
+                                                                           string contractCode = null, string contractType = null,
+                                                                           string pair = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_lightning_close_position");
 
             // content
-            string content = $",\"contract_code\": \"{contractCode}\",\"volume\": {volume},\"direction\": \"{direction}\"";
+            string content = $",\"volume\": {volume},\"direction\": \"{direction}\"";
             if (clientOrderId != null)
             {
                 content += $",\"client_order_id\": {clientOrderId}";
@@ -919,6 +923,18 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (orderPriceType != null)
             {
                 content += $",\"order_price_type\": \"{orderPriceType}\"";
+            }
+            if (contractCode != null)
+            {
+                content += $",\"contract_code\": \"{contractCode}\"";
+            }
+            if (contractType != null)
+            {
+                content += $",\"contract_type\": \"{contractType}\"";
+            }
+            if (pair != null)
+            {
+                content += $",\"pair\": \"{pair}\"";
             }
             if (content != null)
             {
