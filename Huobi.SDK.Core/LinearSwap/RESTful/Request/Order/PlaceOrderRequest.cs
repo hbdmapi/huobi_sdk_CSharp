@@ -41,5 +41,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Request.Order
 
         [JsonProperty("sl_order_price_type", NullValueHandling = NullValueHandling.Ignore)]
         public string slOrderPriceType { get; set; }
+
+        [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string contractType { get; set; }
+
+        [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+        public string pair { get; set; }
     }
 }

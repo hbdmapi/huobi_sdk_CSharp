@@ -152,6 +152,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
             [JsonProperty("margin_account")]
             public string marginAccount { get; set; }
+
+            [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+            public string contractType { get; set; }
+
+            [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+            public string pair { get; set; }
+
+            [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+            public string businessType { get; set; }
         }
     }
 }

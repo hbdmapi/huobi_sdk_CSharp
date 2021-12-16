@@ -97,6 +97,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
                 [JsonProperty("is_tpsl")]
                 public int isTpsl { get; set; }
+
+                [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+                public string contractType { get; set; }
+
+                [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+                public string pair { get; set; }
+
+                [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+                public string businessType { get; set; }
             }
 
             [JsonProperty("remain_size")]
