@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <!-- Identifier that must be unique within the hosting gallery -->
+        <id>Huobi_SDK_Core</id>
+
+        <!-- Package version number that is used when resolving dependencies -->
+        <version>0.9.0</version>
+
+        <!-- Authors contain text that appears directly on the gallery -->
+        <authors>andy long</authors>
+
+        <!-- 
+            Owners are typically nuget.org identities that allow gallery
+            users to easily find other packages by the same owners.  
+        -->
+        <owners>huobi.com</owners>
+        
+         <!-- Project URL provides a link for the gallery -->
+        <projectUrl>https://github.com/hbdmapi/huobi_futures_CSharp</projectUrl>
+
+         <!-- License information is displayed on the gallery -->
+        <license type="expression">Apache-2.0</license>
+        
+
+        <!-- Icon is used in Visual Studio's package manager UI -->
+        <icon>icon.png</icon>
+
+        <!-- 
+            If true, this value prompts the user to accept the license when
+            installing the package. 
+        -->
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+
+        <!-- Any details about this particular release -->
+        <releaseNotes>support all futures contract api</releaseNotes>
+
+        <!-- 
+            The description can be used in package manager UI. Note that the
+            nuget.org gallery uses information you add in the portal. 
+        -->
+        <description>api sdk for huobi</description>
+
+        <!-- Copyright information -->
+        <copyright>Copyright ©2021 Huobi Corporation</copyright>
+
+        <!-- Tags appear in the gallery and can be used for tag searches -->
+        <tags>huobi sdk futures swap</tags>
+
+        <!-- Dependencies are automatically installed when the package is installed -->
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="9.0" />
+        </dependencies>
+    </metadata>
+
+    <!-- A readme.txt to display when the package is installed -->
+    <files>
+        <file src="README.md" target="" />
+        <file src="icon.png" target="" />
+    </files>
+</package>
