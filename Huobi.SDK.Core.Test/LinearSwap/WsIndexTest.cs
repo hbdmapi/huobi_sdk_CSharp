@@ -36,7 +36,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "1min")]
-        [InlineData("*", "1min")]
         public void WSSubPreiumIndexKLineTest(string contractCode, string period)
         {
             client.SubPremiumIndexKLine(contractCode, period, delegate (SubIndexKLineResponse data)
@@ -48,7 +47,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "1min", 1604395758, 1604396758)]
-        [InlineData("*", "1min", 1604395758, 1604396758)]
         public void WSReqPremiumIndexKLineTest(string contractCode, string period, long from, long to)
         {
             client.ReqPremiumIndexKLine(contractCode, period, delegate (ReqIndexKLineResponse data)
@@ -60,7 +58,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "1min")]
-        [InlineData("*", "1min")]
         public void WSSubEstimatedRateKLineTest(string contractCode, string period)
         {
             client.SubEstimatedRateKLine(contractCode, period, delegate (SubIndexKLineResponse data)
@@ -72,7 +69,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "1min", 1604395758, 1604396758)]
-        [InlineData("*", "1min", 1604395758, 1604396758)]
         public void WSReqEstimatedRateKLineTest(string contractCode, string period, long from, long to)
         {
             client.ReqEstimatedRateKLine(contractCode, period, delegate (ReqIndexKLineResponse data)
@@ -96,7 +92,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "1min", 1604395758, 1604396758)]
-        [InlineData("*", "1min", 1604395758, 1604396758)]
         public void WSReqBasisTest(string contractCode, string period, long from, long to)
         {
             client.ReqBasis(contractCode, period, delegate (ReqBasisResponse data)

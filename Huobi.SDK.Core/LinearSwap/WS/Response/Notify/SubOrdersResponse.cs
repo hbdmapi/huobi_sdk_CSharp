@@ -132,5 +132,13 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
             [JsonProperty("real_profit", NullValueHandling = NullValueHandling.Ignore)]
             public double? realProfit { get; set; }
         }
+        [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string contractType { get; set; }
+
+        [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+        public string pair { get; set; }
+
+        [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string businessType { get; set; }
     }
 }

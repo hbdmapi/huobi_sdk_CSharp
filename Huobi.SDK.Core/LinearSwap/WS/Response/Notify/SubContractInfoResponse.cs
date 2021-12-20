@@ -40,6 +40,18 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             [JsonProperty("contract_status")]
             public int contractStatus { get; set; }
+
+            [JsonProperty("contract_type", NullValueHandling = NullValueHandling.Ignore)]
+            public string contractType { get; set; }
+
+            [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
+            public string pair { get; set; }
+
+            [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+            public string businessType { get; set; }
+
+            [JsonProperty("delivery_date", NullValueHandling = NullValueHandling.Ignore)]
+            public string deliveryDate { get; set; }
         }
     }
 }

@@ -1,28 +1,41 @@
-﻿using Huobi.SDK.Core.CoinSwap.WS.Response.Notify;
+﻿using System.Collections.Generic;
+using Huobi.SDK.Core.CoinSwap.WS.Response.Notify;
 using Huobi.SDK.Core.WSBase;
 using Newtonsoft.Json;
 
 namespace Huobi.SDK.Core.CoinSwap.WS
 {
-    public class WSNotifyClient : WebSocketOp
+    public class WSNotifyClient
     {
-        public WSNotifyClient(string accessKey = null, string secretKey = null, string host = DEFAULT_HOST) : 
-               base("/swap-notification", host, accessKey, secretKey)
+        private string host = null;
+        private string path = null;
+        private string accessKey = null;
+        private string secretKey = null;
+        private const string _DEFAULT_CID = "cid";
+        private Dictionary<string, WebSocketOp> allWsop = new Dictionary<string, WebSocketOp>();
+
+        public WSNotifyClient(string accessKey = null, string secretKey = null, string host = WebSocketOp.DEFAULT_HOST)
         {
-            Connect(true);
+            this.host = host;
+            this.path = "/swap-notification";
+            this.accessKey = accessKey;
+            this.secretKey = secretKey;
         }
 
         ~WSNotifyClient()
         {
-            Disconnect();
+            foreach (var item in allWsop)
+            {
+                item.Value.Disconnect();
+            }
+            allWsop.Clear();
         }
-        private const string _DEFAULT_CID = "cid";
 
         #region orders
         public delegate void _OnSubOrdersResponse(SubOrdersResponse data);
 
         /// <summary>
-        /// sub orders
+        ///  margin sub orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
@@ -31,12 +44,19 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"orders.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubOrdersResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubOrdersResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
-        /// unsub orders
+        ///  margin unsub orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
@@ -44,8 +64,14 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"orders.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 
@@ -53,7 +79,7 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         public delegate void _OnSubAccountsResponse(SubAccountsResponse data);
 
         /// <summary>
-        /// sub accounts
+        ///  margin sub accounts
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
@@ -62,12 +88,19 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"accounts.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubAccountsResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubAccountsResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
-        /// unsub accounts
+        ///  margin unsub accounts
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
@@ -75,8 +108,14 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"accounts.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 
@@ -84,7 +123,7 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         public delegate void _OnSubPositionsResponse(SubPositionsResponse data);
 
         /// <summary>
-        /// sub positions
+        ///  margin sub positions
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
@@ -93,12 +132,19 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"positions.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubPositionsResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubPositionsResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
-        /// unsub positions
+        ///  margin unsub positions
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
@@ -106,8 +152,14 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"positions.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 
@@ -115,7 +167,7 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         public delegate void _OnSubMatchOrdersResponse(SubOrdersResponse data);
 
         /// <summary>
-        /// sub match orders
+        ///  margin sub match orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
@@ -125,12 +177,19 @@ namespace Huobi.SDK.Core.CoinSwap.WS
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubOrdersResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubOrdersResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
-        /// unsub match orders
+        ///  margin unsub match orders
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
@@ -139,8 +198,14 @@ namespace Huobi.SDK.Core.CoinSwap.WS
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 
@@ -153,12 +218,21 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubLiquidationOrders(string contractCode, _OnSubLiquidationOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        /// <param name="businessType"></param>
+        public void SubLiquidationOrders(string contractCode, _OnSubLiquidationOrdersResponse callbackFun, string cid = _DEFAULT_CID,
+                                         string businessType = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
-            WSOpData opData = new WSOpData { op = "sub", topic = ch };
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, businessType = businessType };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubLiquidationOrdersResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubLiquidationOrdersResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
@@ -166,12 +240,20 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubLiquidationOrders(string contractCode, string cid = _DEFAULT_CID)
+        /// <param name="businessType"></param>
+        public void UnsubLiquidationOrders(string contractCode, string cid = _DEFAULT_CID,
+                                           string businessType = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
-            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 
@@ -188,8 +270,15 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"public.{contractCode}.funding_rate";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubFundingRateResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubFundingRateResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
@@ -201,12 +290,18 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"public.{contractCode}.funding_rate";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 
-        #region contract info
+        #region fcontract info
         public delegate void _OnSubContractInfoResponse(SubContractInfoResponse data);
 
         /// <summary>
@@ -215,12 +310,21 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubContractInfo(string contractCode, _OnSubContractInfoResponse callbackFun, string cid = _DEFAULT_CID)
+        /// <param name="businessType"></param>
+        public void SubContractInfo(string contractCode, _OnSubContractInfoResponse callbackFun, string cid = _DEFAULT_CID,
+                                    string businessType = null)
         {
             string ch = $"public.{contractCode}.contract_info";
-            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, businessType = businessType };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubContractInfoResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubContractInfoResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
@@ -228,12 +332,19 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubContractInfo(string contractCode, string cid = _DEFAULT_CID)
+        /// <param name="businessType"></param>
+        public void UnsubContractInfo(string contractCode, string cid = _DEFAULT_CID, string businessType = null)
         {
             string ch = $"public.{contractCode}.contract_info";
-            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 
@@ -241,7 +352,7 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         public delegate void _OnSubTriggerOrderResponse(SubTriggerOrderResponse data);
 
         /// <summary>
-        /// sub trigger order
+        ///  margin sub trigger order
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
@@ -250,12 +361,19 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"trigger_order.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+            string sub_str = JsonConvert.SerializeObject(opData);
 
-            Sub(JsonConvert.SerializeObject(opData), ch, callbackFun, typeof(SubTriggerOrderResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubTriggerOrderResponse), true, this.host,
+                                            this.accessKey, this.secretKey);
+            wsop.Connect();
+            if (!allWsop.ContainsKey(ch))
+            {
+                allWsop.Add(ch, wsop);
+            }
         }
 
         /// <summary>
-        /// unsub trigger order
+        ///  margin unsub trigger order
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
@@ -263,8 +381,14 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         {
             string ch = $"trigger_order.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            string unsub_str = JsonConvert.SerializeObject(opData);
 
-            Unsub(JsonConvert.SerializeObject(opData), ch);
+            if(!allWsop.ContainsKey(ch))
+            {
+                return;
+            }
+            allWsop[ch].SendMsg(unsub_str);
+            allWsop.Remove(ch);
         }
         #endregion
 

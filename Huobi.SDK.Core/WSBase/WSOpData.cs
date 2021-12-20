@@ -10,6 +10,9 @@ namespace Huobi.SDK.Core.WSBase
         public string cid { get; set; }
 
         public string topic { get; set; }
+
+        [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string businessType { get; set; }
     }
 }
 

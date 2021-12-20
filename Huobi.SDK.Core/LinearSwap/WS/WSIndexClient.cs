@@ -4,18 +4,17 @@ using Newtonsoft.Json;
 
 namespace Huobi.SDK.Core.LinearSwap.WS
 {
-    public class WSIndexClient : WebSocketOp
+    public class WSIndexClient
     {
-        public WSIndexClient(string host = DEFAULT_HOST) : base("/ws_index", host)
-        {
-            Connect(true);
-        }
-
-        ~WSIndexClient()
-        {
-            Disconnect();
-        }
+        private string host = null;
+        private string path = null;
         private const string _DEFAULT_ID = "api";
+
+        public WSIndexClient(string host = WebSocketOp.DEFAULT_HOST)
+        {
+            this.host = host;
+            this.path = "/ws_index";
+        }
 
         #region index kline
         public delegate void _OnSubIndexKLineResponse(SubIndexKLineResponse data);
@@ -32,8 +31,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.index.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
+            string sub_str = JsonConvert.SerializeObject(subData);
 
-            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
 
         /// <summary>
@@ -49,8 +50,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.index.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
+            string sub_str = JsonConvert.SerializeObject(reqData);
 
-            Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(ReqIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
         #endregion
 
@@ -69,8 +72,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.premium_index.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
+            string sub_str = JsonConvert.SerializeObject(subData);
 
-            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
 
         /// <summary>
@@ -86,8 +91,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.premium_index.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
+            string sub_str = JsonConvert.SerializeObject(reqData);
 
-            Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(ReqIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
         #endregion
 
@@ -106,8 +113,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.estimated_rate.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
+            string sub_str = JsonConvert.SerializeObject(subData);
 
-            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
 
         /// <summary>
@@ -123,8 +132,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.estimated_rate.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
+            string sub_str = JsonConvert.SerializeObject(reqData);
 
-            Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(ReqIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
         #endregion
 
@@ -144,8 +155,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.basis.{period}.{basisPriceType}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
+            string sub_str = JsonConvert.SerializeObject(subData);
 
-            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubBasiesResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubBasiesResponse), true, this.host);
+            wsop.Connect();
         }
 
         /// <summary>
@@ -163,8 +176,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.basis.{period}.{basisPriceType}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
+            string sub_str = JsonConvert.SerializeObject(reqData);
 
-            Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqBasisResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(ReqBasisResponse), true, this.host);
+            wsop.Connect();
         }
         #endregion
 
@@ -183,8 +198,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.mark_price.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
+            string sub_str = JsonConvert.SerializeObject(subData);
 
-            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
 
         /// <summary>
@@ -200,8 +217,10 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         {
             string ch = $"market.{contractCode}.mark_price.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
+            string sub_str = JsonConvert.SerializeObject(reqData);
 
-            Req(JsonConvert.SerializeObject(reqData), ch, callbackFun, typeof(ReqIndexKLineResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(ReqIndexKLineResponse), true, this.host);
+            wsop.Connect();
         }
         #endregion
 

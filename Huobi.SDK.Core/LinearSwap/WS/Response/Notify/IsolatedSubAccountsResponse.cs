@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 {
-    public class SubAccountsResponse
+    public class IsolatedSubAccountsResponse
     {
         public string op { get; set; }
 

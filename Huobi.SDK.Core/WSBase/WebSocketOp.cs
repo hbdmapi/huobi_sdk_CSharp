@@ -3,115 +3,93 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WebSocketSharp;
 using Huobi.SDK.Core.Log;
-using System.Collections.Generic;
-using System.Text;
 using Huobi.SDK.Core.RequestBuilder;
-using System.Web;
 
 namespace Huobi.SDK.Core.WSBase
 {
-
     public class WebSocketOp
     {
-        protected ILogger _logger = new ConsoleLogger();
+        protected ILogger logger = new ConsoleLogger();
 
-        protected const string DEFAULT_HOST = "api.btcgateway.pro";
-        private string _host;
-        private string _path;
+        public const string DEFAULT_HOST = "api.btcgateway.pro";
+        private string host = null;
+        private string path = null;
+        private string subStr = null;
+        private string accessKey;
+        private string secretKey;
+        Delegate callbackFun = null;
+        Type paramType = null;
+        bool autoReconnect = false;
+        
+        protected WebSocket websocket = null;
+        private bool isConnected = false;
+        private bool isManclose = false;
 
-        protected WebSocket _WebSocket;
-        private string _accessKey;
-        private string _secretKey;
-        private bool _canWork = false;
-
-        protected bool? _autoConnect = null;
-        private List<string> _all_sub_strs = new List<string>();
-
-        public class MethonInfo
-        {
-            public Delegate fun;
-            public Type paramType;
-        }
-
-        private Dictionary<string, MethonInfo> _onSubCallbackFuns = new Dictionary<string, MethonInfo>();
-        private Dictionary<string, MethonInfo> _onReqCallbackFuns = new Dictionary<string, MethonInfo>();
 
         /// <summary>
         /// construct
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="subStr"></param>
+        /// <param name="callbackFun"></param>
+        /// <param name="paramType"></param>
+        /// <param name="Reconnect"></param>
         /// <param name="host"></param>
         /// <param name="accessKey"></param>
         /// <param name="secretKey"></param>
-        protected WebSocketOp(string path, string host = DEFAULT_HOST, string accessKey = null, string secretKey = null)
+        public WebSocketOp(string path, string subStr, Delegate callbackFun, Type paramType, bool autoReconnect = true,
+                              string host = DEFAULT_HOST, string accessKey = null, string secretKey = null)
         {
-            _host = host;
-            _path = path;
+            this.path = path;
+            this.host = host;
+            this.subStr = subStr;
+            this.callbackFun = callbackFun;
+            this.paramType = paramType;
+            this.autoReconnect = autoReconnect;
 
-            InitializeWebSocket(host, path);
-
-            _accessKey = accessKey;
-            _secretKey = secretKey;
+            this.accessKey = accessKey;
+            this.secretKey = secretKey;
         }
 
         ~WebSocketOp()
         {
-            DisposeWebSocket();
+            Disconnect();
         }
 
         /// <summary>
-        /// init websocket
+        /// connect
         /// </summary>
-        /// <param name="host"></param>
-        /// <param name="path"></param>
-        private void InitializeWebSocket(string host, string path)
+        public void Connect()
         {
-            string full_url = $"wss://{_host}{_path}";
-            _logger.Log(Log.LogLevel.Info, full_url);
-            
-            _WebSocket = new WebSocket(full_url);
-            _WebSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.None;
+            websocket = new WebSocket($"wss://{host}{path}");
+            websocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.None;
 
-            _WebSocket.OnOpen += _WebSocket_OnOpen;
-            _WebSocket.OnClose += _WebSocket_OnClose;
-            _WebSocket.OnMessage += _WebSocket_OnMessage;
-            _WebSocket.OnError += _WebSocket_OnError;
-        }
+            websocket.OnOpen += OnOpen;
+            websocket.OnClose += OnClose;
+            websocket.OnMessage += OnMsg;
+            websocket.OnError += OnError;
 
-        /// <summary>
-        /// dispose websocket
-        /// </summary>
-        private void DisposeWebSocket()
-        {
-            _WebSocket.OnOpen -= _WebSocket_OnOpen;
-            _WebSocket.OnClose -= _WebSocket_OnClose;
-            _WebSocket.OnMessage -= _WebSocket_OnMessage;
-            _WebSocket.OnError -= _WebSocket_OnError;
-
-            _WebSocket.Close(CloseStatusCode.Normal);
-            _WebSocket = null;
-            _canWork = false;
-        }
-
-        /// <summary>
-        /// connect websocket server
-        /// </summary>
-        /// <param name="Connect"></param>
-        protected void Connect(bool? autoConnect = null)
-        {
-            if (autoConnect != null && _autoConnect == null)
-            {
-                _autoConnect = autoConnect;
-            }
-            _WebSocket.Connect();
+            websocket.Connect();
         }
 
         /// <summary>
         /// disconnect websocket server
         /// </summary>
-        protected void Disconnect()
+        public void Disconnect()
         {
-            DisposeWebSocket();
+            if(websocket == null)
+            {
+                return;
+            }
+            websocket.OnOpen -= OnOpen;
+            websocket.OnClose -= OnClose;
+            websocket.OnMessage -= OnMsg;
+            websocket.OnError -= OnError;
+
+            websocket.Close(CloseStatusCode.Normal);
+            websocket = null;
+            isConnected = false;
+            isManclose = true;
         }
 
         /// <summary>
@@ -119,30 +97,29 @@ namespace Huobi.SDK.Core.WSBase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _WebSocket_OnOpen(object sender, EventArgs e)
+        private void OnOpen(object sender, EventArgs e)
         {
-            _logger.Log(Log.LogLevel.Info, "WebSocket opened");
-            _canWork = true;
+            logger.Log(Log.LogLevel.Info, "WebSocket opened");
+            isConnected = true;
 
-            if (_accessKey != null && _secretKey != null)
+            if (accessKey != null && secretKey != null)
             {
                 string timestamp = DateTime.UtcNow.ToString("s");
-                var sign = new Signer(_secretKey);
+                var sign = new Signer(secretKey);
 
                 var req = new GetRequest()
-                    .AddParam("AccessKeyId", _accessKey)
+                    .AddParam("AccessKeyId", accessKey)
                     .AddParam("SignatureMethod", "HmacSHA256")
                     .AddParam("SignatureVersion", "2")
                     .AddParam("Timestamp", timestamp);
 
-                string signature = sign.Sign("GET", _host, _path, req.BuildParams());
-                WSAuthData auth = new WSAuthData() { accessKeyId = _accessKey, signature = signature, timestamp = timestamp };
+                string signature = sign.Sign("GET", host, path, req.BuildParams());
+                WSAuthData auth = new WSAuthData() { accessKeyId = accessKey, signature = signature, timestamp = timestamp };
 
                 string auth_str = JsonConvert.SerializeObject(auth);
-                _WebSocket.Send(auth_str);
-                _all_sub_strs.Add(auth_str);
-                _canWork = false;
+                websocket.Send(auth_str);
             }
+            websocket.Send(subStr);
         }
 
         /// <summary>
@@ -150,25 +127,25 @@ namespace Huobi.SDK.Core.WSBase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _WebSocket_OnClose(object sender, EventArgs e)
+        private void OnClose(object sender, EventArgs e)
         {
-            _logger.Log(Log.LogLevel.Info, "WebSocket close.");
+            isConnected = false;
+            logger.Log(Log.LogLevel.Info, "WebSocket close.");
 
-            if (_WebSocket == null)
+            if (autoReconnect == true && !isManclose)
             {
-                return;
+                Connect();
             }
+        }
 
-            if (_autoConnect == true)
-            {
-                DisposeWebSocket();
-                InitializeWebSocket(_path, _host);
-                Connect(_autoConnect);
-                foreach(string item in _all_sub_strs)
-                {
-                    _WebSocket.Send(item);
-                }
-            }
+        /// <summary>
+        /// error msg handle
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnError(object sender, ErrorEventArgs e)
+        {
+            logger.Log(Log.LogLevel.Error, $"WebSocket error: {e.Message}");
         }
 
         /// <summary>
@@ -176,7 +153,7 @@ namespace Huobi.SDK.Core.WSBase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _WebSocket_OnMessage(object sender, MessageEventArgs e)
+        private void OnMsg(object sender, MessageEventArgs e)
         {
             string data = null;
             if (e.IsBinary)
@@ -193,12 +170,12 @@ namespace Huobi.SDK.Core.WSBase
             {
                 long ts = jdata["ping"].ToObject<long>();
 
-                //_logger.Log(Log.LogLevel.Debug, $"websocket has received data: {data}");
+                //logger.Log(Log.LogLevel.Debug, $"websocket has received data: {data}");
 
                 string pongData = $"{{\"pong\":{ts} }}";
-                _WebSocket.Send(pongData);
+                websocket.Send(pongData);
 
-                //_logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
+                //logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
             }
             else if (jdata.ContainsKey("op"))
             {
@@ -207,288 +184,106 @@ namespace Huobi.SDK.Core.WSBase
                 {
                     case "ping": // order heartbeat
                         string ts = jdata["ts"].ToObject<string>();
-                        //_logger.Log(Log.LogLevel.Debug, $"websocket has received data: {data}");
+                        //logger.Log(Log.LogLevel.Debug, $"websocket has received data: {data}");
 
                         string pongData = $"{{ \"op\":\"pong\", \"ts\":{ts} }}";
-                        _WebSocket.Send(pongData);
+                        websocket.Send(pongData);
 
-                        //_logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
+                        //logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
                         break;
 
                     case "close":
-                        _logger.Log(Log.LogLevel.Error, $"websocket has received data: {data}");
+                        logger.Log(Log.LogLevel.Error, $"websocket has received data: {data}");
                         break;
 
                     case "error":
-                        _logger.Log(Log.LogLevel.Trace, $"websocket has received data: {data}");
+                        logger.Log(Log.LogLevel.Trace, $"websocket has received data: {data}");
                         break;
 
                     case "auth":
-                        _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                        logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                         int code = jdata["err-code"].ToObject<int>();
-                        if (code == 0)
-                        {
-                            _canWork = true;
-                        }
                         break;
                     case "notify":
-                        _HandleSubCallbackFun(jdata["topic"].ToObject<string>(), data, jdata);
-                        break;
-                    case "sub":
-                        _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
-                        break;
-                    case "unsub":
-                        _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
-                        string ch = jdata["topic"].ToObject<string>();
-                        if (_onSubCallbackFuns.ContainsKey(ch))
+                        if (callbackFun != null)
                         {
-                            _onSubCallbackFuns.Remove(ch);
+                            callbackFun.DynamicInvoke(JsonConvert.DeserializeObject(data, paramType));
+                        }
+                        else
+                        {
+                            logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                         }
                         break;
+                    case "sub":
+                        logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                        break;
+                    case "unsub":
+                        logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                        break;
                     default:
-                        _logger.Log(Log.LogLevel.Info, $"unknown data: {data}");
+                        logger.Log(Log.LogLevel.Info, $"unknown data: {data}");
                         break;
                 }
             }
             else if (jdata.ContainsKey("subbed")) // sub success reply
             {
-                _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
             }
             else if (jdata.ContainsKey("unsubbed")) // unsub success reply
             {
-                _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
-                string ch = jdata["unsubbed"].ToObject<string>();
-                if (_onSubCallbackFuns.ContainsKey(ch))
-                {
-                    _onSubCallbackFuns.Remove(ch);
-                }
+                logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
             }
             else if (jdata.ContainsKey("ch")) // market sub reply data
             {
-                _HandleSubCallbackFun(jdata["ch"].ToObject<string>(), data, jdata);
+                if (callbackFun != null)
+                {
+                    callbackFun.DynamicInvoke(JsonConvert.DeserializeObject(data, paramType));
+                }
+                else
+                {
+                    logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                }
             }
             else if (jdata.ContainsKey("rep")) // market request reply data
             {
-                _HandleReqCallbackFun(jdata["rep"].ToObject<string>(), data, jdata);
+                if (callbackFun != null)
+                {
+                    callbackFun.DynamicInvoke(JsonConvert.DeserializeObject(data, paramType));
+                }
+                else
+                {
+                    logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                }
             }
             else if (jdata.ContainsKey("err-code")) // market request reply data
             {
-                _logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
             }
             else
             {
-                _logger.Log(Log.LogLevel.Info, $"unknown data: {data}");
+                logger.Log(Log.LogLevel.Info, $"unknown data: {data}");
             }
         }
-        
+
         /// <summary>
-        /// handle sub callback fun
+        /// send msg
         /// </summary>
-        /// <param name="ch"></param>
         /// <param name="data"></param>
-        /// <param name="jdata"></param>
-        private void _HandleSubCallbackFun(string ch, string data, JObject jdata)
-        {
-            ch = ch.ToLower();
-
-            MethonInfo mi = null;
-            if (_onSubCallbackFuns.ContainsKey(ch))
-            {
-                mi = _onSubCallbackFuns[ch];
-            }
-            else if (ch.StartsWith("orders.") && _onSubCallbackFuns.ContainsKey("orders.*"))
-            {
-                mi = _onSubCallbackFuns["orders.*"];
-            }
-            else if (ch.StartsWith("matchorders.") && _onSubCallbackFuns.ContainsKey("matchorders.*"))
-            {
-                mi = _onSubCallbackFuns["matchorders.*"];
-            }
-            else if (ch.StartsWith("trigger_order.") && _onSubCallbackFuns.ContainsKey("trigger_order.*"))
-            {
-                mi = _onSubCallbackFuns["trigger_order.*"];
-            }
-            else if (ch.EndsWith(".liquidation_orders") && _onSubCallbackFuns.ContainsKey("public.*.liquidation_orders"))
-            {
-                mi = _onSubCallbackFuns["public.*.liquidation_orders"];
-            }
-            else if (ch == "accounts" || ch == "positions" || ch == "positions_cross")
-            {
-                string full_ch = "";
-                JToken jtemp = jdata["data"][0];
-                if (jtemp["symbol"] != null)
-                {
-                    string symbol = jdata["data"][0]["symbol"].ToObject<string>();
-                    full_ch = $"{ch}.{symbol}";
-                }
-                else if (jtemp["contract_code"] != null)
-                {
-                    string contract_code = jdata["data"][0]["contract_code"].ToObject<string>();
-                    full_ch = $"{ch}.{contract_code}";
-                }
-                full_ch = full_ch.ToLower();
-
-                if (_onSubCallbackFuns.ContainsKey(full_ch))
-                {
-                    mi = _onSubCallbackFuns[full_ch];
-                }
-                else if(_onSubCallbackFuns.ContainsKey($"{ch}.*"))
-                {
-                    mi = _onSubCallbackFuns[$"{ch}.*"];
-                }
-            }
-            else if (ch == "accounts_cross")
-            {
-                string margin_account = jdata["data"][0]["margin_account"].ToObject<string>();
-                string full_ch = $"{ch}.{margin_account}";
-                full_ch = full_ch.ToLower();
-
-                if (_onSubCallbackFuns.ContainsKey(full_ch))
-                {
-                    mi = _onSubCallbackFuns[full_ch];
-                }
-                else if(_onSubCallbackFuns.ContainsKey($"{ch}.*"))
-                {
-                    mi = _onSubCallbackFuns[$"{ch}.*"];
-                }
-            }
-
-            if (mi == null)
-            {
-                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {data}");
-                return;
-            }
-            mi.fun.DynamicInvoke(JsonConvert.DeserializeObject(data, mi.paramType));
-        }
-
-        /// <summary>
-        /// handle req callback fun
-        /// </summary>
-        /// <param name="ch"></param>
-        /// <param name="data"></param>
-        /// <param name="jdata"></param>
-        private void _HandleReqCallbackFun(string ch, string data, JObject jdata)
-        {
-            ch = ch.ToLower();
-
-            if (!_onReqCallbackFuns.ContainsKey(ch))
-            {
-                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {data}");
-                return;
-            }
-            MethonInfo mi = _onReqCallbackFuns[ch];
-            if (mi == null)
-            {
-                _logger.Log(Log.LogLevel.Info, $"no callback function to handle: {data}");
-                return;
-            }
-            mi.fun.DynamicInvoke(JsonConvert.DeserializeObject(data, mi.paramType));
-        }
-
-        /// <summary>
-        /// error msg handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void _WebSocket_OnError(object sender, ErrorEventArgs e)
-        {
-            _logger.Log(Log.LogLevel.Error, $"WebSocket error: {e.Message}");
-        }
-
-        /// <summary>
-        /// sub channel and set callback function
-        /// </summary>
-        /// <param name="subStr"></param>
-        /// <param name="ch"></param>
-        /// <param name="fun"></param>
-        /// <param name="param"></param>
         /// <returns></returns>
-        protected bool Sub(string subStr, string ch, Delegate fun, Type paramType)
+        public bool SendMsg(string msg)
         {
-            if (_WebSocket == null)
+            if(!isConnected)
             {
-                _logger.Log(Log.LogLevel.Error, $"please connect first.");
                 return false;
             }
-            while(!_canWork)
-            {
-                System.Threading.Thread.Sleep(10);
-            }
 
-            ch = ch.ToLower();
-            if (_onSubCallbackFuns.ContainsKey(ch))
-            {
-                _onSubCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType };
-                return true;
-            }
-            _WebSocket.Send(subStr);
-            _all_sub_strs.Add(subStr);
-            _logger.Log(Log.LogLevel.Info, $"websocket has send data: {subStr}");
-            _onSubCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType }; ;
-
+            websocket.Send(msg);
             return true;
         }
 
-        /// <summary>
-        /// unsub channel and auto cancel callback function
-        /// </summary>
-        /// <param name="unsubStr"></param>
-        /// <param name="ch"></param>
-        /// <returns></returns>
-        protected bool Unsub(string unsubStr, string ch)
+        public bool IsConnected()
         {
-            if (_WebSocket == null)
-            {
-                _logger.Log(Log.LogLevel.Error, $"please connect first.");
-                return false;
-            }
-            while(!_canWork)
-            {
-                System.Threading.Thread.Sleep(10);
-            }
-
-            ch = ch.ToLower();
-            if (!_onSubCallbackFuns.ContainsKey(ch))
-            {
-                return true;
-            }
-            _WebSocket.Send(unsubStr);
-            if (_all_sub_strs.Find(item => item == unsubStr) != null)
-            {
-                _all_sub_strs.Remove(unsubStr);
-            }
-            _logger.Log(Log.LogLevel.Info, $"websocket has send data: {unsubStr}.");
-
-            return true;
-        }
-
-        /// <summary>
-        /// request channel data
-        /// </summary>
-        /// <param name="reqStr"></param>
-        /// <param name="ch"></param>
-        /// <param name="fun"></param>
-        /// <param name="paramType"></param>
-        /// <returns></returns>
-        protected bool Req(string reqStr, string ch, Delegate fun, Type paramType)
-        {
-            if (_WebSocket == null)
-            {
-                _logger.Log(Log.LogLevel.Error, $"please connect first.");
-                return false;
-            }
-            while(!_canWork)
-            {
-                System.Threading.Thread.Sleep(10);
-            }
-
-            ch = ch.ToLower();
-
-            _WebSocket.Send(reqStr);
-            _logger.Log(Log.LogLevel.Info, $"websocket has send data: {reqStr}.");
-            _onReqCallbackFuns[ch] = new MethonInfo() { fun = fun, paramType = paramType };
-
-            return true;
+            return isConnected;
         }
     }
 }

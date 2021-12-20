@@ -4,18 +4,17 @@ using Newtonsoft.Json;
 
 namespace Huobi.SDK.Core.Futures.WS
 {
-    public class WSSystemClient : WebSocketOp
+    public class WSSystemClient
     {
-        public WSSystemClient(string host = DEFAULT_HOST) : base("/center-notification", host)
-        {
-            Connect(true);
-        }
-
-        ~WSSystemClient()
-        {
-            Disconnect();
-        }
+        private string host = null;
+        private string path = null;
         private const string _DEFAULT_CID = "cid";
+
+        public WSSystemClient(string host = WebSocketOp.DEFAULT_HOST)
+        {
+            this.host = host;
+            this.path = "/center-notification";
+        }
 
         #region heartbeat
         public delegate void _OnSubHeartBeatResponse(SubHeartBeatResponse data);
@@ -27,10 +26,12 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="cid"></param>
         public void SubHeartBeat(_OnSubHeartBeatResponse callbackFun, string cid = _DEFAULT_CID)
         {
-            string ch = $"public.futures.heartbeat";
+            string ch = $"public.linear-swap.heartbeat";
             WSOpData subData = new WSOpData() { op = "sub", topic = ch, cid = cid };
+            string sub_str = JsonConvert.SerializeObject(subData);
 
-            Sub(JsonConvert.SerializeObject(subData), ch, callbackFun, typeof(SubHeartBeatResponse));
+            WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubHeartBeatResponse), true, this.host);
+            wsop.Connect();
         }
         #endregion
     }

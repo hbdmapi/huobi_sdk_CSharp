@@ -13,8 +13,7 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         static WSMarketClient client = new WSMarketClient();
 
         [Theory]
-        [InlineData("[BTC-USDT,EOS-USDT]", "1min")]
-        //[InlineData("*", "1min")]
+        [InlineData("BTC-USDT", "1min")]
         public void WSSubKLineTest(string contractCode, string period)
         {
             client.SubKLine(contractCode, period, delegate (SubKLineResponse data)
@@ -26,7 +25,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "1min", 1604395758, 1604396758)]
-        [InlineData("*", "1min", 1604395758, 1604396758)]
         public void WSReqKLineTest(string contractCode, string period, long from, long to)
         {
             client.ReqKLine(contractCode, period, delegate (ReqKLineResponse data)
@@ -38,7 +36,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BCH-USDT", "step0")]
-        //[InlineData("*", "step0")]
         public void WSSubDepthTest(string contractCode, string type)
         {
             client.SubDepth(contractCode, type, delegate (SubDepthResponse data)
@@ -50,7 +47,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", "20")]
-        [InlineData("*", "20")]
         public void WSIncrementalDepthTest(string contractCode, string size)
         {
             client.SubIncrementalDepth(contractCode, size, delegate (SubDepthResponse data)
@@ -62,7 +58,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT")]
-        [InlineData("*")]
         public void WSDetailTest(string contractCode)
         {
             client.SubDetail(contractCode, delegate (SubKLineResponse data)
@@ -74,7 +69,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT")]
-        [InlineData("*")]
         public void WSBBOTest(string contractCode)
         {
             client.SubBBO(contractCode, delegate (SubBBOResponse data)
