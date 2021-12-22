@@ -12,8 +12,6 @@ namespace Huobi.SDK.Core.CoinSwap.RESTful
         private const string GET_METHOD = "GET";
         private const string POST_METHOD = "POST";
 
-        private const string DEFAULT_HOST = "api.btcgateway.pro";
-
         private readonly PrivateUrlBuilder _urlBuilder;
 
         /// <summary>
@@ -22,7 +20,7 @@ namespace Huobi.SDK.Core.CoinSwap.RESTful
         /// <param name="accessKey">Access Key</param>
         /// <param name="secretKey">Secret Key</param>
         /// <param name="host">the host that the client connects to</param>
-        public OrderClient(string accessKey, string secretKey, string host = DEFAULT_HOST)
+        public OrderClient(string accessKey, string secretKey, string host = Host.FUTURES)
         {
             _urlBuilder = new PrivateUrlBuilder(accessKey, secretKey, host);
         }

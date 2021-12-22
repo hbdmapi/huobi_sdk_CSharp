@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.Futures.WS
         private string path = null;
         private const string _DEFAULT_ID = "api";
 
-        public WSIndexClient(string host = WebSocketOp.DEFAULT_HOST)
+        public WSIndexClient(string host = Host.FUTURES)
         {
             this.host = host;
             this.path = "/ws_index";

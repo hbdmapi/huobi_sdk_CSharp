@@ -14,7 +14,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         private const string _DEFAULT_CID = "cid";
         private Dictionary<string, WebSocketOp> allWsop = new Dictionary<string, WebSocketOp>();
 
-        public WSNotifyClient(string accessKey = null, string secretKey = null, string host = WebSocketOp.DEFAULT_HOST)
+        public WSNotifyClient(string accessKey = null, string secretKey = null, string host = Host.FUTURES)
         {
             this.host = host;
             this.path = "/linear-swap-notification";

@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         private string path = null;
         private const string _DEFAULT_CID = "cid";
 
-        public WSSystemClient(string host = WebSocketOp.DEFAULT_HOST)
+        public WSSystemClient(string host = Host.FUTURES)
         {
             this.host = host;
             this.path = "/center-notification";

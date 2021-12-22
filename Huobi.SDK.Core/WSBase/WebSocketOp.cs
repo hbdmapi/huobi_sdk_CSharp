@@ -10,8 +10,6 @@ namespace Huobi.SDK.Core.WSBase
     public class WebSocketOp
     {
         protected ILogger logger = new ConsoleLogger();
-
-        public const string DEFAULT_HOST = "api.btcgateway.pro";
         private string host = null;
         private string path = null;
         private string subStr = null;
@@ -38,7 +36,7 @@ namespace Huobi.SDK.Core.WSBase
         /// <param name="accessKey"></param>
         /// <param name="secretKey"></param>
         public WebSocketOp(string path, string subStr, Delegate callbackFun, Type paramType, bool autoReconnect = true,
-                              string host = DEFAULT_HOST, string accessKey = null, string secretKey = null)
+                              string host = Host.FUTURES, string accessKey = null, string secretKey = null)
         {
             this.path = path;
             this.host = host;

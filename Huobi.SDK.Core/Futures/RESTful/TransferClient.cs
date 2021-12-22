@@ -12,8 +12,6 @@ namespace Huobi.SDK.Core.Futures.RESTful
         private const string GET_METHOD = "GET";
         private const string POST_METHOD = "POST";
 
-        private const string DEFAULT_HOST = "api.huobi.pro";
-
         private readonly PrivateUrlBuilder _urlBuilder;
 
         /// <summary>
@@ -23,7 +21,7 @@ namespace Huobi.SDK.Core.Futures.RESTful
         /// <param name="secretKey">Secret Key</param>
         public TransferClient(string accessKey, string secretKey)
         {
-            _urlBuilder = new PrivateUrlBuilder(accessKey, secretKey, DEFAULT_HOST);
+            _urlBuilder = new PrivateUrlBuilder(accessKey, secretKey, Host.FUTURES);
         }
 
         /// <summary>

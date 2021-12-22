@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         private string path = null;
         private const string _DEFAULT_ID = "api";
 
-        public WSMarketClient(string host = WebSocketOp.DEFAULT_HOST)
+        public WSMarketClient(string host = Host.FUTURES)
         {
             this.host = host;
             this.path = "/linear-swap-ws";

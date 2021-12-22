@@ -9,15 +9,13 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
     /// </summary>
     public class MarketClient
     {
-        private const string DEFAULT_HOST = "api.btcgateway.pro";
-
         private PublicUrlBuilder _urlBuilder;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="host">the host that the client connects to</param>
-        public MarketClient(string host = DEFAULT_HOST)
+        public MarketClient(string host = Host.FUTURES)
         {
             _urlBuilder = new PublicUrlBuilder(host);
         }
