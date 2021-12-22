@@ -11,7 +11,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         private string path = null;
         private string accessKey = null;
         private string secretKey = null;
-        private const string _DEFAULT_CID = "cid";
         private Dictionary<string, WebSocketOp> allWsop = new Dictionary<string, WebSocketOp>();
 
         public WSNotifyClient(string accessKey = null, string secretKey = null, string host = Host.FUTURES)
@@ -40,7 +39,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void IsolatedSubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"orders.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -60,7 +59,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void IsolatedUnsubOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"orders.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -80,7 +79,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void CrossSubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void CrossSubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"orders_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -100,7 +99,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void CrossUnsubOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void CrossUnsubOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"orders_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -125,7 +124,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void IsolatedSubAcounts(string contractCode, _OnIsolatedSubAccountsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubAcounts(string contractCode, _OnIsolatedSubAccountsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"accounts.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -145,7 +144,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void IsolatedUnsubAccounts(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubAccounts(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"accounts.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -165,7 +164,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="marginAccount"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void CrossSubAcounts(string marginAccount, _OnCrossSubAccountsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void CrossSubAcounts(string marginAccount, _OnCrossSubAccountsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"accounts_cross.{marginAccount}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -185,7 +184,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="marginAccount"></param>
         /// <param name="cid"></param>
-        public void CrossUnsubAccounts(string marginAccount, string cid = _DEFAULT_CID)
+        public void CrossUnsubAccounts(string marginAccount, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"accounts_cross.{marginAccount}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -209,7 +208,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void IsolatedSubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"positions.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -229,7 +228,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void IsolatedUnsubPositions(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubPositions(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"positions.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -249,7 +248,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void CrossSubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void CrossSubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"positions_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -269,7 +268,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void CrossUnsubPositions(string contractCode, string cid = _DEFAULT_CID)
+        public void CrossUnsubPositions(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"positions_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -293,7 +292,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void IsolatedSubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
@@ -314,7 +313,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void IsolatedUnsubMathOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubMathOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
@@ -335,7 +334,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void CrossSubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void CrossSubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders_cross.{contractCode}";
@@ -356,7 +355,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void CrossUnsubMathOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void CrossUnsubMathOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders_cross.{contractCode}";
@@ -382,7 +381,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void SubLiquidationOrders(string contractCode, _OnSubLiquidationOrdersResponse callbackFun, string cid = _DEFAULT_CID,
+        public void SubLiquidationOrders(string contractCode, _OnSubLiquidationOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
                                          string businessType = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
@@ -404,7 +403,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void UnsubLiquidationOrders(string contractCode, string cid = _DEFAULT_CID,
+        public void UnsubLiquidationOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID,
                                            string businessType = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
@@ -429,7 +428,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubFundingRate(string contractCode, _OnSubFundingRateResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubFundingRate(string contractCode, _OnSubFundingRateResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"public.{contractCode}.funding_rate";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -449,7 +448,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubFundingRate(string contractCode, string cid = _DEFAULT_CID)
+        public void UnsubFundingRate(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"public.{contractCode}.funding_rate";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -474,7 +473,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void SubContractInfo(string contractCode, _OnSubContractInfoResponse callbackFun, string cid = _DEFAULT_CID,
+        public void SubContractInfo(string contractCode, _OnSubContractInfoResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
                                     string businessType = null)
         {
             string ch = $"public.{contractCode}.contract_info";
@@ -496,7 +495,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void UnsubContractInfo(string contractCode, string cid = _DEFAULT_CID, string businessType = null)
+        public void UnsubContractInfo(string contractCode, string cid = WebSocketOp.DEFAULT_ID, string businessType = null)
         {
             string ch = $"public.{contractCode}.contract_info";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType };
@@ -520,7 +519,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void IsolatedSubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = _DEFAULT_CID)
+        public void IsolatedSubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"trigger_order.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -540,7 +539,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void IsolatedUnsubTriggerOrder(string contractCode, string cid = _DEFAULT_CID)
+        public void IsolatedUnsubTriggerOrder(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"trigger_order.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -560,7 +559,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void CrossSubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = _DEFAULT_CID)
+        public void CrossSubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"trigger_order_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -580,7 +579,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void CrossUnsubTriggerOrder(string contractCode, string cid = _DEFAULT_CID)
+        public void CrossUnsubTriggerOrder(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"trigger_order_cross.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };

@@ -8,7 +8,6 @@ namespace Huobi.SDK.Core.CoinSwap.WS
     {
         private string host = null;
         private string path = null;
-        private const string _DEFAULT_CID = "cid";
 
         public WSSystemClient(string host = Host.FUTURES)
         {
@@ -24,7 +23,7 @@ namespace Huobi.SDK.Core.CoinSwap.WS
         /// </summary>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubHeartBeat(_OnSubHeartBeatResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubHeartBeat(_OnSubHeartBeatResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"public.linear-swap.heartbeat";
             WSOpData subData = new WSOpData() { op = "sub", topic = ch, cid = cid };

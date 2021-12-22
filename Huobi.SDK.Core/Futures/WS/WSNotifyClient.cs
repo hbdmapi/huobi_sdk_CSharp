@@ -11,7 +11,6 @@ namespace Huobi.SDK.Core.Futures.WS
         private string path = null;
         private string accessKey = null;
         private string secretKey = null;
-        private const string _DEFAULT_CID = "cid";
         private Dictionary<string, WebSocketOp> allWsop = new Dictionary<string, WebSocketOp>();
 
         public WSNotifyClient(string accessKey = null, string secretKey = null, string host = Host.FUTURES)
@@ -40,7 +39,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"orders.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -60,7 +59,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void UnsubOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"orders.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -84,7 +83,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubAcounts(string contractCode, _OnSubAccountsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubAcounts(string contractCode, _OnSubAccountsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"accounts.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -104,7 +103,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubAccounts(string contractCode, string cid = _DEFAULT_CID)
+        public void UnsubAccounts(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"accounts.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -128,7 +127,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubPositions(string contractCode, _OnSubPositionsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"positions.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", topic = ch };
@@ -148,7 +147,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubPositions(string contractCode, string cid = _DEFAULT_CID)
+        public void UnsubPositions(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"positions.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -172,7 +171,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubMatchOrders(string contractCode, _OnSubMatchOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
@@ -193,7 +192,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubMathOrders(string contractCode, string cid = _DEFAULT_CID)
+        public void UnsubMathOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             contractCode = contractCode.ToLower();
             string ch = $"matchOrders.{contractCode}";
@@ -219,7 +218,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void SubLiquidationOrders(string contractCode, _OnSubLiquidationOrdersResponse callbackFun, string cid = _DEFAULT_CID,
+        public void SubLiquidationOrders(string contractCode, _OnSubLiquidationOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
                                          string businessType = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
@@ -241,7 +240,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void UnsubLiquidationOrders(string contractCode, string cid = _DEFAULT_CID,
+        public void UnsubLiquidationOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID,
                                            string businessType = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
@@ -266,7 +265,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubFundingRate(string contractCode, _OnSubFundingRateResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubFundingRate(string contractCode, _OnSubFundingRateResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"public.{contractCode}.funding_rate";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -286,7 +285,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubFundingRate(string contractCode, string cid = _DEFAULT_CID)
+        public void UnsubFundingRate(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"public.{contractCode}.funding_rate";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
@@ -311,7 +310,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void SubContractInfo(string contractCode, _OnSubContractInfoResponse callbackFun, string cid = _DEFAULT_CID,
+        public void SubContractInfo(string contractCode, _OnSubContractInfoResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
                                     string businessType = null)
         {
             string ch = $"public.{contractCode}.contract_info";
@@ -333,7 +332,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void UnsubContractInfo(string contractCode, string cid = _DEFAULT_CID, string businessType = null)
+        public void UnsubContractInfo(string contractCode, string cid = WebSocketOp.DEFAULT_ID, string businessType = null)
         {
             string ch = $"public.{contractCode}.contract_info";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType };
@@ -357,7 +356,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = _DEFAULT_CID)
+        public void SubTriggerOrder(string contractCode, _OnSubTriggerOrderResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"trigger_order.{contractCode}";
             WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
@@ -377,7 +376,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubTriggerOrder(string contractCode, string cid = _DEFAULT_CID)
+        public void UnsubTriggerOrder(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"trigger_order.{contractCode}";
             WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };

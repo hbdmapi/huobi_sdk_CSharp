@@ -8,7 +8,6 @@ namespace Huobi.SDK.Core.Futures.WS
     {
         private string host = null;
         private string path = null;
-        private const string _DEFAULT_ID = "api";
 
         public WSIndexClient(string host = Host.FUTURES)
         {
@@ -27,7 +26,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="period"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubIndexKLine(string contractCode, string period, _OnSubIndexKLineResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubIndexKLine(string contractCode, string period, _OnSubIndexKLineResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.index.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -46,7 +45,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="id"></param>
-        public void ReqIndexKLine(string contractCode, string period, _OnReqIndexKLineResponse callbackFun, long from, long to, string id = _DEFAULT_ID)
+        public void ReqIndexKLine(string contractCode, string period, _OnReqIndexKLineResponse callbackFun, long from, long to, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.index.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
@@ -68,7 +67,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="period"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubPremiumIndexKLine(string contractCode, string period, _OnSubPremiumIndexKLineResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubPremiumIndexKLine(string contractCode, string period, _OnSubPremiumIndexKLineResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.premium_index.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -87,7 +86,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="id"></param>
-        public void ReqPremiumIndexKLine(string contractCode, string period, _OnReqPremiumIndexKLineResponse callbackFun, long from, long to, string id = _DEFAULT_ID)
+        public void ReqPremiumIndexKLine(string contractCode, string period, _OnReqPremiumIndexKLineResponse callbackFun, long from, long to, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.premium_index.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
@@ -109,7 +108,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="period"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubEstimatedRateKLine(string contractCode, string period, _OnSubEstimatedRateResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubEstimatedRateKLine(string contractCode, string period, _OnSubEstimatedRateResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.estimated_rate.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -128,7 +127,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="id"></param>
-        public void ReqEstimatedRateKLine(string contractCode, string period, _OnReqEstimatedRateResponse callbackFun, long from, long to, string id = _DEFAULT_ID)
+        public void ReqEstimatedRateKLine(string contractCode, string period, _OnReqEstimatedRateResponse callbackFun, long from, long to, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.estimated_rate.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
@@ -151,7 +150,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="callbackFun"></param>
         /// <param name="basisPriceType"></param>
         /// <param name="id"></param>
-        public void SubBasis(string contractCode, string period, _OnSubBasisResponse callbackFun, string basisPriceType = "open", string id = _DEFAULT_ID)
+        public void SubBasis(string contractCode, string period, _OnSubBasisResponse callbackFun, string basisPriceType = "open", string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.basis.{period}.{basisPriceType}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -172,7 +171,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="basisPriceType"></param>
         /// <param name="id"></param>
         public void ReqBasis(string contractCode, string period, _OnReqBasisResponse callbackFun, long from, long to,
-                             string basisPriceType = "open", string id = _DEFAULT_ID)
+                             string basisPriceType = "open", string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.basis.{period}.{basisPriceType}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
@@ -194,7 +193,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="period"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubMarkPriceKLine(string contractCode, string period, _OnSubMarkPriceKLineResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubMarkPriceKLine(string contractCode, string period, _OnSubMarkPriceKLineResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.mark_price.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -213,7 +212,7 @@ namespace Huobi.SDK.Core.Futures.WS
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="id"></param>
-        public void ReqMarkPriceKLine(string contractCode, string period, _OnReqMarkPriceKLineResponse callbackFun, long from, long to, string id = _DEFAULT_ID)
+        public void ReqMarkPriceKLine(string contractCode, string period, _OnReqMarkPriceKLineResponse callbackFun, long from, long to, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.mark_price.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };

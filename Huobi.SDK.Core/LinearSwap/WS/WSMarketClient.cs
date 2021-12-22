@@ -8,7 +8,6 @@ namespace Huobi.SDK.Core.LinearSwap.WS
     {
         private string host = null;
         private string path = null;
-        private const string _DEFAULT_ID = "api";
 
         public WSMarketClient(string host = Host.FUTURES)
         {
@@ -27,7 +26,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="period"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubKLine(string contractCode, string period, _OnSubKLineResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubKLine(string contractCode, string period, _OnSubKLineResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.kline.{period}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -46,7 +45,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="id"></param>
-        public void ReqKLine(string contractCode, string period, _OnReqKLineResponse callbackFun, long from, long to, string id = _DEFAULT_ID)
+        public void ReqKLine(string contractCode, string period, _OnReqKLineResponse callbackFun, long from, long to, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.kline.{period}";
             WSReqData reqData = new WSReqData() { req = ch, id = id, from = from, to = to };
@@ -69,7 +68,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="type"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubDepth(string contractCode, string type, _OnSubDepthResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubDepth(string contractCode, string type, _OnSubDepthResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.depth.{type}";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -86,7 +85,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="size"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubIncrementalDepth(string contractCode, string size, _OnSubDepthResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubIncrementalDepth(string contractCode, string size, _OnSubDepthResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.depth.size_{size}.high_freq";
             WSSubData subData = new WSSubData() { sub = ch, id = id, dataType = "incremental"};
@@ -106,7 +105,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubDetail(string contractCode, _OnSubDetailResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubDetail(string contractCode, _OnSubDetailResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.detail";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -126,7 +125,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubBBO(string contractCode, _OnSubBBOResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubBBO(string contractCode, _OnSubBBOResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.bbo";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -147,7 +146,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="id"></param>
-        public void SubTradeDetail(string contractCode, _OnSubTradeDetailResponse callbackFun, string id = _DEFAULT_ID)
+        public void SubTradeDetail(string contractCode, _OnSubTradeDetailResponse callbackFun, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.trade.detail";
             WSSubData subData = new WSSubData() { sub = ch, id = id };
@@ -164,7 +163,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="callbackFun"></param>
         /// <param name="size"></param>
         /// <param name="id"></param>
-        public void ReqTradeDetail(string contractCode, _OnReqTradeDetailResponse callbackFun, int size = 50, string id = _DEFAULT_ID)
+        public void ReqTradeDetail(string contractCode, _OnReqTradeDetailResponse callbackFun, int size = 50, string id = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"market.{contractCode}.trade.detail";
             WSReqData reqData = new WSReqData() { req = ch, size = size, id = id};

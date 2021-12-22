@@ -23,6 +23,7 @@ namespace Huobi.SDK.Core.WSBase
         private bool isConnected = false;
         private bool isManclose = false;
 
+        public const string DEFAULT_ID = "id1";
 
         /// <summary>
         /// construct
