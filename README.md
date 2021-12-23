@@ -1,6 +1,7 @@
-# Huobi Futures C# SDK (but now only linearswap)
+# Huobi Futures C# SDK
 
-This is Huobi C# SDK, This is a lightweight .NET library, you can import it to your project.
+This is Huobi C# SDK, This is a lightweight .NET library.
+You can import it to your project or nuget in: https://www.nuget.org/packages/Huobi_SDK_Core/
 
 The SDK API supports both RESTful and websocket to get/sub the market, account and order infomation.
 
