@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.Test.LinearSwap
     public class RestOrderTest
     {
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        static OrderClient client = new OrderClient(config["AccessKey"], config["SecretKey"], config["Host"]);
+        static OrderClient client = new OrderClient(config["AccessKey"], config["SecretKey"], Host.FUTURES);
 
         [Theory]
         [InlineData("shib-usdt", null, 0.00004, 1, "sell", "open", 5, "limit", null, null)]

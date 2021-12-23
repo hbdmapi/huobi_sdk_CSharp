@@ -9,7 +9,7 @@ namespace Huobi.SDK.Core.Test.CoinSwap
     public class RestMarketTest
     {
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        static MarketClient client = new MarketClient(config["Host"]);
+        static MarketClient client = new MarketClient(Host.FUTURES);
         
         [Theory]
         [InlineData(null)]
