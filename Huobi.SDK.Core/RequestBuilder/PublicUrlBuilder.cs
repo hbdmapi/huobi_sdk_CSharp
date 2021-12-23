@@ -9,9 +9,14 @@
             _host = host;
         }
 
-        public string Build(string path)
+        public string Build(string path, GetRequest query = null)
         {
-            return $"https://{_host}{path}";
+            string options = string.Empty;
+            if (query != null)
+            {
+                options = $"?{query.BuildParams()}";
+            }
+            return $"https://{_host}{path}{options}";
         }
     }
 }

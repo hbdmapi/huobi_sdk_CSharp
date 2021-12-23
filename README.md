@@ -71,7 +71,6 @@ And use it as follow:
 IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 string access_key = config["AccessKey"];
 string secret_key = config["SecretKey"];
-string host = config["Host"]
  ```
 
 ### Folder Structure
