@@ -5,6 +5,8 @@ You can import it to your project or nuget in: https://www.nuget.org/packages/Hu
 
 The SDK API supports both RESTful and websocket to get/sub the market, account and order infomation.
 
+It supports Spot trading, Coin-M Futures, Coin-M Swaps and USDT-M.
+
 ## Table of Contents
 
 - [Quick Start](#Quick-Start)
