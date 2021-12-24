@@ -1,4 +1,4 @@
-# Huobi Futures C# SDK
+# Huobi C# SDK
 
 This is Huobi C# SDK, This is a lightweight .NET library.
 You can import it to your project or nuget in: https://www.nuget.org/packages/Huobi_SDK_Core/
