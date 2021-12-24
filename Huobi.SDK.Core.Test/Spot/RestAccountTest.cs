@@ -11,7 +11,7 @@ namespace Huobi.SDK.Core.Test.Spot
     public class RestAccountTest
     {
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        static AccountClient client = new AccountClient(config["AccessKey"], config["SecretKey"], Host.SPOT);
+        static AccountClient client = new AccountClient(config["AccessKey"], config["SecretKey"]);
 
         [Fact]
         public void GetAccountInfoTest()

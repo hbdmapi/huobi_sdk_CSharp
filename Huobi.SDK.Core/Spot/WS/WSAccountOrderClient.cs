@@ -12,7 +12,7 @@ namespace Huobi.SDK.Core.Spot.WS
         private string accessKey = null;
         private string secretKey = null;
 
-        public WSAccountOrderClient(string accessKey = null, string secretKey = null, string host = Host.FUTURES)
+        public WSAccountOrderClient(string accessKey, string secretKey, string host = Host.SPOT)
         {
             this.host = host;
             this.path = "/ws/v2";
@@ -35,7 +35,7 @@ namespace Huobi.SDK.Core.Spot.WS
             string sub_str = JsonConvert.SerializeObject(actionData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubOrdersResponse), true, this.host,
-                                               this.accessKey, this.secretKey);
+                                               this.accessKey, this.secretKey, true);
             wsop.Connect();
         }
         #endregion
@@ -56,7 +56,7 @@ namespace Huobi.SDK.Core.Spot.WS
             string sub_str = JsonConvert.SerializeObject(actionData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubTradeClearingResponse), true, this.host,
-                                               this.accessKey, this.secretKey);
+                                               this.accessKey, this.secretKey, true);
             wsop.Connect();
         }
         #endregion
@@ -65,18 +65,18 @@ namespace Huobi.SDK.Core.Spot.WS
         public delegate void _OnSubAccountResponse(SubAccountResponse data);
 
         /// <summary>
-        /// isolated margin sub match orders
+        /// sub match orders
         /// </summary>
         /// <param name="mode"></param>
         /// <param name="callbackFun"></param>
-        public void IsolatedSubMatchOrders(string mode, _OnSubAccountResponse callbackFun)
+        public void SubMatchOrders(string mode, _OnSubAccountResponse callbackFun)
         {
             string ch = $"accounts.update#{mode}";
             WSActionData actionData = new WSActionData { action = "sub", ch = ch };
             string sub_str = JsonConvert.SerializeObject(actionData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubAccountResponse), true, this.host,
-                                            this.accessKey, this.secretKey);
+                                               this.accessKey, this.secretKey, true);
             wsop.Connect();
         }
         #endregion

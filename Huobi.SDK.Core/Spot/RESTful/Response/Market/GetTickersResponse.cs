@@ -1,19 +1,14 @@
 ﻿namespace Huobi.SDK.Core.Spot.RESTful.Response.Market
 {
     /// <summary>
-    /// GetCandlestick response
+    /// GetLast24hCandlestick response
     /// </summary>
-    public class GetCandlestickResponse
+    public class GetTickersResponse
     {
         /// <summary>
         /// Response status
         /// </summary>
         public string status;
-
-        /// <summary>
-        /// The data stream
-        /// </summary>
-        public string ch;
 
         /// <summary>
         /// The timestamp (millisecond) when API respond
@@ -31,44 +26,52 @@
         public class Candlestick
         {
             /// <summary>
-            /// Unix timestamp in seconds
+            /// The trading symbol
             /// </summary>
-            public int id;
+            public string symbol;
 
             /// <summary>
-            /// The aggregated trading volume in USDT
+            /// The aggregated trading volume in USDT of last 24h
             /// </summary>
             public float amount;
 
             /// <summary>
-            /// The number of completed trades
+            /// The number of completed trades of last 24h
             /// </summary>
             public int count;
 
             /// <summary>
-            /// The opening price
+            /// The opening price of last 24h
             /// </summary>
             public float open;
 
             /// <summary>
-            /// The closing price
+            /// The closing price of last 24h
             /// </summary>
             public float close;
 
             /// <summary>
-            /// The low price
+            /// The low price of last 24h
             /// </summary>
             public float low;
 
             /// <summary>
-            /// The high price
+            /// The high price of last 24h
             /// </summary>
             public float high;
 
             /// <summary>
-            /// The trading volume in base currency
+            /// The trading volume in base currency of last 24h
             /// </summary>
             public float vol;
+
+            public float bid;
+
+            public float bidSize;
+
+            public float ask;
+
+            public float askSize;
         }
     }
 }

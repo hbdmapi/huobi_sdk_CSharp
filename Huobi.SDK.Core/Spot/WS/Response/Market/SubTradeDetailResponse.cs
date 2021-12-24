@@ -1,4 +1,6 @@
-﻿namespace Huobi.SDK.Core.Spot.WS.Response.Market
+﻿using System.Numerics;
+
+namespace Huobi.SDK.Core.Spot.WS.Response.Market
 {
     /// <summary>
     /// SubTradeDetail Response
@@ -24,37 +26,37 @@
         {
             public long id;
 
-            public string ts;
+            public long ts;
 
-            public Trade[] data;
-        }
+            public Data[] data;
 
-        public class Trade
-        {
-            public long id;
+            public class Data
+            {
+                public BigInteger id;
 
-            public string ts;
+                public long ts;
 
-            /// <summary>
-            /// Unique trade id (NEW)
-            /// </summary>
-            public long tradeid;
+                /// <summary>
+                /// Unique trade id (NEW)
+                /// </summary>
+                public long tradeid;
 
-            /// <summary>
-            /// Last trade volume
-            /// </summary>
-            public float amount;
+                /// <summary>
+                /// Last trade volume
+                /// </summary>
+                public float amount;
 
-            /// <summary>
-            /// Last trade price
-            /// </summary>
-            public float price;
+                /// <summary>
+                /// Last trade price
+                /// </summary>
+                public float price;
 
-            /// <summary>
-            /// Aggressive order side (taker's order side) of the trade
-            /// Possible values: [buy, sell]
-            /// </summary>
-            public string direction;
+                /// <summary>
+                /// Aggressive order side (taker's order side) of the trade
+                /// Possible values: [buy, sell]
+                /// </summary>
+                public string direction;
+            }
         }
     }
 }

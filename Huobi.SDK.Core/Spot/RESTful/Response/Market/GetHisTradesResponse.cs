@@ -5,7 +5,7 @@ namespace Huobi.SDK.Core.Spot.RESTful.Response.Market
     /// <summary>
     /// GetDepth response
     /// </summary>
-    public class GetLastTradesResponse
+    public class GetHisTradesResponse
     {
         /// <summary>
         /// Response status

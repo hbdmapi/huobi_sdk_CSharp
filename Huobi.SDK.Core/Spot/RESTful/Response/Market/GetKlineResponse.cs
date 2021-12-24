@@ -1,14 +1,19 @@
 ﻿namespace Huobi.SDK.Core.Spot.RESTful.Response.Market
 {
     /// <summary>
-    /// GetLast24hCandlestick response
+    /// GetCandlestick response
     /// </summary>
-    public class GetAllSymbolsLast24hCandlesticksAskBidResponse
+    public class GetKlineResponse
     {
         /// <summary>
         /// Response status
         /// </summary>
         public string status;
+
+        /// <summary>
+        /// The data stream
+        /// </summary>
+        public string ch;
 
         /// <summary>
         /// The timestamp (millisecond) when API respond
@@ -26,52 +31,44 @@
         public class Candlestick
         {
             /// <summary>
-            /// The trading symbol
+            /// Unix timestamp in seconds
             /// </summary>
-            public string symbol;
+            public int id;
 
             /// <summary>
-            /// The aggregated trading volume in USDT of last 24h
+            /// The aggregated trading volume in USDT
             /// </summary>
             public float amount;
 
             /// <summary>
-            /// The number of completed trades of last 24h
+            /// The number of completed trades
             /// </summary>
             public int count;
 
             /// <summary>
-            /// The opening price of last 24h
+            /// The opening price
             /// </summary>
             public float open;
 
             /// <summary>
-            /// The closing price of last 24h
+            /// The closing price
             /// </summary>
             public float close;
 
             /// <summary>
-            /// The low price of last 24h
+            /// The low price
             /// </summary>
             public float low;
 
             /// <summary>
-            /// The high price of last 24h
+            /// The high price
             /// </summary>
             public float high;
 
             /// <summary>
-            /// The trading volume in base currency of last 24h
+            /// The trading volume in base currency
             /// </summary>
             public float vol;
-
-            public float bid;
-
-            public float bidSize;
-
-            public float ask;
-
-            public float askSize;
         }
     }
 }

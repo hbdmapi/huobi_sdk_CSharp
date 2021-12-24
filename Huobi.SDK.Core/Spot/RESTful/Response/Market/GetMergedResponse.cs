@@ -3,7 +3,7 @@
     /// <summary>
     /// GetCandlestick response
     /// </summary>
-    public class GetLast24hCandlestickAskBidResponse
+    public class GetMergedResponse
     {
         /// <summary>
         /// Response status

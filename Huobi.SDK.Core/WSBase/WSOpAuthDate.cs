@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Huobi.SDK.Core.WSBase
 {
-    public class WSAuthData
+    public class WSOpAuthData
     {
         public string op { get { return "auth"; } }
 

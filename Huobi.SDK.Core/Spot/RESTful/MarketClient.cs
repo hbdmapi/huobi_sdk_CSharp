@@ -24,35 +24,35 @@ namespace Huobi.SDK.Core.Spot.RESTful
         /// Retrieves all klines in a specific range.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>GetCandlestickResponse</returns>
-        public async Task<GetCandlestickResponse> GetCandlestickAsync(GetRequest request)
+        /// <returns></returns>
+        public async Task<GetKlineResponse> GetKlineAsync(GetRequest request)
         {
             string url = _urlBuilder.Build("/market/history/kline", request);
 
-            return await HttpRequest.GetAsync<GetCandlestickResponse>(url);
+            return await HttpRequest.GetAsync<GetKlineResponse>(url);
         }
 
         /// <summary>
         /// Retrieves the latest ticker with some important 24h aggregated market data.
         /// </summary>
         /// <param name="symbol">Trading symbol</param>
-        /// <returns>GetLast24hCandlestickAskBidResponse</returns>
-        public async Task<GetLast24hCandlestickAskBidResponse> GetLast24hCandlestickAskBidAsync(string symbol)
+        /// <returns>GetMergedResponse</returns>
+        public async Task<GetMergedResponse> GetMergedAsync(string symbol)
         {
             string url = _urlBuilder.Build($"/market/detail/merged?symbol={symbol}");
 
-            return await HttpRequest.GetAsync<GetLast24hCandlestickAskBidResponse>(url);
+            return await HttpRequest.GetAsync<GetMergedResponse>(url);
         }
 
         /// <summary>
         /// Retrieve the latest tickers for all supported pairs.
         /// </summary>
-        /// <returns>GetLast24hCandlestickResponse</returns>
-        public async Task<GetAllSymbolsLast24hCandlesticksAskBidResponse> GetAllSymbolsLast24hCandlesticksAskBidAsync()
+        /// <returns>GetTickersResponse</returns>
+        public async Task<GetTickersResponse> GetTicksAsync()
         {
             string url = _urlBuilder.Build("/market/tickers");
 
-            return await HttpRequest.GetAsync<GetAllSymbolsLast24hCandlesticksAskBidResponse>(url);
+            return await HttpRequest.GetAsync<GetTickersResponse>(url);
         }
 
         /// <summary>
@@ -71,12 +71,12 @@ namespace Huobi.SDK.Core.Spot.RESTful
         /// Retrieves the latest trade with its price, volume, and direction.
         /// </summary>
         /// <param name="symbol">Trading symbol</param>
-        /// <returns>GetLastTradeResponse</returns>
-        public async Task<GetLastTradeResponse> GetLastTradeAsync(string symbol)
+        /// <returns>GetTradeResponse</returns>
+        public async Task<GetTradeResponse> GetTradeAsync(string symbol)
         {
             string url = _urlBuilder.Build($"/market/trade?symbol={symbol}");
 
-            return await HttpRequest.GetAsync<GetLastTradeResponse>(url);
+            return await HttpRequest.GetAsync<GetTradeResponse>(url);
         }
 
         /// <summary>
@@ -85,23 +85,23 @@ namespace Huobi.SDK.Core.Spot.RESTful
         /// <param name="symbol">Trading symbol</param>
         /// <param name="size">The number of data returns</param>
         /// <returns>GetLastTradesResponse</returns>
-        public async Task<GetLastTradesResponse> GetLastTradesAsync(string symbol, int size)
+        public async Task<GetHisTradesResponse> GetHisTradesAsync(string symbol, int size)
         {
             string url = _urlBuilder.Build($"/market/history/trade?symbol={symbol}&size={size}");
 
-            return await HttpRequest.GetAsync<GetLastTradesResponse>(url);
+            return await HttpRequest.GetAsync<GetHisTradesResponse>(url);
         }
 
         /// <summary>
         /// Retrieves the summary of trading in the market for the last 24 hours.
         /// </summary>
         /// <param name="symbol">Trading symbol</param>
-        /// <returns>GetLast24hCandlestickResponse</returns>
-        public async Task<GetLast24hCandlestickResponse> GetLast24hCandlestickAsync(string symbol)
+        /// <returns>GetDetailResponse</returns>
+        public async Task<GetDetailResponse> GetDetailAsync(string symbol)
         {
             string url = _urlBuilder.Build($"/market/detail?symbol={symbol}");
 
-            return await HttpRequest.GetAsync<GetLast24hCandlestickResponse>(url);
+            return await HttpRequest.GetAsync<GetDetailResponse>(url);
         }
     }
 }

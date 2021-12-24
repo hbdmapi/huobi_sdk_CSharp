@@ -44,9 +44,8 @@ namespace Huobi.SDK.Core.Spot.WS
         /// sub kline
         /// </summary>
         /// <param name="symbol"></param>
-        /// <param name="period"></param>
         /// <param name="callbackFun"></param>
-        public void SubTicker(string symbol, string period, _OnSubTickerResponse callbackFun)
+        public void SubTicker(string symbol, _OnSubTickerResponse callbackFun)
         {
             string ch = $"market.{symbol}.ticker";
             WSSubData subData = new WSSubData() { sub = ch };
@@ -89,15 +88,17 @@ namespace Huobi.SDK.Core.Spot.WS
         /// <param name="callbackFun"></param>
         public void SubMBP(string symbol, int levels, bool beRefresh, _OnSubMBPResponse callbackFun)
         {
+            string path = this.mbp;
             string ch = $"market.{symbol}.mbp.{levels}";
             if (beRefresh)
             {
+                path = this.path;
                 ch = $"market.{symbol}.mbp.refresh.{levels}";
             }
             WSSubData subData = new WSSubData() { sub = ch };
             string sub_str = JsonConvert.SerializeObject(subData);
 
-            WebSocketOp wsop = new WebSocketOp(this.mbp, sub_str, callbackFun, typeof(SubMBPResponse), true, this.host);
+            WebSocketOp wsop = new WebSocketOp(path, sub_str, callbackFun, typeof(SubMBPResponse), true, this.host);
             wsop.Connect();
         }
         #endregion
@@ -125,14 +126,14 @@ namespace Huobi.SDK.Core.Spot.WS
         public delegate void _OnSubTradeDetailResponse(SubTradeDetailResponse data);
 
         /// <summary>
-        /// sub detail
+        /// sub trade detail
         /// </summary>
         /// <param name="symbol"></param>
         /// <param name="callbackFun"></param>
-        public void SubDetail(string symbol, _OnSubTradeDetailResponse callbackFun)
+        public void SubTradeDetail(string symbol, _OnSubTradeDetailResponse callbackFun)
         {
             string ch = $"market.{symbol}.trade.detail";
-            WSSubData subData = new WSSubData() { sub = ch };
+            WSSubData subData = new WSSubData() { sub = ch};
             string sub_str = JsonConvert.SerializeObject(subData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubTradeDetailResponse), true, this.host);
@@ -144,14 +145,14 @@ namespace Huobi.SDK.Core.Spot.WS
         public delegate void _OnSubDetailResponse(SubDetailResponse data);
 
         /// <summary>
-        /// sub trade detail
+        /// sub detail
         /// </summary>
         /// <param name="symbol"></param>
         /// <param name="callbackFun"></param>
         public void SubDetail(string symbol, _OnSubDetailResponse callbackFun)
         {
             string ch = $"market.{symbol}.detail";
-            WSSubData subData = new WSSubData() { sub = ch};
+            WSSubData subData = new WSSubData() { sub = ch };
             string sub_str = JsonConvert.SerializeObject(subData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubDetailResponse), true, this.host);

@@ -10,12 +10,12 @@
         /// <summary>
         /// Response body
         /// </summary>
-        public Quota data;
+        public Data data;
 
         /// <summary>
         /// Quota
         /// </summary>
-        public class Quota
+        public class Data
         {
             /// <summary>
             /// Crypto currency
@@ -43,14 +43,14 @@
                 public string maxWithdrawAmt;
 
                 /// <summary>
-                /// Maximum withdraw amount in a day
-                /// </summary>
-                public string withdrawQuotaPerDay;
-
-                /// <summary>
                 /// Remaining withdraw quota in the day
                 /// </summary>
                 public string remainWithdrawQuotaPerDay;
+
+                /// <summary>
+                /// Maximum withdraw amount in a day
+                /// </summary>
+                public string withdrawQuotaPerDay;
 
                 /// <summary>
                 /// Maximum withdraw amount in a year

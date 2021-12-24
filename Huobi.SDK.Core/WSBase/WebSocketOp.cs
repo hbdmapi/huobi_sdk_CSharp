@@ -22,6 +22,7 @@ namespace Huobi.SDK.Core.WSBase
         protected WebSocket websocket = null;
         private bool isConnected = false;
         private bool isManclose = false;
+        private bool beSpot = false;
 
         public const string DEFAULT_ID = "id1";
 
@@ -37,7 +38,8 @@ namespace Huobi.SDK.Core.WSBase
         /// <param name="accessKey"></param>
         /// <param name="secretKey"></param>
         public WebSocketOp(string path, string subStr, Delegate callbackFun, Type paramType, bool autoReconnect = true,
-                              string host = Host.FUTURES, string accessKey = null, string secretKey = null)
+                              string host = Host.FUTURES, string accessKey = null, string secretKey = null,
+                              bool beSpot = false)
         {
             this.path = path;
             this.host = host;
@@ -48,6 +50,8 @@ namespace Huobi.SDK.Core.WSBase
 
             this.accessKey = accessKey;
             this.secretKey = secretKey;
+
+            this.beSpot = beSpot;
         }
 
         ~WebSocketOp()
@@ -60,7 +64,9 @@ namespace Huobi.SDK.Core.WSBase
         /// </summary>
         public void Connect()
         {
-            websocket = new WebSocket($"wss://{host}{path}");
+            string url = $"wss://{host}{path}";
+            // System.Console.WriteLine(url);
+            websocket = new WebSocket(url);
             websocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.None;
 
             websocket.OnOpen += OnOpen;
@@ -103,20 +109,46 @@ namespace Huobi.SDK.Core.WSBase
 
             if (accessKey != null && secretKey != null)
             {
-                string timestamp = DateTime.UtcNow.ToString("s");
-                var sign = new Signer(secretKey);
+                if (beSpot)
+                {
+                    string timestamp = DateTime.UtcNow.ToString("s");
+                    WSChAuthData auth = new WSChAuthData() { param = new WSChAuthData.Params() { accessKey = accessKey, timestamp = timestamp } };
 
-                var req = new GetRequest()
-                    .AddParam("AccessKeyId", accessKey)
-                    .AddParam("SignatureMethod", "HmacSHA256")
-                    .AddParam("SignatureVersion", "2")
-                    .AddParam("Timestamp", timestamp);
+                    var sign = new Signer(secretKey);
 
-                string signature = sign.Sign("GET", host, path, req.BuildParams());
-                WSAuthData auth = new WSAuthData() { accessKeyId = accessKey, signature = signature, timestamp = timestamp };
+                    var req = new GetRequest()
+                        .AddParam("accessKey", auth.param.accessKey)
+                        .AddParam("signatureMethod", auth.param.signatureMethod)
+                        .AddParam("signatureVersion", auth.param.signatureVersion)
+                        .AddParam("timestamp", auth.param.timestamp);
 
-                string auth_str = JsonConvert.SerializeObject(auth);
-                websocket.Send(auth_str);
+                    string signature = sign.Sign("GET", host, path, req.BuildParams());
+                    auth.param.signature = signature;
+
+                    string auth_str = JsonConvert.SerializeObject(auth);
+                    websocket.Send(auth_str);
+                    logger.Log(Log.LogLevel.Info, $"has send: {auth_str}");
+                }
+                else
+                {
+                    string timestamp = DateTime.UtcNow.ToString("s");
+                    WSOpAuthData auth = new WSOpAuthData() { accessKeyId = accessKey, timestamp = timestamp };
+
+                    var sign = new Signer(secretKey);
+
+                    var req = new GetRequest()
+                        .AddParam("AccessKeyId", auth.accessKeyId)
+                        .AddParam("SignatureMethod", auth.signatureMethod)
+                        .AddParam("SignatureVersion", auth.signatureVersion)
+                        .AddParam("Timestamp", auth.timestamp);
+
+                    string signature = sign.Sign("GET", host, path, req.BuildParams());
+                    auth.signature = signature;
+
+                    string auth_str = JsonConvert.SerializeObject(auth);
+                    websocket.Send(auth_str);
+                    logger.Log(Log.LogLevel.Info, $"has send: {auth_str}");
+                }
             }
             websocket.Send(subStr);
         }
@@ -176,6 +208,40 @@ namespace Huobi.SDK.Core.WSBase
 
                 //logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
             }
+            else if (jdata.ContainsKey("action"))// spot order heartbeat
+            {
+                string action = jdata["action"].ToObject<string>();
+                switch (action)
+                {
+                    case "ping": // order heartbeat
+                        string ts = jdata["data"]["ts"].ToObject<string>();
+                        //logger.Log(Log.LogLevel.Debug, $"websocket has received data: {data}");
+
+                        string pongData = $"{{ \"action\":\"pong\",\"data\":{{\"ts\":{ts}}} }}";
+                        websocket.Send(pongData);
+
+                        //logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
+                        break;
+                    case "push":
+                        if (callbackFun != null)
+                        {
+                            callbackFun.DynamicInvoke(JsonConvert.DeserializeObject(data, paramType));
+                        }
+                        else
+                        {
+                            logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                        }
+                        break;
+                    case "req":
+                    case "sub":
+                    case "unsub":
+                        logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
+                        break;
+                    default:
+                        logger.Log(Log.LogLevel.Info, $"unknown data: {data}");
+                        break;
+                }
+            }
             else if (jdata.ContainsKey("op"))
             {
                 string op = jdata["op"].ToObject<string>();
@@ -190,19 +256,6 @@ namespace Huobi.SDK.Core.WSBase
 
                         //logger.Log(Log.LogLevel.Debug, $"websocket has send data: {pongData}");
                         break;
-
-                    case "close":
-                        logger.Log(Log.LogLevel.Error, $"websocket has received data: {data}");
-                        break;
-
-                    case "error":
-                        logger.Log(Log.LogLevel.Trace, $"websocket has received data: {data}");
-                        break;
-
-                    case "auth":
-                        logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
-                        int code = jdata["err-code"].ToObject<int>();
-                        break;
                     case "notify":
                         if (callbackFun != null)
                         {
@@ -213,9 +266,10 @@ namespace Huobi.SDK.Core.WSBase
                             logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                         }
                         break;
+                    case "close":
+                    case "error":
+                    case "auth":
                     case "sub":
-                        logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
-                        break;
                     case "unsub":
                         logger.Log(Log.LogLevel.Info, $"websocket has received data: {data}");
                         break;
