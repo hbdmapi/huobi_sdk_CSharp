@@ -9,7 +9,7 @@ namespace Huobi.SDK.Core.Test.Futures
     public class RestMarketTest
     {
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        static MarketClient client = new MarketClient(Host.FUTURES);
+        static MarketClient client = new MarketClient();
         
         [Theory]
         //[InlineData("BTC", "this_week", null)]

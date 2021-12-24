@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.Test.Futures
     public class RestTriggerOrderTest
     {
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        static TriggerOrderClient client = new TriggerOrderClient(config["AccessKey"], config["SecretKey"], Host.FUTURES);
+        static TriggerOrderClient client = new TriggerOrderClient(config["AccessKey"], config["SecretKey"]);
 
         [Theory]
         [InlineData("btch", null, "bch210625", "le", 100, "buy", "open", 1, 100, null, 10)]

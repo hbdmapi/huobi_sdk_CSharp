@@ -10,7 +10,7 @@ namespace Huobi.SDK.Core.Test.Futures
     public class RestAccountTest
     {
         static IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        static AccountClient client = new AccountClient(config["AccessKey"], config["SecretKey"], Host.FUTURES);
+        static AccountClient client = new AccountClient(config["AccessKey"], config["SecretKey"]);
 
         [Theory]
         [InlineData(null)]
