@@ -81,10 +81,10 @@ string secret_key = config["SecretKey"];
 This is the folder and namespace structure of SDK source code and the description
 
 - **Huobi.SDK.Core**: The SDK API project
-  - **Spot**: the Spot trading api src inclue RESTful and API
-  - **Futures**: the Coin-M Futures api src inclue RESTful and API
-  - **CoinSwap**: the Coin-M Swaps api src inclue RESTful and API
-  - **LinearSwap**: the USDT-M api src inclue RESTful and API
+  - **Spot**: the Spot trading api src inclue RESTful and Websocket
+  - **Futures**: the Coin-M Futures api src inclue RESTful and Websocket
+  - **CoinSwap**: the Coin-M Swaps api src inclue RESTful and Websocket
+  - **LinearSwap**: the USDT-M api src inclue RESTful and Websocket
   - **RequestBuilder**: Responsible to build the request with the signature
   - **Log**: The internal logger interface and implementations
   - **WSBase**: The websocket data model
