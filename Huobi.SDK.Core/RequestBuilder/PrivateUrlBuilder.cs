@@ -38,7 +38,7 @@ namespace Huobi.SDK.Core.RequestBuilder
 
             string options = req.BuildParams() + "&Signature=" + Uri.EscapeDataString(signature);
 
-            string url = $"https://{_host}{path}?{options}";
+            string url = $"{Host.HTTP_PRO}://{_host}{path}?{options}";
 
             return url;
         }
