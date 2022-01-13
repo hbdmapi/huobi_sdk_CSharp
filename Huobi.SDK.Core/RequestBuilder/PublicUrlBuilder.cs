@@ -16,7 +16,7 @@
             {
                 options = $"?{query.BuildParams()}";
             }
-            return $"https://{_host}{path}{options}";
+            return $"{Host.HTTP_PRO}://{_host}{path}{options}";
         }
     }
 }
