@@ -65,7 +65,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
             [JsonProperty("transfer_inner_out")]
             public int transferInnerOut { get; set; }
 
-
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
         }
     }
 }

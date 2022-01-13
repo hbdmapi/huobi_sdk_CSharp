@@ -40,6 +40,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
             [JsonProperty("business_type")]
             public string businessType { get; set; }
+
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
         }
     }
 }

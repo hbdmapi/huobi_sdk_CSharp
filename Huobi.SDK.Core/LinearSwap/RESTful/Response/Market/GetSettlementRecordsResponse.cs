@@ -25,7 +25,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
         public class Data
         {
             [JsonProperty("settlement_record")]
-            public List<SettlementRecord> data { get; set; }
+            public List<SettlementRecord> settlementRecord { get; set; }
 
             public class SettlementRecord
             {
@@ -51,6 +51,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
                 [JsonProperty("business_type")]
                 public string businessType { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
 
             [JsonProperty("total_page")]

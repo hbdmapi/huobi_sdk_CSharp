@@ -47,6 +47,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
                 [JsonProperty("avg_premium_index")]
                 public string avgPremiumIndex { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
 
             [JsonProperty("total_page")]

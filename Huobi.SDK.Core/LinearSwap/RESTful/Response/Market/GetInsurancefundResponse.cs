@@ -43,6 +43,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
             [JsonProperty("total_size")]
             public int totalSize { get; set; }
+
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
             
         }
     }

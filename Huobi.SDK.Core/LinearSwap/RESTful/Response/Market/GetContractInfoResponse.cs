@@ -58,6 +58,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
             [JsonProperty("delivery_date")]
             public string deliveryDate { get; set; }
+
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
         }
     }
 }

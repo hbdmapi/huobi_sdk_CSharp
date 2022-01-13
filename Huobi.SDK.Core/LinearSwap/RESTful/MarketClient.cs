@@ -27,9 +27,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="businessType"></param>
         /// <param name="contractType"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetContractInfoResponse> GetContractInfoAsync(string contractCode = null, string businessType = null,
-                                                                        string contractType = null, string pair = null)
+                                                                        string contractType = null, string pair = null,
+                                                                        string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_contract_info";
@@ -52,6 +54,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 option += $"&pair={pair}";
             }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
+            }
             if (option != null)
             {
                 location += $"?{option.Substring(1)}";
@@ -65,8 +71,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// get index info
         /// </summary>
         /// <param name="contractCode"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetIndexResponse> GetIndexAsync(string contractCode = null)
+        public async Task<GetIndexResponse> GetIndexAsync(string contractCode = null, string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_index";
@@ -75,11 +82,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (contractCode != null)
             {
-                option += $"contract_code={contractCode}";
+                option += $"&contract_code={contractCode}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
-                location += $"?{option}";
+                location += $"?{option.Substring(1)}";
             }
 
             string url = _urlBuilder.Build(location);
@@ -93,9 +104,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="businessType"></param>
         /// <param name="contractType"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetPriceLimitResponse> GetPriceLimitAsync(string contractCode = null, string businessType = null,
-                                                                    string contractType = null, string pair = null)
+                                                                    string contractType = null, string pair = null,
+                                                                    string tradePartition = null)
         {
             // location
             string location = $"/linear-swap-api/v1/swap_price_limit";
@@ -118,6 +131,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 option += $"&pair={pair}";
             }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
+            }
             if (option != null)
             {
                 location += $"?{option.Substring(1)}";
@@ -134,9 +151,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="businessType"></param>
         /// <param name="contractType"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetOpenInterestResponse> GetOpenInterestAsync(string contractCode = null, string businessType = null,
-                                                                        string contractType = null, string pair = null)
+                                                                        string contractType = null, string pair = null,
+                                                                        string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_open_interest";
@@ -158,6 +177,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pair != null)
             {
                 option += $"&pair={pair}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
@@ -188,8 +211,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="businessType"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetBboResponse> GetBboAsync(string contractCode = null, string businessType = null)
+        public async Task<GetBboResponse> GetBboAsync(string contractCode = null, string businessType = null,
+                                                      string tradePartition = null)
         {
             // location
             string location = "/linear-swap-ex/market/bbo";
@@ -202,6 +227,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (businessType != null)
             {
                 option += $"&business_type={businessType}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
@@ -288,8 +317,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="businessType"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetBatchMergedResponse> GetBatchMergedAsync(string contractCode = null, string businessType = null)
+        public async Task<GetBatchMergedResponse> GetBatchMergedAsync(string contractCode = null, string businessType = null,
+                                                                      string tradePartition = null)
         {
             // location
             string location = $"/linear-swap-ex/market/detail/batch_merged";
@@ -302,6 +333,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (businessType != null)
             {
                 option += $"&business_type={businessType}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
@@ -317,8 +352,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="businessType"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetTradeResponse> GetTradeAsync(string contractCode = null, string businessType = null)
+        public async Task<GetTradeResponse> GetTradeAsync(string contractCode = null, string businessType = null,
+                                                          string tradePartition = null)
         {
             // location
             string location = $"/linear-swap-ex/market/trade";
@@ -333,12 +370,17 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 option += $"&business_type={businessType}";
             }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
+            }
             if (option != null)
             {
                 location += $"?{option.Substring(1)}";
             }
 
             string url = _urlBuilder.Build(location);
+            System.Console.WriteLine(url);
             return await HttpRequest.GetAsync<GetTradeResponse>(url);
         }
 
@@ -362,8 +404,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="businessType"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetRiskInfoResponse> GetRiskInfoAsync(string contractCode = null, string businessType = null)
+        public async Task<GetRiskInfoResponse> GetRiskInfoAsync(string contractCode = null, string businessType = null,
+                                                                string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_risk_info";
@@ -377,6 +421,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (businessType != null)
             {
                 option += $"&business_type={businessType}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
@@ -422,8 +470,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// isolated margin get adjust factor
         /// </summary>
         /// <param name="contractCode"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetAdjustFactorFundResponse> IsolatedGetAdjustFactorFundAsync(string contractCode = null)
+        public async Task<GetAdjustFactorFundResponse> IsolatedGetAdjustFactorFundAsync(string contractCode = null,
+                                                                                        string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_adjustfactor";
@@ -432,13 +482,16 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (contractCode != null)
             {
-                option += $"contract_code={contractCode}";
+                option += $"&contract_code={contractCode}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
-                location += $"?{option}";
+                location += $"?{option.Substring(1)}";
             }
-
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetAdjustFactorFundResponse>(url);
         }
@@ -450,9 +503,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="businessType"></param>
         /// <param name="contractType"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetAdjustFactorFundResponse> CrossGetAdjustFactorFundAsync(string contractCode = null, string businessType = null,
-                                                                                     string contractType = null, string pair = null)
+                                                                                     string contractType = null, string pair = null,
+                                                                                     string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_cross_adjustfactor";
@@ -475,11 +530,14 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 option += $"&pair={pair}";
             }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
+            }
             if (option != null)
             {
                 location += $"?{option.Substring(1)}";
             }
-
             string url = _urlBuilder.Build(location);
             return await HttpRequest.GetAsync<GetAdjustFactorFundResponse>(url);
         }
@@ -532,8 +590,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// isolated margin, ladder margin
         /// </summary>
         /// <param name="contractCode"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetLadderMarginResponse> IsolatedGetLadderMarginAsync(string contractCode = null)
+        public async Task<GetLadderMarginResponse> IsolatedGetLadderMarginAsync(string contractCode = null,
+                                                                                string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_ladder_margin";
@@ -542,11 +602,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (contractCode != null)
             {
-                option += $"?contractCode={contractCode}";
+                option += $"&contract_code={contractCode}";
+            }
+            if (contractCode != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
-                location += $"{option}";
+                location += $"?{option.Substring(1)}";
             }
 
             string url = _urlBuilder.Build(location);
@@ -557,8 +621,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// cross margin, ladder margin
         /// </summary>
         /// <param name="contractCode"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetLadderMarginResponse> CrossGetLadderMarginAsync(string contractCode = null)
+        public async Task<GetLadderMarginResponse> CrossGetLadderMarginAsync(string contractCode = null,
+                                                                             string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_ladder_margin";
@@ -567,11 +633,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (contractCode != null)
             {
-                option += $"?contractCode={contractCode}";
+                option += $"&contract_code={contractCode}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
-                location += $"{option}";
+                location += $"?{option.Substring(1)}";
             }
 
             string url = _urlBuilder.Build(location);
@@ -612,8 +682,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// isolated margin get api status
         /// </summary>
         /// <param name="contractCode"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetApiStatusResponse> IsolatedGetApiStatusAsync(string contractCode = null)
+        public async Task<GetApiStatusResponse> IsolatedGetApiStatusAsync(string contractCode = null,
+                                                                          string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_api_state";
@@ -622,11 +694,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (contractCode != null)
             {
-                option += $"contract_code={contractCode}";
+                option += $"&contract_code={contractCode}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
-                location += $"?{option}";
+                location += $"?{option.Substring(1)}";
             }
 
             string url = _urlBuilder.Build(location);
@@ -665,9 +741,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="businessType"></param>
         /// <param name="contractType"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetTradeStatusResponse> CrossGetTradeStateAsync(string contractCode = null, string businessType = null,
-                                                                          string contractType = null, string pair = null)
+                                                                          string contractType = null, string pair = null,
+                                                                          string tradePartition = null)
         {
             // location
             string location = "/linear-swap-api/v1/swap_cross_trade_state";
@@ -689,6 +767,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pair != null)
             {
                 option += $"&pair={pair}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
@@ -717,8 +799,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// get batch funding rate
         /// </summary>
         /// <param name="contractCode"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
-        public async Task<GetBatchFundingRateResponse> GetBatchFundingRateAsync(string contractCode = null)
+        public async Task<GetBatchFundingRateResponse> GetBatchFundingRateAsync(string contractCode = null,
+                                                                                string tradePartition = null)
         {
             // location
             string location = $"/linear-swap-api/v1/swap_batch_funding_rate";
@@ -727,11 +811,15 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             string option = null;
             if (contractCode != null)
             {
-                option += $"contract_code={contractCode}";
+                option += $"&contract_code={contractCode}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {
-                location += $"?{option}";
+                location += $"?{option.Substring(1)}";
             }
 
             string url = _urlBuilder.Build(location);
@@ -766,6 +854,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             }
 
             string url = _urlBuilder.Build(location);
+            System.Console.WriteLine(url);
             return await HttpRequest.GetAsync<GetHisFundingRateResponse>(url);
         }
 
@@ -923,9 +1012,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="businessType"></param>
         /// <param name="contractType"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetEstimatedSettlementPriceResponse> GetEstimatedSettlementPriceAsync(string contractCode = null, string businessType = null,
-                                                                                                string contractType = null, string pair = null)
+                                                                                                string contractType = null, string pair = null,
+                                                                                                string tradePartition = null)
         {
             // location
             string location = $"/linear-swap-api/v1/swap_estimated_settlement_price";
@@ -947,6 +1038,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if (pair != null)
             {
                 option += $"&pair={pair}";
+            }
+            if (tradePartition != null)
+            {
+                option += $"&trade_partition={tradePartition}";
             }
             if (option != null)
             {

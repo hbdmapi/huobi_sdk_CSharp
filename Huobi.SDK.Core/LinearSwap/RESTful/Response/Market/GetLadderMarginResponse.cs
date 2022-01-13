@@ -55,6 +55,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Market
 
                 }
             }
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
         }
     }
 }
