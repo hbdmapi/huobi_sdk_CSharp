@@ -66,6 +66,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
                 public string feeAsset;
 
                 public List<Positions> positions { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
 
             public class Positions

@@ -18,7 +18,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         [InlineData(null, "futures", "quarter", "btc-usdt", null)]
         [InlineData(null, "futures", "quarter", "btc-husd", "husd")]
         [InlineData(null, "swap", "swap", "btc-husd", "husd")]
-        [InlineData("btc-husd", "swap", "swap", "btc-husd", "husd")]
         [InlineData("btc-husd-220325", "futures", "swap", "btc-husd", "husd")]
         [InlineData("btc-husd", "swap", "swap", "btc-husd", "husd")]
         [InlineData("btc-husd", "all", "swap", "btc-husd", "all")]
@@ -96,7 +95,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         [InlineData(null, "all", "quarter", "btc-usdt", null)]
         [InlineData("btc-husd", "swap", "swap", "btc-husd", "husd")]
         [InlineData("btc-husd-220325", "futures", "swap", "btc-husd", "husd")]
-        [InlineData("btc-husd", "swap", "swap", "btc-husd", "husd")]
         [InlineData("btc-husd", "all", "swap", "btc-husd", "all")]
         public void RESTfulMarketPriceLimitTest(string contractCode, string businessType, 
                                                 string contractType, string pair,
@@ -137,7 +135,6 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         [InlineData(null, "all", "quarter", "btc-usdt", null)]
         [InlineData("btc-husd", "swap", "swap", "btc-husd", "husd")]
         [InlineData("btc-husd-220325", "futures", "swap", "btc-husd", "husd")]
-        [InlineData("btc-husd", "swap", "swap", "btc-husd", "husd")]
         [InlineData("btc-husd", "all", "swap", "btc-husd", "all")]
         public void RESTfulMarketOpenInterestTest(string contractCode, string businessType, 
                                                   string contractType, string pair,
@@ -245,7 +242,7 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         [InlineData("BTC-USDT", "15min", 1)]
         [InlineData("BTC-usdt-CQ", "15min", 1)]
         [InlineData("BTC-USDT-220325", "15min", 1)]
-        [InlineData("BTC-USDT-220325", "15min", 1)]
+        [InlineData("BTC-HUSD-220325", "15min", 1)]
         [InlineData("BTC-HUSD", "15min", 1)]
         public void RESTfulMarketMarkKLineTest(string contractCode, string period, int size)
         {

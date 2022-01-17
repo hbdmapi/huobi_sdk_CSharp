@@ -37,6 +37,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
             [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
             public string businessType { get; set; }
+
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
         }
     }
 }

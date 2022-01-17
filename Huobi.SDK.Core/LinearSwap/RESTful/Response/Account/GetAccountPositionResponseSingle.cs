@@ -124,6 +124,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
                 [JsonProperty("margin_account")]
                 public string marginAccount { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
 
             [JsonProperty("contract_detail", NullValueHandling = NullValueHandling.Ignore)]
@@ -168,6 +171,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
                 [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
                 public string businessType { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
         }
     }

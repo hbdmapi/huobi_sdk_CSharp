@@ -83,6 +83,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
                 [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
                 public string pair { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
 
             public class Positions

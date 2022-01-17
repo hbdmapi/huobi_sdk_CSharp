@@ -63,10 +63,16 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
                 [JsonProperty("transfer_type", NullValueHandling = NullValueHandling.Ignore)]
                 public int transferType { get; set; }
                 #endregion
+
+                [JsonProperty("trade_partition", NullValueHandling = NullValueHandling.Ignore)]
+                public string tradePartition { get; set; }
             }
 
-            [JsonProperty("financial_record")]
+            [JsonProperty("financial_record", NullValueHandling = NullValueHandling.Ignore)]
             public List<FinancialRecord> financialRecord { get; set; }
+
+            [JsonProperty("transfer_record", NullValueHandling = NullValueHandling.Ignore)]
+            public List<FinancialRecord> transferRecord { get; set; }
 
             [JsonProperty("total_page")]
             public long totalPage { get; set; }
