@@ -24,7 +24,6 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
             public class Orders
             {
-
                 [JsonProperty("query_id")]
                 public long queryId { get; set; }
 
@@ -106,6 +105,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
 
                 [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
                 public string businessType { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
 
             [JsonProperty("remain_size")]
