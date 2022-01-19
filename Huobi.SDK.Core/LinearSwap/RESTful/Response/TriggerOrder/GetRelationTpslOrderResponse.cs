@@ -53,6 +53,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
 
             [JsonProperty("order_id_str")]
             public string orderIdStr { get; set; }
+            
+            [JsonProperty("client_order_id", NullValueHandling = NullValueHandling.Ignore)]
+            public string clientOrderId { get; set; }
 
             [JsonProperty("created_at")]
             public long createdAt { get; set; }
@@ -65,7 +68,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
 
             public double fee { get; set; }
 
-            [JsonProperty("trade_avg_price")]
+            [JsonProperty("trade_avg_price", NullValueHandling = NullValueHandling.Ignore)]
             public double tradeAvgPrice { get; set; }
 
             [JsonProperty("marginFrozen")]
@@ -128,13 +131,13 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
                 [JsonProperty("canceled_at")]
                 public long canceledAt { get; set; }
 
-                [JsonProperty("fail_code")]
+                [JsonProperty("fail_code", NullValueHandling = NullValueHandling.Ignore)]
                 public int failCode { get; set; }
 
-                [JsonProperty("fail_reason")]
+                [JsonProperty("fail_reason", NullValueHandling = NullValueHandling.Ignore)]
                 public string failReason { get; set; }
 
-                [JsonProperty("triggered_price")]
+                [JsonProperty("triggered_price", NullValueHandling = NullValueHandling.Ignore)]
                 public double triggeredPrice { get; set; }
 
                 [JsonProperty("relation_order_id")]
@@ -150,6 +153,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
 
             [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
             public string businessType { get; set; }
+
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
         }
     }
 }

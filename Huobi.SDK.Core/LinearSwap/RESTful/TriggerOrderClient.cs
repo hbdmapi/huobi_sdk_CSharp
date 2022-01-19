@@ -183,9 +183,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageSize"></param>
         /// <param name="contractCode"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetOpenOrderResponse> CrossGetOpenOrderAsync(int? pageIndex = null, int? pageSize = null, int? tradeType = null,
-                                                                       string contractCode = null, string pair = null)
+                                                                       string contractCode = null, string pair = null,
+                                                                       string tradePartition = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_trigger_openorders");
@@ -211,6 +213,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if(pair != null)
             {
                 content += $",\"pair\": \"{pair}\"";
+            }
+            if(tradePartition != null)
+            {
+                content += $",\"trade_partition\": \"{tradePartition}\"";
             }
             if (content != null)
             {
@@ -454,10 +460,12 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="pageSize"></param>
         /// <param name="contractCode"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
             // url
         public async Task<GetOpenOrderResponse> CrossGetTpslOpenOrderAsync(int? pageIndex = null, int? pageSize = null, int? tradeType = null,
-                                                                           string contractCode = null, string pair = null)
+                                                                           string contractCode = null, string pair = null,
+                                                                           string tradePartition = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_tpsl_openorders");
@@ -483,6 +491,10 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             if(pair != null)
             {
                 content += $",\"pair\": \"{pair}\"";
+            }
+            if(tradePartition != null)
+            {
+                content += $",\"trade_partition\": \"{tradePartition}\"";
             }
             if (content != null)
             {
@@ -660,7 +672,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="contractCode"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public async Task<CancelOrderResponse> IsolatedTrackCancelAsync(string contractCode, string orderId)
+        public async Task<CancelOrderResponse> IsolatedTrackCancelAsync(string orderId, string contractCode)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_track_cancel");
@@ -771,9 +783,11 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         /// <param name="tradeType"></param>
         /// <param name="contractCode"></param>
         /// <param name="pair"></param>
+        /// <param name="tradePartition"></param>
         /// <returns></returns>
         public async Task<GetTrackOpenOrderResponse> CrossGetTrackOpenOrderAsync(int? pageIndex = null, int? pageSize = null, int? tradeType = null,
-                                                                                 string contractCode = null, string pair = null)
+                                                                                 string contractCode = null, string pair = null,
+                                                                                 string tradePartition = null)
         {
             // url
             string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_track_openorders");
@@ -800,11 +814,16 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 content += $",\"pair\": \"{pair}\"";
             }
+            if(tradePartition != null)
+            {
+                content += $",\"trade_partition\": \"{tradePartition}\"";
+            }
             if (content != null)
             {
                 content = $"{{ {content.Substring(1)} }}";
             }
-
+            System.Console.WriteLine(url);
+            System.Console.WriteLine(content);
             return await HttpRequest.PostAsync<GetTrackOpenOrderResponse>(url, content);
         }
 
