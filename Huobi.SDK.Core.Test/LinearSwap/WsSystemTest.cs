@@ -14,12 +14,16 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         [Fact]
         public void HeartBeatTest()
         {
+            bool has_data = false;
             WSSystemClient client = new WSSystemClient();
             client.SubHeartBeat(delegate (SubHeartBeatResponse data)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
+                has_data = true;
             });
-            System.Threading.Thread.Sleep(1000 * 60 * 10);
+            System.Threading.Thread.Sleep(1000);
+            Assert.Equal(true, has_data);
+            System.Threading.Thread.Sleep(1000 * 10);
         }
 
     }
