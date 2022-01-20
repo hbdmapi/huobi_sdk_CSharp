@@ -96,6 +96,9 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
                 [JsonProperty("business_type")]
                 public string businessType { get; set; }
+
+                [JsonProperty("trade_partition")]
+                public string tradePartition { get; set; }
             }
         }
     }

@@ -13,6 +13,9 @@ namespace Huobi.SDK.Core.WSBase
 
         [JsonProperty("business_type", NullValueHandling = NullValueHandling.Ignore)]
         public string businessType { get; set; }
+
+        [JsonProperty("trade_partition", NullValueHandling = NullValueHandling.Ignore)]
+        public string tradePartition { get; set; }
     }
 }
 

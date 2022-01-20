@@ -130,12 +130,12 @@ namespace Huobi.SDK.Core.WSBase
 
                     string auth_str = JsonConvert.SerializeObject(auth);
                     websocket.Send(auth_str);
-                    logger.Log(Log.LogLevel.Info, $"has send: {auth_str}");
+                    logger.Log(Log.LogLevel.Info, $"websocket has send data: {auth_str}");
                 }
                 else
                 {
                     string timestamp = DateTime.UtcNow.ToString("s");
-                    WSOpAuthData auth = new WSOpAuthData() { accessKeyId = accessKey, timestamp = timestamp };
+                    WSOpAuthData auth = new WSOpAuthData() { accessKeyId = accessKey, timestamp = timestamp, cid = "1111" };
 
                     var sign = new Signer(secretKey);
 
@@ -150,10 +150,11 @@ namespace Huobi.SDK.Core.WSBase
 
                     string auth_str = JsonConvert.SerializeObject(auth);
                     websocket.Send(auth_str);
-                    logger.Log(Log.LogLevel.Info, $"has send: {auth_str}");
+                    logger.Log(Log.LogLevel.Info, $"websocket has send data: {auth_str}");
                 }
             }
             websocket.Send(subStr);
+            logger.Log(Log.LogLevel.Info, $"websocket has send data: {subStr}");
         }
 
         /// <summary>
@@ -334,6 +335,7 @@ namespace Huobi.SDK.Core.WSBase
             }
 
             websocket.Send(msg);
+            logger.Log(Log.LogLevel.Info, $"websocket has send data: {msg}");
             return true;
         }
 

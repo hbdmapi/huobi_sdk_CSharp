@@ -82,7 +82,7 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         public void CrossSubOrders(string contractCode, _OnSubOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
         {
             string ch = $"orders_cross.{contractCode}";
-            WSOpData opData = new WSOpData { op = "sub", topic = ch };
+            WSOpData opData = new WSOpData { op = "sub", topic = ch, cid = cid };
             string sub_str = JsonConvert.SerializeObject(opData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubOrdersResponse), true, this.host,
@@ -164,10 +164,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="marginAccount"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void CrossSubAcounts(string marginAccount, _OnCrossSubAccountsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
+        /// <param name="tradePartition"></param>
+        public void CrossSubAcounts(string marginAccount, _OnCrossSubAccountsResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
+                                    string tradePartition = null)
         {
             string ch = $"accounts_cross.{marginAccount}";
-            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, tradePartition = tradePartition};
             string sub_str = JsonConvert.SerializeObject(opData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(CrossSubAccountsResponse), true, this.host,
@@ -184,10 +186,11 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="marginAccount"></param>
         /// <param name="cid"></param>
-        public void CrossUnsubAccounts(string marginAccount, string cid = WebSocketOp.DEFAULT_ID)
+        /// <param name="tradePartition"></param>
+        public void CrossUnsubAccounts(string marginAccount, string cid = WebSocketOp.DEFAULT_ID, string tradePartition = null)
         {
             string ch = $"accounts_cross.{marginAccount}";
-            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, tradePartition = tradePartition };
             string unsub_str = JsonConvert.SerializeObject(opData);
 
             if(!allWsop.ContainsKey(ch))
@@ -381,11 +384,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
+        /// <param name="tradePartition"></param>
         public void SubLiquidationOrders(string contractCode, _OnSubLiquidationOrdersResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
-                                         string businessType = null)
+                                         string businessType = null, string tradePartition = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
-            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, businessType = businessType };
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, businessType = businessType, tradePartition = tradePartition };
             string sub_str = JsonConvert.SerializeObject(opData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubLiquidationOrdersResponse), true, this.host,
@@ -403,11 +407,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
+        /// <param name="tradePartition"></param>
         public void UnsubLiquidationOrders(string contractCode, string cid = WebSocketOp.DEFAULT_ID,
-                                           string businessType = null)
+                                           string businessType = null, string tradePartition = null)
         {
             string ch = $"public.{contractCode}.liquidation_orders";
-            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType };
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType, tradePartition = tradePartition };
             string unsub_str = JsonConvert.SerializeObject(opData);
 
             if(!allWsop.ContainsKey(ch))
@@ -428,10 +433,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
-        public void SubFundingRate(string contractCode, _OnSubFundingRateResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID)
+        /// <param name="tradePartition"></param>
+        public void SubFundingRate(string contractCode, _OnSubFundingRateResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
+                                   string tradePartition = null)
         {
             string ch = $"public.{contractCode}.funding_rate";
-            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch };
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, tradePartition = tradePartition };
             string sub_str = JsonConvert.SerializeObject(opData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubFundingRateResponse), true, this.host,
@@ -448,10 +455,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// </summary>
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
-        public void UnsubFundingRate(string contractCode, string cid = WebSocketOp.DEFAULT_ID)
+        /// <param name="tradePartition"></param>
+        public void UnsubFundingRate(string contractCode, string cid = WebSocketOp.DEFAULT_ID,
+                                     string tradePartition = null)
         {
             string ch = $"public.{contractCode}.funding_rate";
-            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch };
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, tradePartition = tradePartition };
             string unsub_str = JsonConvert.SerializeObject(opData);
 
             if(!allWsop.ContainsKey(ch))
@@ -473,11 +482,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="callbackFun"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
+        /// <param name="tradePartition"></param>
         public void SubContractInfo(string contractCode, _OnSubContractInfoResponse callbackFun, string cid = WebSocketOp.DEFAULT_ID,
-                                    string businessType = null)
+                                    string businessType = null, string tradePartition = null)
         {
             string ch = $"public.{contractCode}.contract_info";
-            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, businessType = businessType };
+            WSOpData opData = new WSOpData { op = "sub", cid = cid, topic = ch, businessType = businessType, tradePartition = tradePartition };
             string sub_str = JsonConvert.SerializeObject(opData);
 
             WebSocketOp wsop = new WebSocketOp(this.path, sub_str, callbackFun, typeof(SubContractInfoResponse), true, this.host,
@@ -495,10 +505,12 @@ namespace Huobi.SDK.Core.LinearSwap.WS
         /// <param name="contractCode"></param>
         /// <param name="cid"></param>
         /// <param name="businessType"></param>
-        public void UnsubContractInfo(string contractCode, string cid = WebSocketOp.DEFAULT_ID, string businessType = null)
+        /// <param name="tradePartition"></param>
+        public void UnsubContractInfo(string contractCode, string cid = WebSocketOp.DEFAULT_ID, 
+                                      string businessType = null, string tradePartition = null)
         {
             string ch = $"public.{contractCode}.contract_info";
-            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType };
+            WSOpData opData = new WSOpData { op = "unsub", cid = cid, topic = ch, businessType = businessType, tradePartition = tradePartition };
             string unsub_str = JsonConvert.SerializeObject(opData);
 
             if(!allWsop.ContainsKey(ch))

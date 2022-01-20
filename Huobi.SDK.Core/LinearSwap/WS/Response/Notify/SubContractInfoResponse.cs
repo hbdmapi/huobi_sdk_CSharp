@@ -52,6 +52,9 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             [JsonProperty("delivery_date", NullValueHandling = NullValueHandling.Ignore)]
             public string deliveryDate { get; set; }
+
+            [JsonProperty("trade_partition")]
+            public string tradePartition { get; set; }
         }
     }
 }
