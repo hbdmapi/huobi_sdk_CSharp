@@ -67,7 +67,10 @@ namespace Huobi.SDK.Core.WSBase
             string url = $"{Host.WS_PRO}://{host}{path}";
             // System.Console.WriteLine(url);
             websocket = new WebSocket(url);
-            websocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.None;
+            if(Host.WS_PRO.ToLower() == "wss")
+            {
+                websocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.None;
+            }
 
             websocket.OnOpen += OnOpen;
             websocket.OnClose += OnClose;
