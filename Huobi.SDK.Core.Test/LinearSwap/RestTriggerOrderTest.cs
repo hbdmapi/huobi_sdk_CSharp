@@ -13,11 +13,11 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         static TriggerOrderClient client = new TriggerOrderClient(config["AccessKey"], config["SecretKey"]);
 
         [Theory]
-        [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, "BTC-USDT")]
-        [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, "BTC-HUSD")]
+        [InlineData("le", 43000, "buy", "both", 1, 43000, "limit", 5, "BTC-USDT", 1)]
+        // [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, "BTC-HUSD")]
         public void IsolatedPlaceOrderTest(string triggerType, double triggerPrice, string direction, string offset, long volume,
                                    double orderPrice, string orderPriceType, int? leverRate,
-                                   string contractCode)
+                                   string contractCode, int? reduceOnly)
         {
             TriggerOrder.PlaceOrderRequest request1 = new TriggerOrder.PlaceOrderRequest
             {
@@ -29,7 +29,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
                 offset = offset,
                 orderPrice = orderPrice,
                 orderPriceType = orderPriceType,
-                leverRate = leverRate
+                leverRate = leverRate,
+                reduceOnly = reduceOnly
             };
             var result = client.IsolatedPlaceOrderAsync(request1).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
@@ -40,13 +41,14 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
 
         [Theory]
-        [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, "BTC-USDT", null, null)]
-        [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, null, "swap", "btc-usdt")]
-        [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, "BTC-HUSD", null, null)]
-        [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, null, "swap", "btc-husd")]
+        [InlineData("le", 43000, "sell", "both", 1, 43000, "limit", 10, "BTC-USDT", null, null, 1)]
+        // [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, null, "swap", "btc-usdt")]
+        // [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, "BTC-HUSD", null, null)]
+        // [InlineData("le", 43000, "buy", "open", 1, 43000, "limit", 5, null, "swap", "btc-husd")]
         public void CrossPlaceOrderTest(string triggerType, double triggerPrice, string direction, string offset, long volume,
                                    double orderPrice, string orderPriceType, int? leverRate,
-                                   string contractCode, string contractType, string pair)
+                                   string contractCode, string contractType, string pair,
+                                   int? reduceOnly)
         {
             TriggerOrder.PlaceOrderRequest request2 = new TriggerOrder.PlaceOrderRequest
             {
@@ -60,7 +62,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
                 leverRate = leverRate,
                 contractCode = contractCode,
                 contractType = contractType,
-                pair = pair
+                pair = pair,
+                reduceOnly = reduceOnly
             };
             var result = client.CrossPlaceOrderAsync(request2).Result;
             var strret = JsonConvert.SerializeObject(result, Formatting.Indented);
@@ -102,8 +105,9 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData(1, 10, 1, "BTC-USDT")]
-        [InlineData(1, 10, 1, "BTC-HUSD")]
+        [InlineData(1, 10, 0, "BTC-USDT")]
+        [InlineData(1, 10, 17, "BTC-USDT")]
+        // [InlineData(1, 10, 1, "BTC-HUSD")]
         public void IsolatedGetOpenOrderTest(int pageIndex, int pageSize, int tradeType, string contractCode)
         {
             var result = client.IsolatedGetOpenOrderAsync(contractCode, pageIndex, pageSize, tradeType).Result;
@@ -123,10 +127,11 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData(1, 10, 1, "BTC-USDT", null, null)]
-        [InlineData(1, 10, 1, null, "btc-usdt", null)]
-        [InlineData(1, 10, 1, "BTC-HUSD", null, "husd")]
-        [InlineData(1, 10, 1, null, "btc-husd", "all")]
+        [InlineData(1, 10, 0, "BTC-USDT", null, null)]
+        [InlineData(1, 10, 18, "BTC-USDT", null, null)]
+        // [InlineData(1, 10, 1, null, "btc-usdt", null)]
+        // [InlineData(1, 10, 1, "BTC-HUSD", null, "husd")]
+        // [InlineData(1, 10, 1, null, "btc-husd", "all")]
         public void CrossGetOpenOrderTest(int pageIndex, int pageSize, int tradeType, string contractCode, string pair,
                                           string tradePartition)
         {
@@ -152,7 +157,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData(0, "0", 1, 1, 20, "created_at", "BTC-USDT")]
-        [InlineData(0, "0", 1, 1, 20, "created_at", "BTC-HUSD")]
+        [InlineData(17, "0", 1, 1, 20, "created_at", "BTC-USDT")]
+        // [InlineData(0, "0", 1, 1, 20, "created_at", "BTC-HUSD")]
         public void IsolatedGetHisOrderTest(int tradeType, string status, int createdDate, 
                                     int pageIndex, int pageSize, string sortBy,
                                     string contractCode)
@@ -175,9 +181,10 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData(0, "0", 1, 1, 20, "created_at", "BTC-USDT", null)]
-        [InlineData(0, "0", 1, 1, 20, "created_at", null, "btc-usdt")]
-        [InlineData(0, "0", 1, 1, 20, "created_at", "BTC-HUSD", null)]
-        [InlineData(0, "0", 1, 1, 20, "created_at", null, "btc-husd")]
+        [InlineData(18, "0", 1, 1, 20, "created_at", "BTC-USDT", null)]
+        // [InlineData(0, "0", 1, 1, 20, "created_at", null, "btc-usdt")]
+        // [InlineData(0, "0", 1, 1, 20, "created_at", "BTC-HUSD", null)]
+        // [InlineData(0, "0", 1, 1, 20, "created_at", null, "btc-husd")]
         public void CrossGetHisOrderTest(int tradeType, string status, int createdDate, 
                                          int pageIndex, int pageSize, string sortBy,
                                          string contractCode, string pair)
@@ -434,10 +441,11 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", "BTC-USDT")]
-        [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", "BTC-HUSD")]
+        [InlineData("both", "buy", 5, 1, 0.01, 44000, "optimal_5", "BTC-USDT", 1)]
+        // [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", "BTC-HUSD")]
         public void IsolatedTrackOrderTest(string offset, string direction, int leverRate, int volume, double callbackRate,
-                                  double activePrice, string orderPriceType, string contractCode)
+                                  double activePrice, string orderPriceType, string contractCode,
+                                  int? reduceOnly)
         {
             TriggerOrder.TrackOrderRequest request1 = new TriggerOrder.TrackOrderRequest
             {
@@ -448,7 +456,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
                 callbackRate = callbackRate,
                 activePrice = activePrice,
                 orderPriceType = orderPriceType,
-                contractCode = contractCode
+                contractCode = contractCode,
+                reduceOnly = reduceOnly
             };
             var result = client.IsolatedTrackOrderAsync(request1).Result;
             string strret = JsonConvert.SerializeObject(result, Formatting.Indented);
@@ -458,12 +467,13 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        // [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", "BTC-USDT", null, null)]
-        [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", null, "swap", "btc-usdt")]
-        [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", "BTC-HUSD", null, null)]
+        [InlineData("both", "buy", 10, 1, 0.01, 42000, "optimal_5", "BTC-USDT", null, null, 1)]
+        // [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", null, "swap", "btc-usdt")]
+        // [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", "BTC-HUSD", null, null)]
         // [InlineData("open", "buy", 5, 1, 0.01, 42000, "optimal_5", null, "swap", "btc-HUSD")]
         public void CrossTrackOrderTest(string offset, string direction, int leverRate, int volume, double callbackRate,
-                                  double activePrice, string orderPriceType, string contractCode, string contractType, string pair)
+                                  double activePrice, string orderPriceType, string contractCode, string contractType, string pair,
+                                  int? reduceOnly)
         {
             TriggerOrder.TrackOrderRequest request2 = new TriggerOrder.TrackOrderRequest
             {
@@ -476,7 +486,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
                 orderPriceType = orderPriceType,
                 contractCode = contractCode,
                 contractType = contractType,
-                pair = pair
+                pair = pair,
+                reduceOnly = reduceOnly
             };
             var result = client.CrossTrackOrderAsync(request2).Result;
             var strret = JsonConvert.SerializeObject(result, Formatting.Indented);
@@ -520,7 +531,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData(1, 50, 0, "BTC-USDT")]
-        [InlineData(1, 50, 0, "BTC-HUSD")]
+        [InlineData(1, 50, 17, "BTC-USDT")]
+        // [InlineData(1, 50, 0, "BTC-HUSD")]
         public void IsolatedTrackOpenOrderTest(int page_index, int page_size, int? tradeType,
                                         string contractCode)
         {
@@ -542,9 +554,10 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData(1, 50, 0, "BTC-USDT", null, null)]
-        [InlineData(1, 50, 0, null, "btc-usd", null)]
-        [InlineData(1, 50, 0, "BTC-HUSD", null, "husd")]
-        [InlineData(1, 50, 0, null, "btc-husd", "all")]
+        [InlineData(1, 50, 18, "BTC-USDT", null, null)]
+        // [InlineData(1, 50, 0, null, "btc-usd", null)]
+        // [InlineData(1, 50, 0, "BTC-HUSD", null, "husd")]
+        // [InlineData(1, 50, 0, null, "btc-husd", "all")]
         public void CrossTrackOpenOrderTest(int page_index, int page_size, int? tradeType,
                                             string contractCode, string pair, string tradePartition)
         {
@@ -570,7 +583,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("0", 0, 10, 1, 1, "created_at", "BTC-USDT")]
-        [InlineData("0", 0, 10, 1, 1, "created_at", "BTC-HUSD")]
+        [InlineData("0", 18, 10, 1, 1, "created_at", "BTC-USDT")]
+        // [InlineData("0", 0, 10, 1, 1, "created_at", "BTC-HUSD")]
         public void IsolatedTrackHisOrderTest(string status, int tradeType, int createDate, int pageIndex, int pageSize,
                                       string sortBy, string contractCode)
         {
@@ -592,9 +606,10 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("0", 0, 10, 1, 1, "created_at", "BTC-USDT", null)]
-        [InlineData("0", 0, 10, 1, 1, "created_at", null, "btc-usdt")]
-        [InlineData("0", 0, 10, 1, 1, "created_at", "BTC-HUSD", null)]
-        [InlineData("0", 0, 10, 1, 1, "created_at", null, "btc-husd")]
+        [InlineData("0", 17, 10, 1, 1, "created_at", "BTC-USDT", null)]
+        // [InlineData("0", 0, 10, 1, 1, "created_at", null, "btc-usdt")]
+        // [InlineData("0", 0, 10, 1, 1, "created_at", "BTC-HUSD", null)]
+        // [InlineData("0", 0, 10, 1, 1, "created_at", null, "btc-husd")]
         public void CrossTrackHisOrderTest(string status, int tradeType, int createDate, int pageIndex, int pageSize,
                                       string sortBy, string contractCode, string pair)
         {

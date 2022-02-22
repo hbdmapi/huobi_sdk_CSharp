@@ -822,8 +822,6 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
             {
                 content = $"{{ {content.Substring(1)} }}";
             }
-            System.Console.WriteLine(url);
-            System.Console.WriteLine(content);
             return await HttpRequest.PostAsync<GetTrackOpenOrderResponse>(url, content);
         }
 

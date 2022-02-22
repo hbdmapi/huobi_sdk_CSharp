@@ -6,6 +6,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Request.TriggerOrder
     {
         public string direction { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string offset { get; set; }
 
         [JsonProperty("lever_rate", NullValueHandling = NullValueHandling.Ignore)]
@@ -30,5 +31,8 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Request.TriggerOrder
 
         [JsonProperty("pair", NullValueHandling = NullValueHandling.Ignore)]
         public string pair { get; set; }
+
+        [JsonProperty("reduce_only", NullValueHandling = NullValueHandling.Ignore)]
+        public int? reduceOnly { get; set; }
     }
 }

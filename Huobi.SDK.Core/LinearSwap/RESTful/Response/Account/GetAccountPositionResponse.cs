@@ -130,6 +130,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
                 [JsonProperty("trade_partition")]
                 public string tradePartition { get; set; }
+
+                [JsonProperty("position_mode")]
+                public string positionMode { get; set; }
             }
 
             [JsonProperty("contract_detail", NullValueHandling = NullValueHandling.Ignore)]
@@ -166,6 +169,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
                 [JsonProperty("trade_partition")]
                 public string tradePartition { get; set; }
             }
+
+            [JsonProperty("position_mode")]
+            public string positionMode { get; set; }
         }
     }
 }

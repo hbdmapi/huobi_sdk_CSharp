@@ -54,6 +54,9 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
             [JsonProperty("risk_rate", NullValueHandling = NullValueHandling.Ignore)]
             public double riskRate { get; set; }
 
+            [JsonProperty("position_mode")]
+            public string positionMode;
+
             [JsonProperty("contract_detail", NullValueHandling = NullValueHandling.Ignore)]
             public List<ContractInfo> contractDetail { get; set; }
 

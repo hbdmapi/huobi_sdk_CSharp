@@ -26,6 +26,66 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful
         }
 
         /// <summary>
+        /// isolated switch position mode
+        /// </summary>
+        /// <param name="marginAccount"></param>
+        /// <param name="positionMode"></param>
+        /// <returns></returns>
+        public async Task<PositionModeResponse> IsolatedSwitchPositionModeAsync(string marginAccount, string positionMode)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_switch_position_mode");
+
+            // content
+            string content = "";
+            if (marginAccount != null)
+            {
+                content += $",\"margin_account\": \"{marginAccount}\"";
+            }
+            if (positionMode != null)
+            {
+                content += $",\"position_mode\": \"{positionMode}\"";
+            }
+
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<PositionModeResponse>(url, content);
+        }
+
+        /// <summary>
+        /// cross switch position mode
+        /// </summary>
+        /// <param name="marginAccount"></param>
+        /// <param name="positionMode"></param>
+        /// <returns></returns>
+        public async Task<PositionModeResponse> CrossSwitchPositionModeAsync(string marginAccount, string positionMode)
+        {
+            // url
+            string url = _urlBuilder.Build(POST_METHOD, "/linear-swap-api/v1/swap_cross_switch_position_mode");
+
+            // content
+            string content = "";
+            if (marginAccount != null)
+            {
+                content += $",\"margin_account\": \"{marginAccount}\"";
+            }
+            if (positionMode != null)
+            {
+                content += $",\"position_mode\": \"{positionMode}\"";
+            }
+
+            if (content != null)
+            {
+                content = $"{{ {content.Substring(1)} }}";
+            }
+
+            return await HttpRequest.PostAsync<PositionModeResponse>(url, content);
+        }
+
+        /// <summary>
         /// isolated margin Place a new order and send to the exchange to be matched.
         /// </summary>
         /// <param name="request"></param>

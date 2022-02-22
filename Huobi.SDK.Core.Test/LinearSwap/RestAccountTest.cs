@@ -102,10 +102,10 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         // [InlineData("BTC-USDT", false, null)]
         // [InlineData("BTC-HUSD", false, "husd")]
         // [InlineData("BTC-HUSD", false, "all")]
-        [InlineData(null, true, null)]
+        // [InlineData(null, true, null)]
         [InlineData("BTC-USDT", true, null)]
-        [InlineData("BTC-HUSD", true, "husd")]
-        [InlineData("BTC-HUSD", true, "all")]
+        // [InlineData("BTC-HUSD", true, "husd")]
+        // [InlineData("BTC-HUSD", true, "all")]
         public void IsolatedGetPositionInfoTest(string contractCode, bool beSubUid,
                                                 string tradePartition)
         {
@@ -136,15 +136,15 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         // [InlineData(null, false, null, null, null)]
         // [InlineData(null, false, "swap", "btc-usdt", null)]
         // [InlineData(null, false, "swap", "btc-husd", "husd")]
-        // [InlineData("BTC-USDT", false, null, null, null)]
+        [InlineData("BTC-USDT", false, null, null, null)]
         // [InlineData("BTC-HUSD", false, null, null, "HUSD")]
         // [InlineData("BTC-HUSD", false, null, null, "ALL")]
-        [InlineData(null, true, null, null, null)]
-        [InlineData(null, true, "swap", "btc-usdt", null)]
-        [InlineData(null, true, "swap", "btc-husd", "husd")]
-        [InlineData("BTC-USDT", true, null, null, null)]
-        [InlineData("BTC-HUSD", true, null, null, "HUSD")]
-        [InlineData("BTC-HUSD", true, null, null, "all")]
+        // [InlineData(null, true, null, null, null)]
+        // [InlineData(null, true, "swap", "btc-usdt", null)]
+        // [InlineData(null, true, "swap", "btc-husd", "husd")]
+        // [InlineData("BTC-USDT", true, null, null, null)]
+        // [InlineData("BTC-HUSD", true, null, null, "HUSD")]
+        // [InlineData("BTC-HUSD", true, null, null, "all")]
         public void CrossGetPositionInfoTest(string contractCode, bool beSubUid,
                                              string contractType, string pair,
                                              string tradePartition)
@@ -173,9 +173,9 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData(null, null)]
-        [InlineData("BTC-USDT", null)]
-        [InlineData("BTC-HUSD", "husd")]
+        // [InlineData(null, null)]
+        // [InlineData("BTC-USDT", null)]
+        // [InlineData("BTC-HUSD", "husd")]
         [InlineData("BTC-HUSD", "all")]
         public void IsolatedGetAllSubAssetsTest(string contractCode, string tradePartition)
         {
@@ -226,8 +226,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", 1, 20, null)]
-        [InlineData("BTC-HUSD", 1, 20, "husd")]
-        [InlineData("BTC-HUSD", 1, 20, "all")]
+        // [InlineData("BTC-HUSD", 1, 20, "husd")]
+        // [InlineData("BTC-HUSD", 1, 20, "all")]
         public void IsolatedGetSubAccountInfoListTest(string contractCode, int pageIndex, int pageSize,
                                                       string tradePartition)
         {
@@ -316,8 +316,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("BTC-USDT", null)]
-        [InlineData("BTC-HUSD", "husd")]
-        [InlineData("BTC-HUSD", "all")]
+        // [InlineData("BTC-HUSD", "husd")]
+        // [InlineData("BTC-HUSD", "all")]
         public void IsolatedGetAccountPositionTest(string contractCode, string tradePartition)
         {
             var result = client.IsolatedGetAccountPositionAsync(contractCode, tradePartition).Result;
@@ -338,6 +338,10 @@ namespace Huobi.SDK.Core.Test.LinearSwap
             foreach (var item in result.data)
             {
                 Assert.Equal(type, item.tradePartition);
+                if(item.positions == null)
+                {
+                    continue;
+                }
                 foreach(var p in item.positions)
                 {
                     Assert.Equal(type, p.tradePartition);
@@ -348,7 +352,7 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("USDT")]
-        [InlineData("HUSD")]
+        // [InlineData("HUSD")]
         public void CrossGetAccountPositionTest(string marginAccount)
         {
             var result = client.CrossGetAccountPositionAsync(marginAccount).Result;

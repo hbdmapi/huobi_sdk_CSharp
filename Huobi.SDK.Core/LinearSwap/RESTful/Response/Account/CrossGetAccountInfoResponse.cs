@@ -106,6 +106,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Account
 
             [JsonProperty("futures_contract_detail", NullValueHandling = NullValueHandling.Ignore)]
             public List<ContractDetail> futuresContractDetail { get; set; }
+
+            [JsonProperty("position_mode")]
+            public string positionMode { get; set; }
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.Order
                 public long errorCode { get; set; }
 
                 [JsonProperty("err_msg")]
-                public long errorMessage { get; set; }
+                public string errorMessage { get; set; }
             }
 
             public class Success

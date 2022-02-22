@@ -76,6 +76,9 @@ namespace Huobi.SDK.Core.LinearSwap.WS.Response.Notify
 
             [JsonProperty("trade_partition")]
             public string tradePartition { get; set; }
+
+            [JsonProperty("position_mode")]
+            public string positionMode { get; set; }
         }
     }
 }

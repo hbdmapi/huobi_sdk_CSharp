@@ -88,6 +88,9 @@ namespace Huobi.SDK.Core.LinearSwap.RESTful.Response.TriggerOrder
 
                 [JsonProperty("trade_partition")]
                 public string tradePartition { get; set; }
+
+                [JsonProperty("reduce_only")]
+                public int reduceOnly { get; set; }
             }
 
             [JsonProperty("total_page")]

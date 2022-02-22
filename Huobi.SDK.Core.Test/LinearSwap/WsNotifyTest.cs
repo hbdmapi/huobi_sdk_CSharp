@@ -14,8 +14,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         static WSNotifyClient client = new WSNotifyClient(config["AccessKey"], config["SecretKey"]);
 
         [Theory]
-        // [InlineData("BTC-USDT")]
-        [InlineData("BTC-HUSD")]
+        [InlineData("BTC-USDT")]
+        // [InlineData("BTC-HUSD")]
         // [InlineData("*")]
         public void IsolatedOrdersTest(string contractCode)
         {
@@ -68,8 +68,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
         }
 
         [Theory]
-        [InlineData("BTC-USDT")]
-        [InlineData("BTC-HUSD")]
+        // [InlineData("BTC-USDT")]
+        // [InlineData("BTC-HUSD")]
         [InlineData("*")]
         public void IsolatedAccountsTest(string contractCode)
         {
@@ -99,9 +99,9 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("*", null, null)]
-        [InlineData("usdt", null, null)]
-        [InlineData("husd", null, "husd")]
-        [InlineData("husd", null, "all")]
+        // [InlineData("usdt", null, null)]
+        // [InlineData("husd", null, "husd")]
+        // [InlineData("husd", null, "all")]
         public void AccountsTest(string marginAccount, string cid, string tradePartition)
         {
             bool has_data = false;
@@ -141,8 +141,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("*")]
-        [InlineData("btc-usdt")]
-        [InlineData("btc-husd")]
+        // [InlineData("btc-usdt")]
+        // [InlineData("btc-husd")]
         public void IsolatedPositionsTest(string contractCode)
         {
             bool has_data = false;
@@ -171,8 +171,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         [InlineData("*")]
-        [InlineData("btc-usdt")]
-        [InlineData("btc-husd")]
+        // [InlineData("btc-usdt")]
+        // [InlineData("btc-husd")]
         public void CrossPositionsTest(string contractCode)
         {
             bool has_data = false;
@@ -201,8 +201,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         // [InlineData("*")]
-        // [InlineData("btc-usdt")]
-        [InlineData("btc-husd")]
+        [InlineData("btc-usdt")]
+        // [InlineData("btc-husd")]
         public void IsolatedMatchOrdersTest(string contractCode)
         {
             bool has_data = false;
@@ -347,8 +347,8 @@ namespace Huobi.SDK.Core.Test.LinearSwap
 
         [Theory]
         // [InlineData("BTC-USDT")]
-        [InlineData("BTC-HUSD")]
-        // [InlineData("*")]
+        // [InlineData("BTC-HUSD")]
+        [InlineData("*")]
         public void IsolatedTriggerOrderTest(string contractCode)
         {
             bool has_data = false;
